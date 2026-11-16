@@ -1,0 +1,128 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Guides/Data Fetching" />
+
+# Data Fetching
+
+Each feature keeps its server communication in `src/features/<feature>/api.ts`. Pages and components use the hooks that file exports and never import `@tanstack/react-query` themselves.
+
+`src/features/auth/api.ts` is this pattern in running code. Once the project has its own features, those are the examples to copy.
+
+## A query
+
+Every query has three parts in `api.ts`:
+
+```ts
+// 1. The request. Returns typed data.
+export async function getProducts(signal?: AbortSignal): Promise<Product[]> {
+  const { data } = await apiClient.get<Product[]>("/products", { signal });
+
+  return data;
+}
+
+// 2. The query options: the key and the request together.
+export function getProductsQueryOptions() {
+  return queryOptions({
+    queryKey: ["products"],
+    queryFn: ({ signal }) => getProducts(signal),
+  });
+}
+
+// 3. The hook that components use.
+type UseProductsOptions = {
+  queryConfig?: QueryConfig<typeof getProductsQueryOptions>;
+};
+
+export function useProducts({ queryConfig }: UseProductsOptions = {}) {
+  return useQuery({
+    ...getProductsQueryOptions(),
+    ...queryConfig,
+  });
+}
+```
+
+- Send requests through `apiClient` from `src/lib/axios.ts`. It attaches the access token and renews it once when the backend answers 401.
+- Pass `signal` on, so a cancelled query also cancels its request.
+- `QueryConfig` lets the caller change any option except the key and the request.
+
+## Using a query
+
+```tsx
+const { data, error, isPending, isError } = useProducts();
+
+// One call that needs different options:
+const { data } = useProducts({ queryConfig: { staleTime: 0 } });
+```
+
+Handle every state the user can see: loading (`isPending`), failed (`isError`), empty (`data.length === 0`), and loaded.
+
+## A mutation
+
+```ts
+export async function createProduct(
+  payload: CreateProductInput,
+): Promise<Product> {
+  const { data } = await apiClient.post<Product>("/products", payload);
+
+  return data;
+}
+
+type UseCreateProductOptions = {
+  mutationConfig?: MutationConfig<typeof createProduct>;
+};
+
+export function useCreateProduct({
+  mutationConfig,
+}: UseCreateProductOptions = {}) {
+  const queryClient = useQueryClient();
+  const { onSuccess, ...restConfig } = mutationConfig ?? {};
+
+  return useMutation({
+    ...restConfig,
+    mutationFn: createProduct,
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({ queryKey: ["products"] });
+      await onSuccess?.(...args);
+    },
+  });
+}
+```
+
+The hook refreshes the queries it affects, then calls the caller's own `onSuccess`. The component only says what happens on screen:
+
+```tsx
+const createProduct = useCreateProduct({
+  mutationConfig: { onSuccess: () => reset() },
+});
+
+createProduct.mutate(values);
+```
+
+## Showing a failure
+
+`getHttpErrorDetails` reads the status, the response body, and the error code from a failed request. Show the body as the backend sent it:
+
+```tsx
+const errorDetails = isError ? getHttpErrorDetails(error) : null;
+
+return (
+  <main>
+    {errorDetails && (
+      <section role="alert">
+        <p>HTTP Status: {errorDetails.status ?? "N/A"}</p>
+        <pre>{JSON.stringify(errorDetails.data, null, 2)}</pre>
+      </section>
+    )}
+
+    {/* The rest of the page */}
+  </main>
+);
+```
+
+## Defaults
+
+Set in `src/lib/query-client.ts`: data stays fresh for 5 minutes, and a request that fails with a 4xx status is not retried.
+
+## Where requests run
+
+`apiClient` only has the access token in the browser. Data that needs a signed-in user is fetched from client components through these hooks. A server component can fetch public data only.

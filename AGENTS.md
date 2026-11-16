@@ -28,6 +28,14 @@
 - End a session with a full page load (`useLogout` does this), so no user state stays in memory.
 - Deploy behind a reverse proxy that sets `X-Forwarded-For`; the auth endpoints pass that header to the backend.
 
+## Component Guide
+
+- Storybook (`npm run storybook`) is the guide to the components and patterns.
+- Every component in `src/components` has a `<name>.stories.tsx` next to it. Add or update it when a component is added or its props change.
+- Guides are `docs/*.mdx`, and their live examples are `docs/*.stories.tsx`. Update a guide when the pattern it describes changes.
+- Stories cover components that render from their props. Do not add request mocking to Storybook without approval.
+- Write lists instead of Markdown tables in `docs/*.mdx`. Tables are not rendered there.
+
 ## Coding Style
 
 - Prefer readable, straightforward TypeScript.
@@ -72,6 +80,7 @@ Run relevant checks after making code changes:
 - `npm run format:check`
 - `npm run build`
 - `npm run test:auth` when auth, `src/lib/axios.ts`, or `src/proxy.ts` changed. Stop the dev server first.
+- `npm run build-storybook` when a component, a story, `docs/`, or `.storybook/` changed.
 
 Report failures accurately. Do not claim a check passed unless it was executed successfully.
 

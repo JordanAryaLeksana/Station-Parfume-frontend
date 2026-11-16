@@ -1,0 +1,37 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Guides/Introduction" />
+
+# Introduction
+
+How to use the components and patterns of this project. Start it with `npm run storybook`.
+
+## What is in here
+
+- **Guides**: how the pieces work together. Forms, data fetching, client state, and sign in.
+- **Components**: one page per component in `src/components`, with its props and examples.
+
+The rules that every change follows are in `AGENTS.md`. The guides here show how to apply them.
+
+## Where code goes
+
+- `src/app`: routes, layouts, and page composition.
+- `src/features/<feature>`: everything one feature needs, such as `api.ts`, its components, and `store.ts`.
+- `src/components/ui`: UI primitives from shadcn/ui.
+- `src/components/shared`: components built here and used by more than one feature.
+- `src/lib`: shared infrastructure, such as Axios, the query client, env, and fonts.
+
+A component used by one feature stays in that feature's folder. Move it to `src/components/shared` when a second feature needs it.
+
+## Adding a component
+
+1. Look for it in shadcn/ui first: `npx shadcn add <name>`. The file lands in `src/components/ui`.
+2. Run `npm run format`, because the generated file does not follow this project's Prettier settings.
+3. Add `<name>.stories.tsx` next to it. Copy `src/components/ui/button.stories.tsx` and keep the title under `Components/`.
+4. Open Storybook. The Docs page of the component is built from its stories and its props.
+
+Write one story for each state a developer has to know about: the default, each variant, disabled, invalid. A `/** */` comment above a story is shown under it on the Docs page, so that is the place to say when to use it.
+
+## What gets a story
+
+Components that render from their props. Components that call the backend are checked in the running app instead, such as the sign-in form at `/login`, because Storybook has no backend to answer them.

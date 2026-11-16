@@ -1,6 +1,6 @@
 ---
 name: new-project
-description: Turn this boilerplate into a real project by renaming it, connecting its backend, removing the demo, and setting the design direction. Use when starting a project from this boilerplate, or when asked to set up, bootstrap, or clean up the starter.
+description: Turn this boilerplate into a real project by renaming it, connecting its backend, and setting the design direction. Use when starting a project from this boilerplate, or when asked to set up, bootstrap, or clean up the starter.
 ---
 
 # New Project
@@ -40,25 +40,23 @@ If the project has sign in:
 - Mirror the same contract in `scripts/auth-check/mock-backend.mjs`, then run `npm run test:auth`.
 - Tell the user what the backend needs: this app's origin allowed in CORS, this server trusted as a proxy for `X-Forwarded-For`, and its OAuth redirect pointing at `/oauth-success`.
 
-If the project has no sign in, remove `src/features/auth`, `src/app/api/auth`, `src/app/login`, `src/app/oauth-success`, `src/app/dashboard`, `src/proxy.ts`, `scripts/auth-check`, the `test:auth` script, and the API auth block in `src/app/providers.tsx`. Then remove the `setApiAuth` code from `src/lib/axios.ts`.
+If the project has no sign in, remove `src/features/auth`, `src/app/api/auth`, `src/app/login`, `src/app/oauth-success`, `src/app/dashboard`, `src/proxy.ts`, `scripts/auth-check`, the `test:auth` script, `docs/authentication.mdx`, and the API auth block in `src/app/providers.tsx`. Then remove the `setApiAuth` code from `src/lib/axios.ts`.
 
 ## 5. Protected Pages
 
 List every path that needs a session in the matcher in `src/proxy.ts`. `/dashboard` is only an example.
 
-## 6. Remove the Demo
+## 6. Component Guide
 
-Delete these once the first real feature exists, so the pattern always has a working example:
-
-- `src/features/demo-products` and `src/app/api/demo-products`
-- `src/features/cart`
-- `src/app/query-preview`, `src/app/ui-preview`, `src/app/zustand-preview`
+- The Storybook guides (`docs/*.mdx`) and the component stories stay. They are the project's component guide from here on.
+- Once the first real feature exists, name it in `docs/data-fetching.mdx` and `docs/forms.mdx` as the example to copy.
 
 ## 7. Design Direction
 
 - Fonts come from Google Fonts through `next/font`. Change them in `src/lib/fonts.ts`; colors and radius are in `src/app/globals.css`.
 - Run `/impeccable init` to write `PRODUCT.md`, then `/impeccable document` to write `DESIGN.md` from the code. Both files are then the source of truth for design work.
 - New components come from shadcn first. Use the shadcn MCP to find them.
+- Storybook reads the same fonts and colors. After changing them, look at the components in `npm run storybook`.
 
 Optional starting points, each run only when the user asks for it:
 
@@ -69,8 +67,9 @@ Optional starting points, each run only when the user asks for it:
 
 ## 8. Verify
 
-- `npm run lint`, `npm run typecheck`, `npm run format:check`, `npm run build`.
+- `npm run lint`, `npm run typecheck`, `npm run format:check`, `npm run build`, `npm run build-storybook`.
 - `npm run test:auth` if the project has sign in.
+- If `npm run typecheck` names a deleted page under `.next/dev/types`, the generated route types are stale. Delete the `.next` folder and run it again.
 - Walk through sign in and sign out in a browser with the `playwright-cli` skill.
 
 Report what was changed, what was removed, and what the user still has to do on the backend.

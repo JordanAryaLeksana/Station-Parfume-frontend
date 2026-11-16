@@ -1,0 +1,94 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Guides/Authentication" />
+
+# Authentication
+
+How to use the signed-in user in pages and components. Everything comes from `src/features/auth/api.ts`.
+
+Feature code never reads, stores, or passes a token. Both tokens are in an httpOnly cookie, and `apiClient` attaches the access token to every request by itself.
+
+## The signed-in user
+
+```tsx
+"use client";
+
+import { useSession } from "@/features/auth/api";
+
+const { data: session, isPending } = useSession();
+
+// session.user: { id, name, email, role, picture }
+```
+
+`session` has three states: `undefined` while loading, `null` when nobody is signed in, and the session otherwise.
+
+## A page that needs a session
+
+1. Add its path to the matcher in `src/proxy.ts`. Visitors without a session cookie are sent to `/login`.
+
+   ```ts
+   export const config = {
+     matcher: ["/dashboard/:path*", "/orders/:path*", "/login"],
+   };
+   ```
+
+2. In the page, leave when the session turns out to be gone. The proxy only checks that the cookie exists; the backend may no longer accept it.
+
+   ```tsx
+   useEffect(() => {
+     if (session === null) {
+       window.location.replace("/login");
+     }
+   }, [session]);
+   ```
+
+`src/app/dashboard/page.tsx` is the example.
+
+The proxy does not look at roles. Hiding a page from a role is done in the page with `session.user.role`, and the backend must still refuse the request.
+
+## Signing in
+
+```tsx
+const login = useLogin({
+  mutationConfig: {
+    onSuccess: () => {
+      reset();
+      router.replace("/dashboard");
+    },
+  },
+});
+
+login.mutate({ email, password });
+```
+
+With Google, the backend runs the whole flow. The button only starts it:
+
+```tsx
+<Button
+  type="button"
+  variant="outline"
+  onClick={() => startOAuthLogin("google")}
+>
+  Continue with Google
+</Button>
+```
+
+`src/features/auth/login-form.tsx` is the full form.
+
+## Signing out
+
+```tsx
+const logout = useLogout();
+
+return (
+  <Button disabled={logout.isPending} onClick={() => logout.mutate()}>
+    Sign out
+  </Button>
+);
+```
+
+`useLogout` revokes the tokens, tells the other tabs, and ends with a full page load to `/login`. Do not replace that with `router.push`: the full load is what clears the token, the cached responses, and the stores from memory.
+
+## Another backend
+
+The paths, payloads, and response mapping of the backend are in the "Backend Contract" section of `src/features/auth/session.ts`, and nowhere else. `README.md` lists what the backend has to provide.

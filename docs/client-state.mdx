@@ -1,0 +1,68 @@
+import { Canvas, Meta } from "@storybook/addon-docs/blocks";
+
+import * as ClientStateStories from "./client-state.stories";
+
+<Meta of={ClientStateStories} />
+
+# Client State
+
+State that lives only in the browser and is shared by components that are far apart goes in a Zustand store: an open drawer, a chosen filter, the step of a wizard.
+
+In the example, the buttons and the panel are separate components. Neither passes anything to the other.
+
+<Canvas of={ClientStateStories.Example} />
+
+## Which state goes where
+
+- Data from the backend: TanStack Query (see Data Fetching).
+- State used by one component: `useState` in that component.
+- Form values: React Hook Form (see Forms).
+- State shared by components that are far apart: a Zustand store.
+
+Never copy data from the backend into a store. The query cache already shares it, and a copy goes out of date.
+
+## A store
+
+One file per feature: `src/features/<feature>/store.ts`.
+
+```ts
+// src/features/cart/store.ts
+import { create } from "zustand";
+
+type CartUIStore = {
+  isOpen: boolean;
+  openCart: () => void;
+  closeCart: () => void;
+  toggleCart: () => void;
+};
+
+export const useCartStore = create<CartUIStore>()((set) => ({
+  isOpen: false,
+
+  openCart: () => set({ isOpen: true }),
+
+  closeCart: () => set({ isOpen: false }),
+
+  toggleCart: () =>
+    set((state) => ({
+      isOpen: !state.isOpen,
+    })),
+}));
+```
+
+## Using it
+
+Read one value per call. The component then renders again only when that value changes.
+
+```tsx
+"use client";
+
+const isOpen = useCartStore((state) => state.isOpen);
+const closeCart = useCartStore((state) => state.closeCart);
+```
+
+Reading the whole store (`useCartStore()`) renders the component again on every change in it.
+
+## Signing out
+
+A store keeps its values while the user moves between pages. Signing out does a full page load (`useLogout`), which clears every store, so nothing of one user is left for the next.

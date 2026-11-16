@@ -1,0 +1,112 @@
+import { Canvas, Meta } from "@storybook/addon-docs/blocks";
+
+import * as FormStories from "./forms.stories";
+
+<Meta of={FormStories} />
+
+# Forms
+
+A form is built from three things: a Zod schema, React Hook Form, and the `Field` components.
+
+Submit the example empty to see the validation messages.
+
+<Canvas of={FormStories.Example} />
+
+## 1. The schema
+
+The schema lives in the feature's `api.ts`, next to the mutation that receives the values. The input type is inferred from it, so the form and the request cannot disagree.
+
+```ts
+// src/features/products/api.ts
+export const createProductSchema = z.object({
+  name: z.string().trim().min(2, "Name must contain at least 2 characters"),
+  price: z.number().int().positive("Price must be greater than 0"),
+});
+
+export type CreateProductInput = z.infer<typeof createProductSchema>;
+```
+
+## 2. The form
+
+```tsx
+const {
+  register,
+  handleSubmit,
+  reset,
+  formState: { errors },
+} = useForm<CreateProductInput>({
+  resolver: zodResolver(createProductSchema),
+  defaultValues: { name: "", price: 150000 },
+});
+
+const createProduct = useCreateProduct({
+  mutationConfig: { onSuccess: () => reset() },
+});
+
+<form
+  noValidate
+  onSubmit={handleSubmit((values) => createProduct.mutate(values))}
+>
+```
+
+- `noValidate` turns off the browser's own messages, so only the schema's messages show.
+- Give every field a default value. A number input also needs `register("price", { valueAsNumber: true })`, or the schema receives a string.
+- Disable the submit button while `createProduct.isPending`.
+
+## 3. One field
+
+```tsx
+<Field data-invalid={!!errors.name}>
+  <FieldLabel htmlFor="product-name">Product Name</FieldLabel>
+
+  <Input
+    id="product-name"
+    aria-invalid={!!errors.name}
+    aria-describedby={errors.name ? "product-name-error" : undefined}
+    {...register("name")}
+  />
+
+  {errors.name && (
+    <FieldError id="product-name-error">{errors.name.message}</FieldError>
+  )}
+</Field>
+```
+
+Each of the three attributes does a different job:
+
+- `data-invalid` on `Field` turns the label red.
+- `aria-invalid` on `Input` turns the border red and tells screen readers the value is wrong.
+- `aria-describedby` on `Input` makes screen readers read the error together with the input.
+
+Wrap the fields in `FieldGroup` for the spacing between them. `Components/Field` shows the other parts: descriptions, horizontal fields, field sets, and separators.
+
+## 4. Errors from the backend
+
+Show what the backend answered, not a message of your own, so the cause stays visible:
+
+```tsx
+const errorDetails = createProduct.isError
+  ? getHttpErrorDetails(createProduct.error)
+  : null;
+
+return (
+  <section>
+    {/* The form */}
+
+    {errorDetails && (
+      <div role="alert">
+        <p>Failed to create product (HTTP {errorDetails.status ?? "N/A"}).</p>
+        <pre>{JSON.stringify(errorDetails.data, null, 2)}</pre>
+      </div>
+    )}
+  </section>
+);
+```
+
+## Forms that hold a password
+
+Call `reset()` when the request succeeds. Next.js keeps visited pages and their input values in memory, so a password left in the form would still be there after the user moves on. `src/features/auth/login-form.tsx` does this.
+
+## A full form in the code
+
+`src/features/auth/login-form.tsx` is a complete form. It takes its schema from `api.ts` next to it, and shows the fields and the error from the backend.

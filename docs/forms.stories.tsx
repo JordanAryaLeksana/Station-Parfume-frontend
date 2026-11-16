@@ -1,7 +1,8 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -11,49 +12,35 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { getHttpErrorDetails } from "@/lib/axios";
 
-import {
-  createProductSchema,
-  useCreateProduct,
-  type CreateProductInput,
-} from "./api";
+// The live example of the Forms guide (forms.mdx). Submitting shows the
+// values. A real form calls a mutation instead, as in
+// src/features/auth/login-form.tsx.
+const productSchema = z.object({
+  name: z.string().trim().min(2, "Name must contain at least 2 characters"),
+  price: z.number().int().positive("Price must be greater than 0"),
+});
 
-// Form
-export function CreateProductForm() {
+type ProductInput = z.infer<typeof productSchema>;
+
+function ProductForm() {
+  const [submitted, setSubmitted] = useState<ProductInput | null>(null);
+
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
-  } = useForm<CreateProductInput>({
-    resolver: zodResolver(createProductSchema),
+  } = useForm<ProductInput>({
+    resolver: zodResolver(productSchema),
     defaultValues: {
       name: "",
       price: 150000,
     },
   });
 
-  // Mutation
-  const createProduct = useCreateProduct({
-    mutationConfig: {
-      onSuccess: () => reset(),
-    },
-  });
-
-  // Error Details
-  const errorDetails = createProduct.isError
-    ? getHttpErrorDetails(createProduct.error)
-    : null;
-
   return (
-    <section className="space-y-4 rounded-lg border p-5">
-      <h2 className="text-2xl font-semibold">Create Product</h2>
-
-      <form
-        noValidate
-        onSubmit={handleSubmit((values) => createProduct.mutate(values))}
-      >
+    <div className="w-80 space-y-4">
+      <form noValidate onSubmit={handleSubmit(setSubmitted)}>
         <FieldGroup>
           {/* Name */}
           <Field data-invalid={!!errors.name}>
@@ -98,37 +85,30 @@ export function CreateProductForm() {
             )}
           </Field>
 
-          <Button type="submit" disabled={createProduct.isPending}>
-            {createProduct.isPending ? "Creating..." : "Add Product"}
-          </Button>
+          <Button type="submit">Add Product</Button>
         </FieldGroup>
       </form>
 
-      {/* Mutation Result */}
-      {createProduct.isSuccess && (
-        <p role="status" className="text-sm">
-          Product created successfully.
-        </p>
+      {/* Submitted Values */}
+      {submitted && (
+        <pre
+          role="status"
+          className="overflow-x-auto rounded-md bg-muted p-3 text-xs"
+        >
+          {JSON.stringify(submitted, null, 2)}
+        </pre>
       )}
-
-      {errorDetails && (
-        <div role="alert" className="space-y-2">
-          <p className="text-sm text-destructive">
-            Failed to create product (HTTP {errorDetails.status ?? "N/A"}).
-          </p>
-
-          <pre className="overflow-x-auto rounded-md bg-muted p-3 text-xs whitespace-pre-wrap">
-            {JSON.stringify(
-              errorDetails.data ?? {
-                message: createProduct.error?.message,
-                code: errorDetails.code,
-              },
-              null,
-              2,
-            )}
-          </pre>
-        </div>
-      )}
-    </section>
+    </div>
   );
 }
+
+const meta = {
+  title: "Guides/Forms",
+  component: ProductForm,
+  // forms.mdx is the Docs page of these stories.
+  tags: ["!autodocs"],
+} satisfies Meta<typeof ProductForm>;
+
+export default meta;
+
+export const Example: StoryObj<typeof meta> = {};

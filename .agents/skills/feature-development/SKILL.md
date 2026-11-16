@@ -39,10 +39,16 @@ For this Next.js boilerplate:
 - src/components/shared: shared UI compositions.
 - src/lib: common infrastructure and utilities.
 
+- docs: the guides shown in Storybook, with their live examples.
+
 Reference implementations to copy from:
 
-- src/features/demo-products: a query, a mutation, and a form.
-- src/features/auth: session, sign in, sign out, and OAuth.
+- The project's own features, once it has some. They set the code style.
+- src/features/auth: a query, mutations, and a form (`api.ts`, `login-form.tsx`), plus session handling and OAuth.
+- `docs/*.mdx`: how to build a form, fetch data, share client state, and use the signed-in user.
+- src/components/ui/button.stories.tsx: the stories of a component.
+
+A new or changed component in src/components gets its `<name>.stories.tsx` added or updated in the same change.
 
 Adapt file organization to the complexity of each feature.
 
@@ -117,6 +123,7 @@ For this project, available checks include:
 - npm run format:check
 - npm run build
 - npm run test:auth (when auth, `src/lib/axios.ts`, or `src/proxy.ts` changed)
+- npm run build-storybook (when a component, a story, `docs/`, or `.storybook/` changed)
 
 Report:
 

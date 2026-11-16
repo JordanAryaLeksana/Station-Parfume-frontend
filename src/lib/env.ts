@@ -5,8 +5,8 @@ import { z } from "zod";
 // the dev server with a message that names the variable. Add new variables
 // here and to .env.example.
 const schema = z.object({
-  // Base URL of the backend API. Unset means this app's own /api routes, which
-  // only serve the demo pages.
+  // Base URL of the backend API. Unset means requests go to this app's own
+  // /api routes.
   NEXT_PUBLIC_API_BASE_URL: z
     .string()
     .regex(

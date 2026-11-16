@@ -14,7 +14,7 @@ export default function HomePage() {
 
         <Typography size="lg" className="max-w-xl text-muted-foreground">
           A starting point with data fetching, forms, client state, and sign in
-          already wired up. Each page below is a working example.
+          already wired up.
         </Typography>
       </section>
 
@@ -42,25 +42,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Examples */}
+      {/* Guide */}
       <section className="space-y-3">
         <Typography as="h2" variant="heading" size="xl">
-          Examples
+          Guide
         </Typography>
 
-        <div className="flex flex-wrap gap-3">
-          <Button asChild variant="outline">
-            <Link href="/query-preview">Queries and forms</Link>
-          </Button>
-
-          <Button asChild variant="outline">
-            <Link href="/zustand-preview">Client state</Link>
-          </Button>
-
-          <Button asChild variant="outline">
-            <Link href="/ui-preview">Typography and buttons</Link>
-          </Button>
-        </div>
+        <Typography size="sm" className="text-muted-foreground">
+          How to use the components, build a form, fetch data, and share client
+          state is in Storybook. Start it with npm run storybook.
+        </Typography>
       </section>
     </main>
   );

@@ -12,6 +12,7 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "storybook-static/**",
     // Agent skills and tool output (third-party scripts live here):
     ".agents/**",
     ".claude/**",

@@ -1,6 +1,7 @@
 .next/
 out/
 dist/
+storybook-static/
 coverage/
 playwright-report/
 test-results/
@@ -14,3 +15,6 @@ next-env.d.ts
 .claude/skills/playwright-cli/
 .impeccable/
 .playwright-cli/
+
+# Per-machine Claude Code settings
+.claude/settings.local.json

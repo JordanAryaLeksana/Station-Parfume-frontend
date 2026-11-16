@@ -20,6 +20,10 @@
 # production
 /build
 
+# storybook
+/storybook-static/
+*storybook.log
+
 # misc
 .DS_Store
 *.pem
@@ -44,6 +48,7 @@ next-env.d.ts
 # agent tools
 /.playwright-cli/
 /.playwright/
+/.claude/settings.local.json
 
 # impeccable-ignore-start
 # Ephemeral output, runtime state, and per-dev overrides.
