@@ -17,6 +17,14 @@ const schema = z.object({
 
   // Optional. Sent to the backend as the X-Client-Code header.
   NEXT_PUBLIC_CLIENT_CODE: z.string().optional(),
+
+  NEXT_PUBLIC_WHATSAPP_NUMBER: z
+    .string()
+    .regex(
+      /^62\d{8,13}$/,
+      "must be a number in international format without + or spaces, e.g. 6281234567890.",
+    )
+    .optional(),
 });
 
 // NEXT_PUBLIC_* values are inlined at build time, so each one is read by its
@@ -24,6 +32,8 @@ const schema = z.object({
 const parsed = schema.safeParse({
   NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL || undefined,
   NEXT_PUBLIC_CLIENT_CODE: process.env.NEXT_PUBLIC_CLIENT_CODE || undefined,
+  NEXT_PUBLIC_WHATSAPP_NUMBER:
+    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || undefined,
 });
 
 if (!parsed.success) {

@@ -1,6 +1,12 @@
-# Next.js Boilerplate
+# Station Parfume · Frontend
 
-A starting point for frontend projects that talk to a separate backend API. Data fetching, forms, client state, and sign in are already wired up, and a Storybook guide shows how to use each of them.
+Built by Jordan, aiming to make my mom happy.
+
+This is the online shop of **Station Parfume**, a perfume blending atelier in Karawang. Buyers pick a scent, a size (20, 30, or 50 ml), and a blend: _murni_ (pure perfume oil) or _campur_ (perfume oil mixed with solvent). Each bottle is blended after the order is paid.
+
+- Product context: [`PRODUCT.md`](PRODUCT.md)
+- Visual design system: [`DESIGN.md`](DESIGN.md), with token and component data in `.impeccable/design.json`
+- The backend is a separate Go API in the `Station-parfume-backend` repository. Its contract is `api/openapi.yaml` in that repository, also served at `http://localhost:8080/docs` while the backend runs.
 
 ## Stack
 
@@ -15,27 +21,35 @@ A starting point for frontend projects that talk to a separate backend API. Data
 
 - Node.js 22.18 or newer
 - npm
+- The Station Parfume backend running locally (see that repository for database setup)
 
 ## Getting started
 
-```bash
-npm install
-cp .env.example .env.local
-npm run dev
-```
+1. Start the backend first. Its default address is `http://localhost:8080`. In the backend `.env`, `FRONTEND_URL` (or `CORS_ALLOWED_ORIGINS`) must be `http://localhost:3000`, so the backend accepts requests from this app.
+2. Install dependencies and create the local env file:
 
-Open the address `npm run dev` prints. `npm run storybook` opens the guide to the components and patterns.
+   ```bash
+   npm install
+   cp .env.example .env.local
+   ```
 
-Sign in needs a real backend, so set `NEXT_PUBLIC_API_BASE_URL` first. Without it, requests go to this app's own `/api` routes.
+3. Fill in `.env.local` (see Environment below), then start the dev server:
+
+   ```bash
+   npm run dev
+   ```
+
+Open `http://localhost:3000`. `npm run storybook` opens the guide to the components and patterns.
 
 ## Environment
 
-| Variable                   | Purpose                                                     |
-| -------------------------- | ----------------------------------------------------------- |
-| `NEXT_PUBLIC_API_BASE_URL` | Base URL of the backend API, without a trailing slash       |
-| `NEXT_PUBLIC_CLIENT_CODE`  | Optional. Sent to the backend as the `X-Client-Code` header |
+| Variable                      | Purpose                                                                                                                          |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_API_BASE_URL`    | Base URL of the backend API, without a trailing slash, e.g. `http://localhost:8080/api/v1`                                       |
+| `NEXT_PUBLIC_CLIENT_CODE`     | Keep empty. The Station Parfume backend does not allow the `X-Client-Code` header in CORS, so setting it breaks every request    |
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` | The shop's WhatsApp number in international format without `+` or spaces, e.g. `6281234567890`. Empty hides the WhatsApp buttons |
 
-Variables are checked in `src/lib/env.ts`. A wrong value stops the build with a message that names the variable.
+Variables are checked in `src/lib/env.ts`. A wrong value stops the build with a message that names the variable. Restart `npm run dev` after changing `.env.local`.
 
 ## Scripts
 
@@ -57,14 +71,26 @@ CI runs every check and both builds on every push to `main` and on pull requests
 
 ```
 src/app                 routes, layouts, and page composition
-src/features/<feature>  feature logic and components
+src/features/<feature>  feature logic and components (auth, catalog, ...)
 src/components/ui       UI primitives (shadcn/ui), each with its stories
 src/components/shared   shared UI compositions, each with its stories
-src/lib                 shared infrastructure (Axios, query client, env, fonts)
+src/lib                 shared infrastructure (Axios, query client, env, fonts, WhatsApp link)
 docs                    guides shown in Storybook, with their live examples
 .storybook              Storybook configuration
+.impeccable             design system data used by the impeccable skill
 scripts/auth-check      mock backend and checks behind `npm run test:auth`
 ```
+
+## Roadmap
+
+The storefront is built in six stages:
+
+1. **Foundation**: identity, fonts and colors, PRODUCT.md and DESIGN.md, and the site shell (header, footer, WhatsApp button). _In progress._
+2. **Catalog**: home page, `/koleksi` with filters (aroma, grade, category, search), and `/produk/[slug]` with scent, size, and blend choices.
+3. **Account and bag**: sign in and sign up, and the bag. Buyers sign in before using the bag.
+4. **Checkout and orders**: shipping address, DOKU payment, `/pesanan`, and payment status. Shipping cost is confirmed over WhatsApp.
+5. **Info pages and SEO**: about, contact, FAQ, shipping, returns, terms, and privacy pages, plus the sitemap and metadata.
+6. **3D hero**: the Station bottle in Three.js, with a still-image fallback.
 
 ## Component guide
 
@@ -81,7 +107,7 @@ Storybook runs on Vite, not on Next.js. It loads Tailwind through `@tailwindcss/
 
 Each feature keeps its server communication in `src/features/<feature>/api.ts`. Every endpoint has a request function, query options (for queries), and a hook. Pages and components use the hook and do not import TanStack Query themselves.
 
-The Data Fetching guide in Storybook (`docs/data-fetching.mdx`) shows a query and a mutation in full. `src/features/auth/api.ts` is the same pattern in running code. Once a project has its own features, those are the examples to copy.
+The Data Fetching guide in Storybook (`docs/data-fetching.mdx`) shows a query and a mutation in full. `src/features/auth/api.ts` is the same pattern in running code.
 
 ## Sign in
 
@@ -90,23 +116,19 @@ The Data Fetching guide in Storybook (`docs/data-fetching.mdx`) shows a query an
 - Email and password sign in and OAuth 2.0 (Google, run by the backend) are supported.
 - `src/proxy.ts` decides which pages need a session.
 
-Everything specific to one backend is in the "Backend Contract" section of `src/features/auth/session.ts`. To use another backend, change that section and mirror it in `scripts/auth-check/mock-backend.mjs`.
+Everything specific to the backend is in the "Backend Contract" section of `src/features/auth/session.ts`, mirrored in `scripts/auth-check/mock-backend.mjs`.
 
-What the backend has to provide:
+What the backend has to provide (all already supported by the Station Parfume backend):
 
-- This app's origin allowed in CORS, with the `Authorization` and `Content-Type` headers.
-- This server trusted as a proxy, so the `X-Forwarded-For` header it passes on is used for rate limits.
-- Its OAuth redirect pointing at `/oauth-success`.
+- This app's origin allowed in CORS (`FRONTEND_URL` or `CORS_ALLOWED_ORIGINS`), with the `Authorization` and `Content-Type` headers.
+- This server trusted as a proxy (`TRUSTED_PROXIES`), so the `X-Forwarded-For` header it passes on is used for rate limits.
+- Its Google OAuth flow redirecting to `FRONTEND_URL/oauth-success`.
 
 Deploy this app behind a reverse proxy that sets `X-Forwarded-For`. Exposed directly, a client could send a fake address in that header.
 
-## Starting a project from this boilerplate
-
-The `new-project` skill (`.agents/skills/new-project`) lists the steps: rename, connect the backend, choose protected pages, and set the design direction.
-
 ## Working with coding agents
 
-- `AGENTS.md` holds the project rules.
+- `AGENTS.md` holds the project rules. `PRODUCT.md` and `DESIGN.md` are the source of truth for product and visual decisions.
 - `.agents/skills` holds the skills, linked into `.claude/skills` for Claude Code: `feature-development`, `new-project`, `impeccable` (design), and `playwright-cli` (browser checks).
 - `.mcp.json` and `.codex/config.toml` configure the MCP servers: Next.js DevTools, shadcn, and Context7.
 - `playwright-cli` is a global tool: `npm install -g @playwright/cli`.

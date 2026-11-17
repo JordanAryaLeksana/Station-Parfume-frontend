@@ -4,25 +4,26 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Station Parfume brand palette (prototype v5: black, gold, cream). */
+@theme {
+  --color-ink: #141110;
+  --color-ink-2: #0b0908;
+  --color-ink-3: #1f1a16;
+  --color-gold: #c8a15a;
+  --color-gold-light: #e2c58e;
+  --color-gold-dark: #7e5c24;
+  --color-cream: #f2ebdd;
+  --color-cream-2: #e9dfcc;
+  --color-paper: #faf6ee;
+}
+
 @theme inline {
+  --font-sans: var(--font-secondary-loaded);
   --font-secondary: var(--font-secondary-loaded);
   --font-mono: var(--font-mono-loaded);
   --font-primary: var(--font-primary-loaded);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -49,72 +50,46 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: #faf6ee;
+  --foreground: #141110;
+  --card: #ffffff;
+  --card-foreground: #141110;
+  --popover: #ffffff;
+  --popover-foreground: #141110;
+  --primary: #141110;
+  --primary-foreground: #f2ebdd;
+  --secondary: #e9dfcc;
+  --secondary-foreground: #141110;
+  --muted: #f2ebdd;
+  --muted-foreground: #5e5448;
+  --accent: #f2ebdd;
+  --accent-foreground: #141110;
+  --destructive: #a23b2e;
+  --border: rgb(20 17 16 / 0.16);
+  --input: rgb(20 17 16 / 0.22);
+  --ring: #7e5c24;
+  --radius: 0rem;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: #141110;
+  --foreground: #efe7d8;
+  --card: #1f1a16;
+  --card-foreground: #efe7d8;
+  --popover: #1f1a16;
+  --popover-foreground: #efe7d8;
+  --primary: #c8a15a;
+  --primary-foreground: #141110;
+  --secondary: #1f1a16;
+  --secondary-foreground: #efe7d8;
+  --muted: #1f1a16;
+  --muted-foreground: #a99c88;
+  --accent: #2a231d;
+  --accent-foreground: #efe7d8;
+  --destructive: #e58b7b;
+  --border: rgb(200 161 90 / 0.24);
+  --input: rgb(239 231 216 / 0.18);
+  --ring: #c8a15a;
 }
 
 @layer base {
@@ -127,4 +102,47 @@
   html {
     @apply font-sans;
   }
+  /* A section marked `.dark` gets its black background and light text automatically. */
+  .dark {
+    @apply bg-background text-foreground;
+  }
+  /* Fraunces headings: the soft axis (SOFT) and slightly tighter letter spacing, as in v5. */
+  .font-primary {
+    font-variation-settings:
+      "SOFT" 100,
+      "WONK" 0;
+    letter-spacing: -0.014em;
+  }
+  ::selection {
+    background-color: var(--color-gold);
+    color: var(--color-ink);
+  }
+}
+
+/*
+ * The ml measuring ruler motif: a short tick every 12px and a long tick every
+ * 60px. Use it on an empty element as a horizontal divider, e.g.
+ * <div className="takar" />.
+ */
+@utility takar {
+  height: 12px;
+  opacity: 0.55;
+  background:
+    repeating-linear-gradient(
+        90deg,
+        var(--color-gold) 0 1px,
+        transparent 1px 60px
+      )
+      left bottom / 100% 12px no-repeat,
+    repeating-linear-gradient(
+        90deg,
+        var(--color-gold) 0 1px,
+        transparent 1px 12px
+      )
+      left bottom / 100% 6px no-repeat;
+}
+
+/* Faint kawung batik pattern, for the gold WhatsApp band. */
+@utility bg-kawung {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'><g fill='none' stroke='%23141110' stroke-opacity='.12'><ellipse cx='32' cy='16' rx='8' ry='15'/><ellipse cx='32' cy='48' rx='8' ry='15'/><ellipse cx='16' cy='32' rx='15' ry='8'/><ellipse cx='48' cy='32' rx='15' ry='8'/><circle cx='32' cy='32' r='2'/></g></svg>");
 }

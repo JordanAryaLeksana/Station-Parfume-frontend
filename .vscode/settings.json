@@ -1,4 +1,7 @@
 {
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
@@ -10,5 +13,6 @@
     "typescript",
     "typescriptreact"
   ],
-  "js/ts.tsdk.path": "./node_modules/typescript/lib"
+  "js/ts.tsdk.path": "./node_modules/typescript/lib",
+  "css.lint.unknownAtRules": "ignore"
 }

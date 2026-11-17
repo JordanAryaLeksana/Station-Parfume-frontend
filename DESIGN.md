@@ -1,0 +1,301 @@
+---
+name: Station Parfume
+description: Atelier racik parfum dari Karawang, setiap botol diracik setelah dipesan.
+colors:
+  ink: "#141110"
+  ink-deep: "#0b0908"
+  ink-raised: "#1f1a16"
+  gold: "#c8a15a"
+  gold-light: "#e2c58e"
+  gold-dark: "#7e5c24"
+  cream: "#f2ebdd"
+  cream-deep: "#e9dfcc"
+  paper: "#faf6ee"
+  white: "#ffffff"
+  text-on-ink: "#efe7d8"
+  muted-on-ink: "#a99c88"
+  muted-on-paper: "#5e5448"
+  danger: "#a23b2e"
+  danger-on-ink: "#e58b7b"
+typography:
+  display:
+    fontFamily: "Fraunces, Georgia, serif"
+    fontSize: "clamp(3rem, 6.4vw, 6.125rem)"
+    fontWeight: 330
+    lineHeight: 1.02
+    letterSpacing: "-0.014em"
+    fontVariation: "'SOFT' 100"
+  headline:
+    fontFamily: "Fraunces, Georgia, serif"
+    fontSize: "clamp(2.375rem, 4.3vw, 4rem)"
+    fontWeight: 330
+    lineHeight: 1.02
+    letterSpacing: "-0.014em"
+    fontVariation: "'SOFT' 100"
+  title:
+    fontFamily: "Fraunces, Georgia, serif"
+    fontSize: "1.6875rem"
+    fontWeight: 400
+    lineHeight: 1.1
+    fontVariation: "'SOFT' 100"
+  body:
+    fontFamily: "Plus Jakarta Sans, system-ui, sans-serif"
+    fontSize: "0.9375rem"
+    fontWeight: 400
+    lineHeight: 1.65
+  label:
+    fontFamily: "Plus Jakarta Sans, system-ui, sans-serif"
+    fontSize: "0.6875rem"
+    fontWeight: 600
+    lineHeight: 1.3
+    letterSpacing: "0.22em"
+rounded:
+  none: "0px"
+  pill: "999px"
+spacing:
+  gutter: "40px"
+  gutter-mobile: "20px"
+  grid-gap: "24px"
+  section: "130px"
+  section-mobile: "86px"
+components:
+  button-primary:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.cream}"
+    typography: "{typography.label}"
+    rounded: "{rounded.none}"
+    padding: "0 28px"
+    height: "54px"
+  button-primary-on-ink:
+    backgroundColor: "{colors.gold}"
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+    rounded: "{rounded.none}"
+    padding: "0 28px"
+    height: "54px"
+  button-ghost:
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+    rounded: "{rounded.none}"
+    padding: "0 28px"
+    height: "54px"
+  chip:
+    textColor: "{colors.ink}"
+    typography: "{typography.label}"
+    rounded: "{rounded.none}"
+    padding: "0 17px"
+    height: "40px"
+  chip-selected:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.cream}"
+    rounded: "{rounded.none}"
+  input:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body}"
+    rounded: "{rounded.none}"
+    padding: "0 14px"
+    height: "48px"
+  product-card-mat:
+    backgroundColor: "{colors.cream}"
+    rounded: "{rounded.none}"
+    padding: "12px"
+  nota-racik:
+    backgroundColor: "{colors.white}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body}"
+    rounded: "{rounded.none}"
+    padding: "22px 26px"
+  whatsapp-float:
+    backgroundColor: "{colors.gold}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.pill}"
+    size: "60px"
+---
+
+# Design System: Station Parfume
+
+## Overview
+
+**Creative North Star: "Meja Racik Malam"**
+
+Station Parfume looks like a perfumer's workbench at night: a dark room, warm gold light, and the bottle and scent ingredients at the center. The black sections are the room. The gold is a lamp lighting what matters: a perfume name, a price, the next step. The cream sections are the blend receipt and the open notebook, where the buyer reads and makes choices.
+
+The mood is calm and luxurious. There is plenty of empty space, thin lines, slow motion, and few elements on each screen. Luxury here comes from restraint and precision, not ornament. Every motif comes from the blending process: ml measuring ticks ("garis takar", a ruler of tick marks), numbered scents, the nota racik (blend receipt), and gold flakes. One local touch is used sparingly: the kawung batik pattern on the WhatsApp band.
+
+This direction replaced four earlier prototypes the owner rejected:
+
+- v1 (ivory/ink with Cormorant)
+- v2 (espresso and brass with Bodoni and arched frames)
+- v3 (a copy of Creed with Cinzel)
+- v4 (warm cream, terracotta, and sage)
+
+The owner did not want the arches, did not want an outright copy of another brand, and found the pastel-warm palette not elegant enough.
+
+**Key Characteristics:**
+
+- Black and cream sections alternate firmly. Gold is the only accent.
+- Fraunces with the soft axis for headings, Plus Jakarta Sans (designed in Jakarta) for text.
+- Every corner is sharp. Lines are thin and turn gold on dark sections.
+- Depth comes from the layers of color, not from shadows.
+- Motion is slow and calm.
+- The owner's real photos are displayed matted like framed prints.
+
+## Colors
+
+A palette of night black, lamp gold, and paper cream. Gold is rare and meaningful.
+
+### Primary
+
+- **Prada Gold** (gold): the only accent. Use it for the primary button on dark sections, active states, measuring ticks, prices on dark backgrounds, and the WhatsApp button.
+- **Lamp Gold** (gold-light): gold for small text and italic accents on black backgrounds.
+- **Aged Gold** (gold-dark): the only gold allowed for text and lines on light backgrounds (5.1:1 on cream). It is also the focus ring color on light sections.
+
+### Neutral
+
+- **Night Ink** (ink): the main background of dark sections, the text on light sections, and the primary button on light sections.
+- **Deep Ink** (ink-deep): the darkest layer, used for the utility bar, the Murni/Campur section, and the footer, so there is a step against Night Ink.
+- **Raised Ink** (ink-raised): surfaces that sit above black, such as the mega menu, toasts, and cards on dark sections.
+- **Paper Cream** (paper): the background of light pages such as the product page, checkout, and orders.
+- **Cream** (cream): reading sections on the home page, product photo mats, and selected-state backgrounds on light sections.
+- **Deep Cream** (cream-deep): secondary surfaces on light sections.
+- **Night Text** (text-on-ink) and **Night Muted** (muted-on-ink): main and secondary text on black (15.3:1 and 7.0:1).
+- **Paper Muted** (muted-on-paper): secondary text on light backgrounds (6.9:1 on paper).
+- **Danger** (danger, danger-on-ink): error messages on light and dark sections. Never use red for decoration.
+
+### Named Rules
+
+**The Single Lamp Rule.** Gold is the only accent color. Gold must not fill a large area except the WhatsApp band. On any one screen it is used for at most one primary button and a few small details.
+
+**The Gold-on-Paper Rule.** Plain gold (#c8a15a) must never be used for text on cream or paper, because its contrast is only 2.0:1. Text on a light background always uses Aged Gold.
+
+**The Aroma Color Rule.** The 13 aroma-family colors (pastel aura) appear only as dimmed glows inside the aroma panel and as small swatch dots. They are never used for buttons, text, or section backgrounds.
+
+## Typography
+
+**Display Font:** Fraunces (with Georgia, serif), soft axis SOFT 100
+**Body Font:** Plus Jakarta Sans (with system-ui, sans-serif)
+**Label/Mono Font:** Plus Jakarta Sans in uppercase with wide letter spacing (no mono)
+
+**Character:** Fraunces brings a soft, warm, handcrafted elegance, and its italic carries the brand's emphasis words. Plus Jakarta Sans is clean and modern, and its origin in Jakarta matches the local character.
+
+### Hierarchy
+
+- **Display** (330, clamp 48–98px, 1.02): the home hero headline only.
+- **Headline** (330, clamp 38–64px, 1.02): section headings and the product name on the product page.
+- **Title** (400, 27px, 1.1): product names on cards, the aroma family name in its list, and the nota title.
+- **Body** (400, 15px, 1.65): descriptions, forms, and nota text. Keep paragraphs to at most 70ch.
+- **Label** (600, 11px, letter spacing 0.22em, uppercase): small labels, button text, chips, and atelier numbers.
+
+### Named Rules
+
+**The One Italic Rule.** At most one italic word or phrase in each heading, set in gold (gold-light on black, gold-dark on cream), for example "Wangimu, _diracik_ setelah kamu memilih." Never italicize a whole heading.
+
+**The Tabular Price Rule.** Every price and nota number uses tabular numerals, so animated price changes don't shift.
+
+## Layout
+
+- **Container:** maximum 1320px, with a 40px gutter (20px below 980px).
+- **Section spacing:** 130px vertically (86px on mobile).
+- **Product grid:** 4 columns on desktop, 3 at ≤1180px, 2 on mobile, with a 24px gap.
+- **Product page:** two columns, 7 to 5 (gallery and buy panel). The gallery is sticky on desktop and stacks on mobile.
+- **Section headers:** the heading on the left and a short description or filters on the right, aligned to the bottom edge.
+- **Breakpoints:** 980px (mobile layout) and 1180px (compact navigation).
+
+## Elevation & Depth
+
+Flat and layered. Depth comes from alternating black and cream sections, Raised Ink surfaces on top of black, and thin gold lines. At rest there are no permanent shadows. A shadow appears only as a response: a product card lifts about 6px on hover with a soft shadow, and the toast and mega menu use a diffuse shadow so they read as floating.
+
+### Shadow Vocabulary
+
+- **Hover lift** (`box-shadow: 0 30px 50px -28px rgba(0,0,0,0.6)`): product cards on hover, together with `translateY(-6px)`.
+- **Floating panel** (`box-shadow: 0 26px 50px -22px rgba(0,0,0,0.7)`): toasts, the mega menu, and the cart panel.
+
+### Named Rules
+
+**The Flat-at-Rest Rule.** Surfaces are flat when idle. Shadows only answer an interaction (hover) or a floating element.
+
+## Shapes
+
+All corners are sharp (0px) on buttons, inputs, chips, cards, photos, and panels. The only circles are functional: the floating WhatsApp button, aroma swatch dots, the round previous/next buttons in the hero, and the price badge in the bag.
+
+Recurring motifs:
+
+- **Measuring ticks** (garis takar): a ruler of thin gold ticks, a short tick every 12px and a long tick every 60px. It sits under the header and at the bottom edge of the hero.
+- **Matted photos:** a 12px cream border around each product poster.
+- **Torn receipt edge:** a scalloped edge at the top and bottom of the nota racik.
+
+## Components
+
+### Buttons
+
+- **Shape:** sharp (0px), 54px tall, 0 28px padding, uppercase label text.
+- **Primary:** Night Ink with cream text on light sections, Prada Gold with ink text on dark sections.
+- **Hover / Focus:** a slow shimmer of light sweeps across the button (about 1s) and the arrow shifts 5px. Focus is a ring in the section's ring color.
+- **Ghost:** transparent with a thin 1px line in the text color, which turns gold on hover.
+
+### Chips
+
+- **Style:** a thin outline, 40px tall, uppercase label text.
+- **State:** selected chips use a solid fill (Night Ink on light, gold on dark). Used for catalog filters and variant choices.
+
+### Cards / Containers
+
+- **Product card:** the owner's poster in a cream mat (white with a thin line on light sections). Below it: the atelier number in label style, the name in title style, the aroma family, and "Mulai Rp…". On hover the photo switches to a close-up of the bottles, and an "add to bag" button appears.
+- **Shadow strategy:** see Elevation & Depth.
+- **Border:** thin lines only. Never a thick colored border on one side.
+
+### Inputs / Fields
+
+- **Style:** a white background with a thin border (input token), sharp, 48px tall for comfortable tapping.
+- **Focus:** the border and ring change to the ring color (gold-dark on light).
+- **Error / Disabled:** a Danger-colored message under the field. Disabled fields are faded but still readable.
+
+### Logo
+
+The owner's official logo (`src/assets/brand/logo-original.webp`): a sprig, the text "STATION / PAR / FUME" with "EST 2010", a thin circle, "PURE NATURE", and a pink brush stroke. The website uses versions cut from this file, never a redrawing or a substitute typeface.
+
+- **Lockup** (sprig + text, no circle): in the header and anywhere with limited height (about 64px), so the text stays readable.
+- **Badge** (the full round logo): in the footer, the about page, and other roomy spots, at 160px or wider.
+- **On black:** sprig, text, and circle in cream; the pink brush becomes a faint gold (about 30%).
+- **On light:** the original colors, black with the pink brush.
+- Don't put the logo on a busy photo, recolor it outside these two tones, or stretch it.
+
+### Navigation
+
+- **Header:** sticky and black with a slight blur. The logo lockup is on the left, uppercase navigation in the middle, and Cari/Akun/Tas on the right with a gold bag badge. A measuring-tick ruler sits under it.
+- **Utility bar:** Deep Ink, with three short messages that rotate gently.
+- **Aroma mega menu:** a Raised Ink panel with the 13 families (swatch dot, name, Indonesian name, number of scents).
+- **Mobile:** the navigation becomes a single menu button. The logo and the bag stay visible.
+
+### Nota Racik (signature)
+
+The price breakdown on the product page looks like a white receipt with scalloped edges. It shows the italic title "Nota racik" and the atelier number, then dotted rows: scent, blend, rate × ml, bottle, quantity, total. Changed rows flash gold briefly.
+
+### Aroma Panel (signature)
+
+On the left, the list of 13 aroma families. On the right, a black panel framed by a thin gold line, with a slowly moving glow in the family's color, the large family name with its Indonesian name in italics, example scents, and an ingredient photo on a hanging tag.
+
+### Hero 3D (signature)
+
+A square bottle with a gold ball cap and a square bottle with a black cap (the owner's real bottle shapes), standing on a black plinth with gold rings, surrounded by gold flakes. Scents change by draining and refilling the liquid. A still image is used under reduced-motion settings or when WebGL is unavailable.
+
+## Do's and Don'ts
+
+### Do:
+
+- **Do** alternate black (`.dark`) and cream sections, and let gold be the only accent.
+- **Do** use gold-dark for every gold text or line on a light background.
+- **Do** display the owner's product photos in a cream mat, with the "STATION PERFUME" text and the name banner intact.
+- **Do** keep all corners at 0px, except the functional circles listed in Shapes.
+- **Do** use slow, calm motion: reveals take about 1.1s with an ease-out curve, and every animation stops under `prefers-reduced-motion`.
+
+### Don't:
+
+- **Don't** use arched frames or arch shapes. The owner rejected them in v2.
+- **Don't** copy another brand's look, logo, or copy (the owner rejected the Creed-like v3).
+- **Don't** use pastel or terracotta-and-sage palettes as the main colors. The owner said v4 was not elegant.
+- **Don't** show another perfume brand's name, logo, or bottle anywhere in the UI.
+- **Don't** use plain gold (#c8a15a) for text on cream or paper.
+- **Don't** put a small uppercase label (eyebrow/kicker) above a heading. Prototype v5 had these, but the impeccable craft floor bans them: the heading carries itself.
+- **Don't** redraw the logo, set "Station Parfume" in another typeface as a replacement logo, or use the old spelling "Station Perfume".
