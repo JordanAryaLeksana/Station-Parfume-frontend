@@ -5,14 +5,15 @@ import Providers from "./providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Next.js Boilerplate",
-  description: "Reusable frontend starter",
+  title: { default: "Station Parfume", template: "%s · Station Parfume" },
+  description:
+    "Parfum diracik per ml, ukuran 20/30/50 ml, murni atau campur, diracik setelah dipesan di Karawang",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
+      lang="id"
       className={[
         primaryFont.variable,
         secondaryFont.variable,

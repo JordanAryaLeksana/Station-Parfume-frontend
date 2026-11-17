@@ -18,6 +18,7 @@
 - In `api.ts`, each endpoint has a request function, query options (for queries), and a hook.
 - Type hook options with `QueryConfig` and `MutationConfig` from `src/lib/query-client.ts`.
 - Send backend requests through `apiClient` from `src/lib/axios.ts`. It attaches the access token and renews it on 401.
+- The backend API contract is `api/openapi.yaml` in the `Station-parfume-backend` repository (a sibling folder: `../Station-parfume-backend/api/openapi.yaml`), also served at `http://localhost:8080/docs` while the backend runs. Read it before writing or changing anything that talks to the backend.
 
 ## Authentication
 
