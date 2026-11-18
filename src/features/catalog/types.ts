@@ -1,5 +1,3 @@
-
-
 export type Envelope<T> = {
   message: string;
   data: T;
@@ -22,11 +20,9 @@ export type Category = {
   updated_at: string;
 };
 
-
 export type CategoryWithCount = Category & {
   product_count: number;
 };
-
 
 export type ProductCard = {
   id: number;
@@ -81,7 +77,6 @@ export type Size = {
   created_at: string;
   updated_at: string;
 };
-
 
 export type Variant = {
   id: number;
