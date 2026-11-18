@@ -110,21 +110,13 @@ export const AROMAS = [
 
 export type AromaNote = (typeof AROMAS)[number]["note"];
 
-// Type guard: checks whether a string from outside (e.g. `?note=` in the URL,
-// which anyone can type) is one of the 13 aroma families.
 export function isAromaNote(value: string): value is AromaNote {
   return AROMAS.some((aroma) => aroma.note === value);
 }
 
-// Looks up one aroma by its note. The parameter is typed AromaNote, so the
-// aroma is always found.
 export function getAroma(note: AromaNote) {
   return AROMAS.find((aroma) => aroma.note === note)!;
 }
-
-// Background for an aroma's round color dot: a light highlight at the top
-// left, the main color in the middle, and the deep color at the edge.
-// Use it as `style={{ background: aromaSwatch(aroma) }}`.
 export function aromaSwatch(aroma: Aroma): string {
   const { light, glow, deep } = aroma.colors;
   return `radial-gradient(circle at 34% 30%, ${light} 0 18%, ${glow} 52%, ${deep})`;

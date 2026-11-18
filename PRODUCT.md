@@ -38,7 +38,7 @@ Success means:
 ## Positioning
 
 - **Blended after the order is placed.** Nothing comes from old stock in a warehouse.
-- **Transparent per-ml pricing.** Price = rate per ml × size + bottle Rp5,000. Prices start at Rp35,000.
+- **Transparent per-ml pricing.** Price = rate per ml × size + bottle Rp5.000,00. Prices start at Rp35.000,00.
 - **Free choice.** The buyer picks the size and the blend: murni (bibit) or campur (parfum).
 - **Internal fact:** many scents are inspired by famous perfumes (the `inspired_by` column in the backend). This is **never** written or shown on the website, not as text, comparisons, or brand names.
 

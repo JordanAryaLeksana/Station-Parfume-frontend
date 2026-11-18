@@ -25,7 +25,16 @@ This is the online shop of **Station Parfume**, a perfume blending atelier in Ka
 
 ## Getting started
 
-1. Start the backend first. Its default address is `http://localhost:8080`. In the backend `.env`, `FRONTEND_URL` (or `CORS_ALLOWED_ORIGINS`) must be `http://localhost:3000`, so the backend accepts requests from this app.
+1. Start the backend first (its default address is `http://localhost:8080`). In the backend folder:
+
+   ```bash
+   docker compose up -d                  # PostgreSQL on 5433, Redis on 6380
+   go run ./cmd/migrate up && go run ./seed
+   go run .                              # the API; keep it running
+   ```
+
+   The seed is an upsert, so running it again is safe. In the backend `.env`, `CORS_ALLOWED_ORIGINS` must list the address this app runs on, e.g. `http://localhost:3000,http://localhost:3001` (Next.js moves to 3001 when 3000 is taken). The catalog pages fetch on the server and don't need CORS, but the bag and sign-in do.
+
 2. Install dependencies and create the local env file:
 
    ```bash
@@ -39,7 +48,7 @@ This is the online shop of **Station Parfume**, a perfume blending atelier in Ka
    npm run dev
    ```
 
-Open `http://localhost:3000`. `npm run storybook` opens the guide to the components and patterns.
+Open `http://localhost:3000` (or the port `npm run dev` prints). `npm run storybook` opens the guide to the components and patterns.
 
 ## Environment
 
@@ -79,14 +88,16 @@ docs                    guides shown in Storybook, with their live examples
 .storybook              Storybook configuration
 .impeccable             design system data used by the impeccable skill
 scripts/auth-check      mock backend and checks behind `npm run test:auth`
+scripts/product-photos  cuts the owner's product posters into the images in public/products
+public/products         product photos: <slug>-card.jpg and <slug>-detail.jpg
 ```
 
 ## Roadmap
 
 The storefront is built in six stages:
 
-1. **Foundation**: identity, fonts and colors, PRODUCT.md and DESIGN.md, and the site shell (header, footer, WhatsApp button). _In progress._
-2. **Catalog**: home page, `/koleksi` with filters (aroma, grade, category, search), and `/produk/[slug]` with scent, size, and blend choices.
+1. **Foundation**: identity, fonts and colors, light and dark modes, PRODUCT.md and DESIGN.md, and the site shell (header, footer, WhatsApp button). _Done._
+2. **Catalog**: home page, `/koleksi` with filters (aroma, grade, category, search), and `/produk/[slug]` with scent, size, and blend choices. _In progress._
 3. **Account and bag**: sign in and sign up, and the bag. Buyers sign in before using the bag.
 4. **Checkout and orders**: shipping address, DOKU payment, `/pesanan`, and payment status. Shipping cost is confirmed over WhatsApp.
 5. **Info pages and SEO**: about, contact, FAQ, shipping, returns, terms, and privacy pages, plus the sitemap and metadata.
@@ -102,6 +113,25 @@ The storefront is built in six stages:
 A new component gets a stories file; copy `src/components/ui/button.stories.tsx`. Stories cover components that render from their props. Components that call the backend are checked in the running app, because Storybook has no backend.
 
 Storybook runs on Vite, not on Next.js. It loads Tailwind through `@tailwindcss/vite` (`.storybook/main.ts`) and the fonts and global styles through `.storybook/preview.ts`, so both follow `src/lib/fonts.ts` and `src/app/globals.css`.
+
+## Product photos
+
+The backend has no product images yet, so the site uses images cut from the owner's posters, in `public/products`:
+
+- `<slug>-card.jpg`: square, the title and the bottles on the tray. Used on product cards and as the first gallery image.
+- `<slug>-detail.jpg`: square close-up of the bottles. Used for the card hover and in the gallery.
+
+`src/features/catalog/product-photos.ts` lists which products have photos. The others (the general products for now) show a placeholder.
+
+The cut deliberately stops above the poster's coloured name band and stays in the middle. On about half of the posters the edges and the band show another brand's bottle and an "Inspired by ..." caption, and other brands must never appear on the site. The raw posters are not kept in this repository (`src/assets/gambar-parfum/` is ignored by git for the same reason).
+
+When the owner sends new posters, cut them again (needs Python 3 with Pillow):
+
+```bash
+python3 -I scripts/product-photos/make.py ../Station-parfume-backend/seed/wangian.csv ~/Documents/gambar-parfum public/products
+```
+
+Then check the images and update the slug list in `product-photos.ts` from the script's output. Once photos are uploaded through the admin panel, the API returns `image_url`, and the site should prefer it over these files.
 
 ## Data fetching
 

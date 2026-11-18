@@ -15,7 +15,6 @@ export const metadata: Metadata = {
     "Parfum diracik per ml, ukuran 20/30/50 ml, murni atau campur, diracik setelah dipesan di Karawang",
 };
 
-
 export const viewport: Viewport = {
   themeColor: "#0a0a09",
 };

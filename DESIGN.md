@@ -215,6 +215,8 @@ The site has a light mode, **Gading**, and a dark mode, **Noir**. On the first v
 
 **The Tabular Price Rule.** Every price and nota number uses tabular numerals, so animated price changes don't shift.
 
+**The Price Format Rule.** Prices are written the Indonesian way, with no space after "Rp", a dot between thousands and ",00" at the end: Rp35.000,00. Always format them with `formatRupiah` (`src/lib/format.ts`), never by hand.
+
 ## Layout
 
 - **Container:** maximum 1320px, with a 40px gutter (20px below 980px).

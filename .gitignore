@@ -73,3 +73,8 @@ next-env.d.ts
 **/.impeccable/live/deferred-svelte-component-accepts.json
 **/.impeccable/live/*.png
 # impeccable-ignore-end
+
+# The owner's raw product posters. Some show other brands, so they must
+# never be committed. The site uses the cut images in public/products
+# (scripts/product-photos/make.py).
+/src/assets/gambar-parfum/
