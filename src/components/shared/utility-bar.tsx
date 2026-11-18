@@ -26,23 +26,22 @@ export default function UtilityBar({
   React.useEffect(() => {
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
-    ).matches
+    ).matches;
 
     if (reduceMotion || paused || messages.length < 2) return;
 
     const id = window.setInterval(() => {
-      setIndex((current) => (current + 1) % messages.length)
-    }, interval)
+      setIndex((current) => (current + 1) % messages.length);
+    }, interval);
 
-
-    return () => window.clearInterval(id)
-  }, [paused, interval, messages.length])
+    return () => window.clearInterval(id);
+  }, [paused, interval, messages.length]);
 
   const message = messages[index % messages.length] ?? "";
   return (
     <div
       className={cn(
-        "bg-ink-2 text-[10px] font-medium tracking-[0.08em] text-cream/75 uppercase min-[980px]:text-[11px] min-[980px]:tracking-[0.16em]",
+        "bg-ink-2 text-[10px] font-light tracking-[0.12em] text-cream/85 uppercase min-[980px]:text-[11px] min-[980px]:tracking-[0.22em]",
         className,
       )}
       onMouseEnter={() => setPaused(true)}
@@ -50,8 +49,8 @@ export default function UtilityBar({
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
-      <div className="mx-auto flex h-9 max-w-[330] items-center justify-between gap-5 px-5 min-[980px]:px-10">
-        <p className="hidden min-w-[55] min-[980px]:block">
+      <div className="mx-auto flex h-9 max-w-330 items-center justify-between gap-5 px-5 min-[980px]:px-10">
+        <p className="hidden min-w-55 min-[980px]:block">
           Pure Nature · Sejak 2010
         </p>
 
@@ -72,7 +71,7 @@ export default function UtilityBar({
 
         <nav
           aria-label="Bantuan cepat"
-          className="hidden min-w-[55] justify-end gap-6 min-[980px]:flex"
+          className="hidden min-w-55 justify-end gap-6 min-[980px]:flex"
         >
           <Link
             href="/pesanan"

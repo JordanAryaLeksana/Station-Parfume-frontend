@@ -38,7 +38,7 @@ Success means:
 ## Positioning
 
 - **Blended after the order is placed.** Nothing comes from old stock in a warehouse.
-- **Transparent per-ml pricing.** Price = rate per ml × size + bottle Rp5,000. Prices start at Rp35,000.
+- **Transparent per-ml pricing.** Price = rate per ml × size + bottle Rp5.000,00. Prices start at Rp35.000,00.
 - **Free choice.** The buyer picks the size and the blend: murni (bibit) or campur (parfum).
 - **Internal fact:** many scents are inspired by famous perfumes (the `inspired_by` column in the backend). This is **never** written or shown on the website, not as text, comparisons, or brand names.
 
@@ -94,7 +94,7 @@ Success means:
 - **Tagline.** "Pure Nature" (on the logo) may be used as a slogan.
 - **Logo.** The official logo is the owner's (`src/assets/brand/logo-original.webp`): a black sprig, the text "STATION / PAR / FUME" with "EST 2010", a thin circle, "PURE NATURE", and a pink brush stroke. Don't redraw it or swap in another font; the website uses versions cut from this file (see DESIGN.md).
 - **Voice.** Warm and polite, and addresses the buyer as "kamu". Explains blending terms simply.
-- **Visual direction.** The owner chose it through prototype v5 (see DESIGN.md).
+- **Visual direction.** The owner chose it through prototype v5, then approved a light and a dark mode (Gading and Noir) on 2026-11-18 (see DESIGN.md).
 - **No other brands.** Never show another perfume brand (name, logo, or bottle) on the website.
 
 ## Evidence on Hand
@@ -121,5 +121,6 @@ Success means:
   - Text contrast at least 4.5:1.
   - Focus is always visible.
   - Every flow works with a keyboard.
+- Light and dark mode (Gading and Noir). The first visit follows the device setting (`prefers-color-scheme`), and the buyer's own choice is remembered. Both modes meet the contrast targets.
 - Respect `prefers-reduced-motion`. Animations stop, and 3D is replaced by a still image.
 - Don't depend on WebGL. Every 3D element has a fallback view.

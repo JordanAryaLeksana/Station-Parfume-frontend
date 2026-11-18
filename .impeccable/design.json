@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-17T13:02:56+00:00",
+  "generatedAt": "2026-11-18T13:30:00+00:00",
   "title": "Design System: Station Parfume",
   "extensions": {
     "colorMeta": {
@@ -22,31 +22,31 @@
       "ink-deep": {
         "role": "neutral",
         "displayName": "Deep Ink",
-        "canonical": "oklch(14.2% 0.004 50)",
+        "canonical": "oklch(14.4% 0.002 107)",
         "tonalRamp": [
-          "oklch(15% 0.002 50)",
-          "oklch(26% 0.002 50)",
-          "oklch(38% 0.003 50)",
-          "oklch(49% 0.004 50)",
-          "oklch(61% 0.004 50)",
-          "oklch(72% 0.004 50)",
-          "oklch(84% 0.003 50)",
-          "oklch(95% 0.002 50)"
+          "oklch(15% 0.001 107)",
+          "oklch(26% 0.001 107)",
+          "oklch(38% 0.001 107)",
+          "oklch(49% 0.002 107)",
+          "oklch(61% 0.002 107)",
+          "oklch(72% 0.002 107)",
+          "oklch(84% 0.001 107)",
+          "oklch(95% 0.001 107)"
         ]
       },
       "ink-raised": {
         "role": "neutral",
         "displayName": "Raised Ink",
-        "canonical": "oklch(22.2% 0.011 61)",
+        "canonical": "oklch(19.7% 0.005 68)",
         "tonalRamp": [
-          "oklch(15% 0.004 61)",
-          "oklch(26% 0.006 61)",
-          "oklch(38% 0.008 61)",
-          "oklch(49% 0.009 61)",
-          "oklch(61% 0.011 61)",
-          "oklch(72% 0.009 61)",
-          "oklch(84% 0.007 61)",
-          "oklch(95% 0.006 61)"
+          "oklch(15% 0.002 68)",
+          "oklch(26% 0.003 68)",
+          "oklch(38% 0.003 68)",
+          "oklch(49% 0.004 68)",
+          "oklch(61% 0.005 68)",
+          "oklch(72% 0.004 68)",
+          "oklch(84% 0.003 68)",
+          "oklch(95% 0.003 68)"
         ]
       },
       "gold": {
@@ -170,8 +170,8 @@
       },
       {
         "name": "floating-panel",
-        "value": "0 26px 50px -22px rgba(0,0,0,0.7)",
-        "purpose": "Toasts, the mega menu, and the cart panel."
+        "value": "0 40px 60px -30px rgba(0,0,0,0.6)",
+        "purpose": "The aroma mega menu, toasts, and the cart panel."
       }
     ],
     "motion": [
@@ -265,14 +265,14 @@
       "refersTo": "button-primary-on-ink",
       "description": "Sticky black header: the logo lockup (sprig + STATION PAR FUME from the official logo) on the left, uppercase navigation, a gold bag badge, and measuring ticks underneath. The text in this snippet stands in for the logo image.",
       "html": "<header class=\"ds-hd\"><a class=\"ds-logo\">Station<i>parfume</i></a><nav><a>Koleksi</a><a>Aroma</a><a>Exclusive</a></nav><a class=\"ds-bag\">Tas <span>2</span></a></header><div class=\"ds-takar\"></div>",
-      "css": ".ds-hd{display:flex;align-items:center;justify-content:space-between;gap:32px;height:78px;padding:0 32px;background:#141110;color:#efe7d8}.ds-logo{font-family:Fraunces,Georgia,serif;font-variation-settings:'SOFT' 100;font-weight:360;font-size:28px}.ds-logo i{font-weight:300;color:#e2c58e;margin-left:.14em}.ds-hd nav{display:flex;gap:30px}.ds-hd nav a,.ds-bag{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}.ds-hd nav a:hover{color:#e2c58e}.ds-bag span{display:inline-grid;place-items:center;min-width:22px;height:22px;margin-left:6px;border-radius:999px;background:#c8a15a;color:#141110;font-size:11px;letter-spacing:0}.ds-takar{height:7px;background:#141110 repeating-linear-gradient(90deg,rgba(200,161,90,.5) 0 1px,transparent 1px 12px)}"
+      "css": ".ds-hd{display:flex;align-items:center;justify-content:space-between;gap:32px;height:78px;padding:0 32px;background:#0a0a09;color:#efe7d8}.ds-logo{font-family:Fraunces,Georgia,serif;font-variation-settings:'SOFT' 100;font-weight:360;font-size:28px}.ds-logo i{font-weight:300;color:#e2c58e;margin-left:.14em}.ds-hd nav{display:flex;gap:30px}.ds-hd nav a,.ds-bag{font-family:'Plus Jakarta Sans',system-ui,sans-serif;font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}.ds-hd nav a:hover{color:#e2c58e}.ds-bag span{display:inline-grid;place-items:center;min-width:22px;height:22px;margin-left:6px;border-radius:999px;background:#c8a15a;color:#141110;font-size:11px;letter-spacing:0}.ds-takar{height:7px;background:#0a0a09 repeating-linear-gradient(90deg,rgba(200,161,90,.5) 0 1px,transparent 1px 12px)}"
     }
   ],
   "narrative": {
     "northStar": "Meja Racik Malam",
     "overview": "Station Parfume looks like a perfumer's workbench at night: a dark room, warm gold light, and the bottle and scent ingredients at the center. The black sections are the room. The gold is a lamp lighting what matters: a perfume name, a price, the next step. The cream sections are the blend receipt and the open notebook, where the buyer reads and makes choices.\n\nThe mood is calm and luxurious. There is plenty of empty space, thin lines, slow motion, and few elements on each screen. Luxury here comes from restraint and precision, not ornament. Every motif comes from the blending process: ml measuring ticks (\"garis takar\", a ruler of tick marks), numbered scents, the nota racik (blend receipt), and gold flakes. One local touch is used sparingly: the kawung batik pattern on the WhatsApp band.",
     "keyCharacteristics": [
-      "Black and cream sections alternate firmly. Gold is the only accent.",
+      "Two color modes: Gading (light: ivory, black text, aged gold) and Noir (dark: deep neutral black, bright cream, crisp gold), inside a black frame (utility bar, header, footer, hero) that stays black in both. Gold is the only accent.",
       "Fraunces with the soft axis for headings, Plus Jakarta Sans (designed in Jakarta) for text.",
       "Every corner is sharp. Lines are thin and turn gold on dark sections.",
       "Depth comes from the layers of color, not from shadows.",
@@ -287,12 +287,22 @@
       },
       {
         "name": "The Gold-on-Paper Rule",
-        "body": "Plain gold (#c8a15a) must never be used for text on cream or paper, because its contrast is only 2.0:1. Text on a light background always uses Aged Gold.",
+        "body": "Plain gold (#c8a15a) must never be used for text on cream or paper, because its contrast is only 2.0:1. Text on a light background always uses Aged Gold (the gold-accent tokens do this automatically). Thin decorative lines, such as the top rule of the aroma menu, may use plain gold.",
         "section": "colors"
       },
       {
         "name": "The Aroma Color Rule",
         "body": "The 13 aroma-family colors (pastel aura) appear only as dimmed glows inside the aroma panel and as small swatch dots. They are never used for buttons, text, or section backgrounds.",
+        "section": "colors"
+      },
+      {
+        "name": "The Black Frame Rule",
+        "body": "The utility bar, header, footer, and hero are always black (class `dark`) in both modes. Everything else follows the mode through the mode tokens; a panel hanging from the black header uses `theme-page` to follow the mode again.",
+        "section": "colors"
+      },
+      {
+        "name": "The Clean Black Rule",
+        "body": "Dark surfaces are neutral black (#0f0e0d, #0a0a09, #171513), never brown-tinted, and secondary text on black is a neutral warm grey (#aaa49a), never brown-grey. Brown blacks made the first menus look muddy. The header is Deep Ink (#0a0a09) like the utility bar, and the gold ruler ticks are never transparent (45% gold over black turns olive brown).",
         "section": "colors"
       },
       {
@@ -312,8 +322,8 @@
       }
     ],
     "dos": [
-      "Do alternate black (`.dark`) and cream sections, and let gold be the only accent.",
-      "Do use gold-dark for every gold text or line on a light background.",
+      "Do keep the black frame (utility bar, header, footer, hero) in both modes, and build everything else with the mode tokens (bg-background, bg-popover, text-muted-foreground, border-border, text-gold-accent) so it works in Gading and Noir.",
+      "Do use gold-dark for gold text on light surfaces (text-gold-accent does this in Gading).",
       "Do display the owner's product photos in a cream mat, with the \"STATION PERFUME\" text and the name banner intact.",
       "Do keep all corners at 0px, except the functional circles listed in Shapes.",
       "Do use slow, calm motion: reveals take about 1.1s with an ease-out curve, and every animation stops under `prefers-reduced-motion`."
@@ -325,7 +335,9 @@
       "Don't show another perfume brand's name, logo, or bottle anywhere in the UI.",
       "Don't use plain gold (#c8a15a) for text on cream or paper.",
       "Don't put a small uppercase label (eyebrow/kicker) above a heading. Prototype v5 had these, but the impeccable craft floor bans them: the heading carries itself.",
-      "Don't redraw the logo, set \"Station Parfume\" in another typeface as a replacement logo, or use the old spelling \"Station Perfume\"."
+      "Don't redraw the logo, set \"Station Parfume\" in another typeface as a replacement logo, or use the old spelling \"Station Perfume\".",
+      "Don't tint dark surfaces brown or use brown-grey text on black.",
+      "Don't hard-code light or dark colors in a component that should follow the mode."
     ]
   }
 }

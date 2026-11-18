@@ -47,6 +47,14 @@ export const Heading: Story = {
   },
 };
 
+export const Paragraph: Story = {
+  args: {
+    as: "p",
+    variant: "paragraph",
+    size: "2xl",
+    children: "Build faster. Design better.",
+  },
+};
 export const Sizes: Story = {
   render: () => (
     <div className="flex max-w-3xl flex-col gap-4">

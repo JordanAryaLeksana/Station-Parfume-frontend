@@ -3,8 +3,9 @@ name: Station Parfume
 description: Atelier racik parfum dari Karawang, setiap botol diracik setelah dipesan.
 colors:
   ink: "#141110"
-  ink-deep: "#0b0908"
-  ink-raised: "#1f1a16"
+  ink-deep: "#0a0a09"
+  ink-raised: "#171513"
+  night: "#0f0e0d"
   gold: "#c8a15a"
   gold-light: "#e2c58e"
   gold-dark: "#7e5c24"
@@ -12,8 +13,8 @@ colors:
   cream-deep: "#e9dfcc"
   paper: "#faf6ee"
   white: "#ffffff"
-  text-on-ink: "#efe7d8"
-  muted-on-ink: "#a99c88"
+  text-on-ink: "#f4eee3"
+  muted-on-ink: "#aaa49a"
   muted-on-paper: "#5e5448"
   danger: "#a23b2e"
   danger-on-ink: "#e58b7b"
@@ -48,6 +49,12 @@ typography:
     fontSize: "0.6875rem"
     fontWeight: 600
     lineHeight: 1.3
+    letterSpacing: "0.22em"
+  nav:
+    fontFamily: "Plus Jakarta Sans, system-ui, sans-serif"
+    fontSize: "0.71875rem"
+    fontWeight: 300
+    lineHeight: 1
     letterSpacing: "0.22em"
 rounded:
   none: "0px"
@@ -134,7 +141,7 @@ The owner did not want the arches, did not want an outright copy of another bran
 
 **Key Characteristics:**
 
-- Black and cream sections alternate firmly. Gold is the only accent.
+- Two color modes, Gading (light) and Noir (dark), inside a black frame that stays black in both. Gold is the only accent.
 - Fraunces with the soft axis for headings, Plus Jakarta Sans (designed in Jakarta) for text.
 - Every corner is sharp. Lines are thin and turn gold on dark sections.
 - Depth comes from the layers of color, not from shadows.
@@ -145,6 +152,15 @@ The owner did not want the arches, did not want an outright copy of another bran
 
 A palette of night black, lamp gold, and paper cream. Gold is rare and meaningful.
 
+### Two Modes
+
+The site has a light mode, **Gading**, and a dark mode, **Noir**. On the first visit it follows the buyer's device setting (`prefers-color-scheme`). The sun/moon toggle in the header and in the phone menu switches it, and the choice is remembered.
+
+- **Gading (light):** ivory surfaces (paper), black text, Paper Muted secondary text, and Aged Gold for numbers, italic accents, and active lines. The primary button is Night Ink.
+- **Noir (dark):** deep neutral black (Night #0f0e0d for pages, Deep Ink #0a0a09 for menus, Raised Ink #171513 for cards), bright Night Text, Night Muted secondary text, Prada Gold for numbers and lines, and Lamp Gold for italic accents. The primary button is Prada Gold.
+- **Black frame:** the utility bar, header, footer, and hero stay black in both modes (class `dark`). Menus and page content follow the mode. A panel that hangs from the black header (the aroma menu) uses `theme-page` to follow the mode again.
+- **In code:** use the mode tokens instead of fixed colors, so a component works in both modes: `bg-background`, `bg-popover`, `bg-card`, `text-foreground`, `text-muted-foreground`, `border-border`, `text-gold-accent` (numbers, labels, lines), and `text-gold-accent-soft` (italic accents, hover).
+
 ### Primary
 
 - **Prada Gold** (gold): the only accent. Use it for the primary button on dark sections, active states, measuring ticks, prices on dark backgrounds, and the WhatsApp button.
@@ -154,12 +170,13 @@ A palette of night black, lamp gold, and paper cream. Gold is rare and meaningfu
 ### Neutral
 
 - **Night Ink** (ink): the main background of dark sections, the text on light sections, and the primary button on light sections.
-- **Deep Ink** (ink-deep): the darkest layer, used for the utility bar, the Murni/Campur section, and the footer, so there is a step against Night Ink.
-- **Raised Ink** (ink-raised): surfaces that sit above black, such as the mega menu, toasts, and cards on dark sections.
+- **Night** (night): the page background in Noir.
+- **Deep Ink** (ink-deep): the darkest layer, used for the utility bar, the footer, the Murni/Campur section, and the menus in Noir.
+- **Raised Ink** (ink-raised): surfaces that sit above black in Noir, such as cards and toasts. It is a neutral dark grey, not brown.
 - **Paper Cream** (paper): the background of light pages such as the product page, checkout, and orders.
 - **Cream** (cream): reading sections on the home page, product photo mats, and selected-state backgrounds on light sections.
 - **Deep Cream** (cream-deep): secondary surfaces on light sections.
-- **Night Text** (text-on-ink) and **Night Muted** (muted-on-ink): main and secondary text on black (15.3:1 and 7.0:1).
+- **Night Text** (text-on-ink) and **Night Muted** (muted-on-ink): main and secondary text on black (16.7:1 and 8.0:1). Both are neutral, not brown-grey.
 - **Paper Muted** (muted-on-paper): secondary text on light backgrounds (6.9:1 on paper).
 - **Danger** (danger, danger-on-ink): error messages on light and dark sections. Never use red for decoration.
 
@@ -167,7 +184,11 @@ A palette of night black, lamp gold, and paper cream. Gold is rare and meaningfu
 
 **The Single Lamp Rule.** Gold is the only accent color. Gold must not fill a large area except the WhatsApp band. On any one screen it is used for at most one primary button and a few small details.
 
-**The Gold-on-Paper Rule.** Plain gold (#c8a15a) must never be used for text on cream or paper, because its contrast is only 2.0:1. Text on a light background always uses Aged Gold.
+**The Black Frame Rule.** The utility bar, header, footer, and hero are always black in both modes. Everything else follows the mode.
+
+**The Clean Black Rule.** Dark surfaces are neutral black, never brown-tinted, and secondary text on black is a neutral warm grey (#aaa49a), never brown-grey. The first menu build used a brown raised surface (#1f1a16) and brown-grey text, and the owner found it muddy ("butek"). The same happened to the header: a reddish black (#141110, hue 15°) between neutral blacks, with gold ticks at 45% that turned olive brown (#655231). Keep every black in the frame the same neutral Deep Ink, and keep gold at full strength.
+
+**The Gold-on-Paper Rule.** Plain gold (#c8a15a) must never be used for text on cream or paper, because its contrast is only 2.0:1. Text on a light background always uses Aged Gold (the gold-accent tokens do this automatically). Thin decorative lines, such as the top rule of the aroma menu, may use plain gold.
 
 **The Aroma Color Rule.** The 13 aroma-family colors (pastel aura) appear only as dimmed glows inside the aroma panel and as small swatch dots. They are never used for buttons, text, or section backgrounds.
 
@@ -186,12 +207,15 @@ A palette of night black, lamp gold, and paper cream. Gold is rare and meaningfu
 - **Title** (400, 27px, 1.1): product names on cards, the aroma family name in its list, and the nota title.
 - **Body** (400, 15px, 1.65): descriptions, forms, and nota text. Keep paragraphs to at most 70ch.
 - **Label** (600, 11px, letter spacing 0.22em, uppercase): small labels, button text, chips, and atelier numbers.
+- **Navigation** (300, 11.5px, letter spacing 0.22em, uppercase; 11px and 0.16em below 1180px so it fits): the header menu, Cari/Akun/Tas, the utility bar, and the small links in the phone menu. Light and widely spaced, so the black frame feels calm and premium rather than heavy. The owner found the first 600 weight too thick and 12.5px too large.
 
 ### Named Rules
 
 **The One Italic Rule.** At most one italic word or phrase in each heading, set in gold (gold-light on black, gold-dark on cream), for example "Wangimu, _diracik_ setelah kamu memilih." Never italicize a whole heading.
 
 **The Tabular Price Rule.** Every price and nota number uses tabular numerals, so animated price changes don't shift.
+
+**The Price Format Rule.** Prices are written the Indonesian way, with no space after "Rp", a dot between thousands and ",00" at the end: Rp35.000,00. Always format them with `formatRupiah` (`src/lib/format.ts`), never by hand.
 
 ## Layout
 
@@ -204,12 +228,12 @@ A palette of night black, lamp gold, and paper cream. Gold is rare and meaningfu
 
 ## Elevation & Depth
 
-Flat and layered. Depth comes from alternating black and cream sections, Raised Ink surfaces on top of black, and thin gold lines. At rest there are no permanent shadows. A shadow appears only as a response: a product card lifts about 6px on hover with a soft shadow, and the toast and mega menu use a diffuse shadow so they read as floating.
+Flat and layered. Depth comes from the black frame against the page, menus that sit one step deeper (Deep Ink in Noir, ivory in Gading), and thin gold lines. At rest there are no permanent shadows. A shadow appears only as a response: a product card lifts about 6px on hover with a soft shadow, and the toast and mega menu use a diffuse shadow so they read as floating.
 
 ### Shadow Vocabulary
 
 - **Hover lift** (`box-shadow: 0 30px 50px -28px rgba(0,0,0,0.6)`): product cards on hover, together with `translateY(-6px)`.
-- **Floating panel** (`box-shadow: 0 26px 50px -22px rgba(0,0,0,0.7)`): toasts, the mega menu, and the cart panel.
+- **Floating panel** (`box-shadow: 0 40px 60px -30px rgba(0,0,0,0.6)`): the aroma mega menu, toasts, and the cart panel.
 
 ### Named Rules
 
@@ -221,7 +245,7 @@ All corners are sharp (0px) on buttons, inputs, chips, cards, photos, and panels
 
 Recurring motifs:
 
-- **Measuring ticks** (garis takar): a ruler of thin gold ticks, a short tick every 12px and a long tick every 60px. It sits under the header and at the bottom edge of the hero.
+- **Measuring ticks** (garis takar): a ruler of thin gold ticks, a short tick every 12px (45% of the height) and a long tick every 60px (full height). Always full gold, never transparent: transparent gold over black turns olive brown. It sits under the header and at the bottom edge of the hero.
 - **Matted photos:** a 12px cream border around each product poster.
 - **Torn receipt edge:** a scalloped edge at the top and bottom of the nota racik.
 
@@ -263,10 +287,10 @@ The owner's official logo (`src/assets/brand/logo-original.webp`): a sprig, the 
 
 ### Navigation
 
-- **Header:** sticky and black with a slight blur. The logo lockup is on the left, uppercase navigation in the middle, and Cari/Akun/Tas on the right with a gold bag badge. A measuring-tick ruler sits under it.
+- **Header:** sticky and solid Deep Ink (#0a0a09) in both modes, the same neutral black as the utility bar, with a faint cream hairline between them. No transparency (it turns grey over a light page) and no warm or reddish black (it clashes with the gold). The logo lockup is on the left, uppercase navigation in the middle, and Cari/Akun/Tas plus the sun/moon mode toggle on the right, with a gold bag badge. A measuring-tick ruler sits under it.
 - **Utility bar:** Deep Ink, with three short messages that rotate gently.
-- **Aroma mega menu:** a Raised Ink panel with the 13 families (swatch dot, name, Indonesian name, number of scents).
-- **Mobile:** the navigation becomes a single menu button. The logo and the bag stay visible.
+- **Aroma mega menu:** follows the mode (ivory in Gading, Deep Ink in Noir) under a crisp gold top rule. Three columns: a heading with one italic word, a short line, and "Lihat semua koleksi"; the 13 families as a numbered list (01–13 in gold, the name in Fraunces, the Indonesian name in italics) read top to bottom in three columns; and an ingredient photo in a thin inset frame that changes with the highlighted family (the atelier photo for families without one). No swatch dots here.
+- **Mobile:** the navigation becomes a single menu button; the logo and the bag stay visible. The phone menu slides in from the left and follows the mode: the logo, numbered links (01–04) in large Fraunces, the aroma list in two columns (name and italic Indonesian name), then the WhatsApp button (the primary button: black in Gading, gold in Noir), small links, and the mode toggle.
 
 ### Nota Racik (signature)
 
@@ -284,8 +308,8 @@ A square bottle with a gold ball cap and a square bottle with a black cap (the o
 
 ### Do:
 
-- **Do** alternate black (`.dark`) and cream sections, and let gold be the only accent.
-- **Do** use gold-dark for every gold text or line on a light background.
+- **Do** keep the black frame (utility bar, header, footer, hero) in both modes, build everything else with the mode tokens so it works in Gading and Noir, and let gold be the only accent.
+- **Do** use gold-dark for gold text on light surfaces (`text-gold-accent` does this in Gading).
 - **Do** display the owner's product photos in a cream mat, with the "STATION PERFUME" text and the name banner intact.
 - **Do** keep all corners at 0px, except the functional circles listed in Shapes.
 - **Do** use slow, calm motion: reveals take about 1.1s with an ease-out curve, and every animation stops under `prefers-reduced-motion`.
@@ -298,4 +322,6 @@ A square bottle with a gold ball cap and a square bottle with a black cap (the o
 - **Don't** show another perfume brand's name, logo, or bottle anywhere in the UI.
 - **Don't** use plain gold (#c8a15a) for text on cream or paper.
 - **Don't** put a small uppercase label (eyebrow/kicker) above a heading. Prototype v5 had these, but the impeccable craft floor bans them: the heading carries itself.
+- **Don't** tint dark surfaces brown or use brown-grey text on black.
+- **Don't** hard-code light or dark colors in a component that should follow the mode.
 - **Don't** redraw the logo, set "Station Parfume" in another typeface as a replacement logo, or use the old spelling "Station Perfume".
