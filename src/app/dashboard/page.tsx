@@ -24,7 +24,7 @@ export default function DashboardPage() {
   }, [session]);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-8 px-6 py-16">
+    <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-6 py-16">
       <Typography as="h1" variant="heading" size="4xl">
         Dashboard
       </Typography>
@@ -66,6 +66,6 @@ export default function DashboardPage() {
           </Button>
         </section>
       )}
-    </main>
+    </div>
   );
 }

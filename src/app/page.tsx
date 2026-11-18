@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 // Starter index. Replace it when the project starts (see the new-project skill).
 export default function HomePage() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-10 px-6 py-16">
+    <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center gap-10 px-6 py-16">
       <section className="space-y-3">
         <Typography as="h1" variant="heading" size="5xl">
           Next.js Boilerplate
@@ -53,6 +53,6 @@ export default function HomePage() {
           state is in Storybook. Start it with npm run storybook.
         </Typography>
       </section>
-    </main>
+    </div>
   );
 }

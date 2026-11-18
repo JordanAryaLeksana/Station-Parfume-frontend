@@ -2,19 +2,34 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+/*
+ * Two color modes (DESIGN.md, "Two Modes"):
+ * - Light (Gading) is the default, set on :root.
+ * - Dark (Noir) applies when <html> has the `dark` class (set by the theme
+ *   script in layout.tsx).
+ * Black frame: the utility bar, header, footer and hero always carry `dark`,
+ * so they stay black in both modes.
+ * `theme-page`: inside a black frame, go back to the page's mode. Used by the
+ * aroma panel that hangs below the black header.
+ * The `dark:` variant follows the same rule.
+ */
+@custom-variant dark (&:is(.dark *):not(:where(:root:not(.dark) .theme-page, :root:not(.dark) .theme-page *)));
 
-/* Station Parfume brand palette (prototype v5: black, gold, cream). */
+/* Station Parfume brand palette: black, gold, cream. The blacks are neutral
+   (not brown) so dark surfaces look deep and clean. */
 @theme {
   --color-ink: #141110;
-  --color-ink-2: #0b0908;
-  --color-ink-3: #1f1a16;
+  --color-ink-2: #0a0a09;
+  --color-ink-3: #171513;
   --color-gold: #c8a15a;
   --color-gold-light: #e2c58e;
   --color-gold-dark: #7e5c24;
   --color-cream: #f2ebdd;
   --color-cream-2: #e9dfcc;
   --color-paper: #faf6ee;
+
+  /* The calm ease-out curve from DESIGN.md (Motion). Class: ease-atelier. */
+  --ease-atelier: cubic-bezier(0.2, 0.7, 0.1, 1);
 }
 
 @theme inline {
@@ -40,6 +55,8 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-gold-accent: var(--gold-accent);
+  --color-gold-accent-soft: var(--gold-accent-soft);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -49,47 +66,60 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-:root {
+/* Light mode (Gading): ivory surfaces, black text, aged-gold accents. */
+:root,
+:root:not(.dark) .theme-page {
+  color-scheme: light;
   --background: #faf6ee;
   --foreground: #141110;
-  --card: #ffffff;
+  --card: #fffcf6;
   --card-foreground: #141110;
-  --popover: #ffffff;
+  --popover: #faf6ee;
   --popover-foreground: #141110;
   --primary: #141110;
-  --primary-foreground: #f2ebdd;
-  --secondary: #e9dfcc;
+  --primary-foreground: #f4eee3;
+  --secondary: #ebe3d3;
   --secondary-foreground: #141110;
   --muted: #f2ebdd;
   --muted-foreground: #5e5448;
   --accent: #f2ebdd;
   --accent-foreground: #141110;
   --destructive: #a23b2e;
-  --border: rgb(20 17 16 / 0.16);
+  --border: rgb(20 17 16 / 0.12);
   --input: rgb(20 17 16 / 0.22);
   --ring: #7e5c24;
+  /* Gold for numbers, small labels and active lines (text-gold-accent), and
+     for italic accents and hover (text-gold-accent-soft). On light surfaces
+     both are aged gold, because plain gold is unreadable on cream. */
+  --gold-accent: #7e5c24;
+  --gold-accent-soft: #7e5c24;
   --radius: 0rem;
 }
 
+/* Dark mode (Noir) and the black frame: deep neutral black, bright cream
+   text, crisp gold. */
 .dark {
-  --background: #141110;
-  --foreground: #efe7d8;
-  --card: #1f1a16;
-  --card-foreground: #efe7d8;
-  --popover: #1f1a16;
-  --popover-foreground: #efe7d8;
+  color-scheme: dark;
+  --background: #0f0e0d;
+  --foreground: #f4eee3;
+  --card: #171513;
+  --card-foreground: #f4eee3;
+  --popover: #0a0a09;
+  --popover-foreground: #f4eee3;
   --primary: #c8a15a;
   --primary-foreground: #141110;
-  --secondary: #1f1a16;
-  --secondary-foreground: #efe7d8;
-  --muted: #1f1a16;
-  --muted-foreground: #a99c88;
-  --accent: #2a231d;
-  --accent-foreground: #efe7d8;
+  --secondary: #171513;
+  --secondary-foreground: #f4eee3;
+  --muted: #171513;
+  --muted-foreground: #aaa49a;
+  --accent: #1f1d1a;
+  --accent-foreground: #f4eee3;
   --destructive: #e58b7b;
-  --border: rgb(200 161 90 / 0.24);
-  --input: rgb(239 231 216 / 0.18);
+  --border: rgb(244 238 227 / 0.12);
+  --input: rgb(244 238 227 / 0.2);
   --ring: #c8a15a;
+  --gold-accent: #c8a15a;
+  --gold-accent-soft: #e2c58e;
 }
 
 @layer base {
@@ -102,8 +132,10 @@
   html {
     @apply font-sans;
   }
-  /* A section marked `.dark` gets its black background and light text automatically. */
-  .dark {
+  /* A block marked `.dark` (or `.theme-page`) gets its mode's background and
+     text color automatically. */
+  .dark,
+  .theme-page {
     @apply bg-background text-foreground;
   }
   /* Fraunces headings: the soft axis (SOFT) and slightly tighter letter spacing, as in v5. */
@@ -120,26 +152,27 @@
 }
 
 /*
- * The ml measuring ruler motif: a short tick every 12px and a long tick every
- * 60px. Use it on an empty element as a horizontal divider, e.g.
- * <div className="takar" />.
+ * The ml measuring ruler motif: a long tick every 60px (full height) and a
+ * short tick every 12px (45% of the height). Use it on an empty element as a
+ * horizontal divider and set its height, e.g. <div className="takar h-2" />.
+ * The ticks are full gold on purpose: transparent gold over black turns into
+ * a muddy olive brown (DESIGN.md, The Clean Black Rule).
  */
 @utility takar {
   height: 12px;
-  opacity: 0.55;
   background:
     repeating-linear-gradient(
         90deg,
         var(--color-gold) 0 1px,
         transparent 1px 60px
       )
-      left bottom / 100% 12px no-repeat,
+      left bottom / 100% 100% no-repeat,
     repeating-linear-gradient(
         90deg,
         var(--color-gold) 0 1px,
         transparent 1px 12px
       )
-      left bottom / 100% 6px no-repeat;
+      left bottom / 100% 45% no-repeat;
 }
 
 /* Faint kawung batik pattern, for the gold WhatsApp band. */

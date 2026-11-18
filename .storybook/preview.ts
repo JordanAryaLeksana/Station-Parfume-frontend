@@ -15,6 +15,33 @@ const preview: Preview = {
   // Every component with stories gets a generated Docs page.
   tags: ["autodocs"],
 
+  // "Mode" button in the toolbar: light (Gading) or dark (Noir). It sets the
+  // `dark` class on <html>, like the theme script does in the real app.
+  globalTypes: {
+    theme: {
+      description: "Color mode",
+      toolbar: {
+        title: "Mode",
+        icon: "mirror",
+        items: [
+          { value: "light", title: "Terang (Gading)", icon: "sun" },
+          { value: "dark", title: "Gelap (Noir)", icon: "moon" },
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
+  initialGlobals: { theme: "light" },
+  decorators: [
+    (Story, context) => {
+      document.documentElement.classList.toggle(
+        "dark",
+        context.globals.theme === "dark",
+      );
+      return Story();
+    },
+  ],
+
   parameters: {
     layout: "centered",
     nextjs: { appDirectory: true },

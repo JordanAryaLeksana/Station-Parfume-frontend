@@ -14,9 +14,9 @@ const meta = {
     },
     tone: {
       control: "inline-radio",
-      options: ["dark", "light"],
+      options: ["dark", "light", "auto"],
       description:
-        "`dark` on black (cream lines, gold brush), `light` on cream or paper (original black and pink).",
+        "`dark` on black (cream lines, gold brush), `light` on cream or paper (original black and pink), `auto` follows the color mode (switch Mode in the toolbar).",
     },
     eager: {
       control: "boolean",
@@ -72,4 +72,16 @@ export const BadgeOnDark: Story = {
 export const BadgeOnLight: Story = {
   args: { variant: "badge", tone: "light" },
   decorators: onLight,
+};
+
+/** Follows the color mode: switch "Mode" in the toolbar to see it change. */
+export const LockupAuto: Story = {
+  args: { variant: "lockup", tone: "auto" },
+  decorators: [
+    (Story) => (
+      <div className="bg-background p-8">
+        <Story />
+      </div>
+    ),
+  ],
 };

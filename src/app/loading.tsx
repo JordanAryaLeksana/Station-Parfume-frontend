@@ -1,12 +1,19 @@
-import Typography from "@/components/shared/typography";
-
-// Shown while a page is still loading on the server.
+// Shown while a page is still loading on the server. A short gold ruler that
+// breathes slowly (and stays still when reduced motion is on), plus a status
+// for screen readers.
 export default function Loading() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-16">
-      <Typography role="status" className="text-muted-foreground">
-        Loading...
-      </Typography>
-    </main>
+    <div
+      role="status"
+      className="flex w-full flex-1 flex-col items-center justify-center gap-4 px-5 py-24"
+    >
+      <div
+        aria-hidden
+        className="takar h-2 w-40 animate-pulse motion-reduce:animate-none"
+      />
+      <p className="text-xs tracking-[0.16em] text-muted-foreground uppercase">
+        Memuat…
+      </p>
+    </div>
   );
 }
