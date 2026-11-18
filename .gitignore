@@ -78,3 +78,5 @@ next-env.d.ts
 # never be committed. The site uses the cut images in public/products
 # (scripts/product-photos/make.py).
 /src/assets/gambar-parfum/
+
+/public
