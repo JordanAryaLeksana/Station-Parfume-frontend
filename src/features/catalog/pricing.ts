@@ -13,10 +13,8 @@ export type PriceBreakdown = {
   bottlePrice: number; // the empty bottle of the chosen size
 };
 
-
 const DEFAULT_VOLUME_ML = 30;
 const DEFAULT_CONCENTRATION: Concentration = "campur";
-
 
 export function findVariant(
   product: ProductDetail,
