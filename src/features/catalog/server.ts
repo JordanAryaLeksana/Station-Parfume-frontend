@@ -1,28 +1,22 @@
 import axios from "axios";
 import { cacheLife, cacheTag } from "next/cache";
 
-import { getProductDetail, getProducts } from "./api";
-import type { CatalogFilters } from "./filters";
+import { getProductDetail, getProducts, type ProductQuery } from "./api";
 import type { ProductCard, ProductDetail } from "./types";
 
-// Catalog loaders for server pages (/koleksi, /produk/[slug], the home page).
-// Real slugs are lowercase words joined by single dashes, e.g. "exclusive-3".
 const SLUG_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const MAX_SLUG_LENGTH = 100;
 
 export async function listProducts(
-  filters: CatalogFilters = {},
+  query: ProductQuery = {},
 ): Promise<ProductCard[]> {
   "use cache";
   cacheLife("minutes");
   cacheTag("catalog");
 
-  return getProducts(filters);
+  return getProducts(query);
 }
 
-// Returns null when the product doesn't exist, so the page can call
-// notFound(). Any other failure (500, timeout, backend down) is thrown on to
-// error.tsx.
 export async function findProduct(slug: string): Promise<ProductDetail | null> {
   "use cache";
   cacheLife("minutes");

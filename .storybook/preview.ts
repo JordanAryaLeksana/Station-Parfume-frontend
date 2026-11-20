@@ -58,6 +58,7 @@ const preview: Preview = {
             "Authentication",
           ],
           "Components",
+          "Catalog",
         ],
       },
     },
