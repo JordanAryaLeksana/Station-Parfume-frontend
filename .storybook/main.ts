@@ -11,6 +11,8 @@ const config: StorybookConfig = {
     "../src/**/*.stories.tsx",
   ],
   addons: ["@storybook/addon-docs"],
+  // Serve public/ like Next does, so /products/*.jpg loads in stories.
+  staticDirs: ["../public"],
   framework: "@storybook/nextjs-vite",
 
   // Storybook reports anonymous usage data to its maintainers by default.

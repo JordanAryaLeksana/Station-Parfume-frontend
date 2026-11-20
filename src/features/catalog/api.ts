@@ -3,42 +3,54 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/lib/axios";
 import type { QueryConfig } from "@/lib/query-client";
 
-import type { CatalogFilters } from "./filters";
+import type { AromaNote } from "./aroma";
 import type {
   CategoryWithCount,
   Envelope,
+  Grade,
   ProductCard,
   ProductDetail,
+  ProductKind,
 } from "./types";
+
+// The filters GET /products understands: one value each (api/openapi.yaml).
+// /koleksi only sends `q` and applies its own multi-choice filters
+// (facets.ts); a single-value query still suits lists like "more floral".
+export type ProductQuery = {
+  note?: AromaNote;
+  grade?: Grade;
+  kind?: ProductKind;
+  q?: string;
+};
 
 // Get Products
 export async function getProducts(
-  filters: CatalogFilters = {},
+  query: ProductQuery = {},
 ): Promise<ProductCard[]> {
-  // axios builds the query string and skips undefined filters:
+  // axios builds the query string and skips undefined values:
   // { note: "floral", grade: undefined } → /products?note=floral
   const { data } = await apiClient.get<Envelope<ProductCard[]>>("/products", {
-    params: filters,
+    params: query,
   });
 
   return data.data;
 }
 
-export function getProductsQueryOptions(filters: CatalogFilters = {}) {
+export function getProductsQueryOptions(query: ProductQuery = {}) {
   return queryOptions({
-    queryKey: ["catalog", "products", filters],
-    queryFn: () => getProducts(filters),
+    queryKey: ["catalog", "products", query],
+    queryFn: () => getProducts(query),
   });
 }
 
 type UseProductsOptions = {
-  filters?: CatalogFilters;
+  query?: ProductQuery;
   queryConfig?: QueryConfig<typeof getProductsQueryOptions>;
 };
 
-export function useProducts({ filters, queryConfig }: UseProductsOptions = {}) {
+export function useProducts({ query, queryConfig }: UseProductsOptions = {}) {
   return useQuery({
-    ...getProductsQueryOptions(filters),
+    ...getProductsQueryOptions(query),
     ...queryConfig,
   });
 }

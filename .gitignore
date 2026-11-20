@@ -79,4 +79,4 @@ next-env.d.ts
 # (scripts/product-photos/make.py).
 /src/assets/gambar-parfum/
 
-/public
+/public/products

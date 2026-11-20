@@ -106,7 +106,7 @@ components:
   product-card-mat:
     backgroundColor: "{colors.cream}"
     rounded: "{rounded.none}"
-    padding: "12px"
+    padding: "12px 12px 32px"
   nota-racik:
     backgroundColor: "{colors.white}"
     textColor: "{colors.ink}"
@@ -221,7 +221,11 @@ The site has a light mode, **Gading**, and a dark mode, **Noir**. On the first v
 
 - **Container:** maximum 1320px, with a 40px gutter (20px below 980px).
 - **Section spacing:** 130px vertically (86px on mobile).
-- **Product grid:** 4 columns on desktop, 3 at ≤1180px, 2 on mobile, with a 24px gap.
+- **Product grid:** 4 columns on desktop, 3 at ≤1180px, 2 on mobile, with a 24px gap. Next to the filter sidebar on /koleksi there is room for one column less: 3 columns from 1180px and 2 below, so the cards stay about 290px wide.
+- **Catalog page (/koleksi):**
+  - From 980px, the filter sidebar (14–15.5rem) sits on the left of the products. It is sticky 112px from the top, just under the sticky header (87px), and scrolls on its own when taller than the screen.
+  - Above the products is one row with the search box and the result count. The active-filter chips sit under it.
+  - Below 980px the sidebar is hidden, and a "Filter" button opens the same panel instead (see Catalog Filters).
 - **Product page:** two columns, 7 to 5 (gallery and buy panel). The gallery is sticky on desktop and stacks on mobile.
 - **Section headers:** the heading on the left and a short description or filters on the right, aligned to the bottom edge.
 - **Breakpoints:** 980px (mobile layout) and 1180px (compact navigation).
@@ -246,7 +250,7 @@ All corners are sharp (0px) on buttons, inputs, chips, cards, photos, and panels
 Recurring motifs:
 
 - **Measuring ticks** (garis takar): a ruler of thin gold ticks, a short tick every 12px (45% of the height) and a long tick every 60px (full height). Always full gold, never transparent: transparent gold over black turns olive brown. It sits under the header and at the bottom edge of the hero.
-- **Matted photos:** a 12px cream border around each product poster.
+- **Matted photos:** a 12px mat around each product photo, 32px at the bottom, where the atelier number sits like the edition number under a print.
 - **Torn receipt edge:** a scalloped edge at the top and bottom of the nota racik.
 
 ## Components
@@ -261,11 +265,56 @@ Recurring motifs:
 ### Chips
 
 - **Style:** a thin outline, 40px tall, uppercase label text.
-- **State:** selected chips use a solid fill (Night Ink on light, gold on dark). Used for catalog filters and variant choices.
+- **State:** selected chips use a solid fill (Night Ink on light, gold on dark). Used for variant choices on the product page.
+- **Active-filter chip** (/koleksi): 36px tall, a thin outline on the card surface, the label in uppercase label text and an × icon. A search chip keeps the buyer's own words in normal case: “bunga” ×.
+
+### Catalog Filters
+
+The filters on /koleksi (`src/features/catalog/components/`), shaped after the shop sidebars buyers know (e.g. rumahparfum.com) without their clutter.
+
+- **Groups:**
+  - **Abjad:** 26 letter boxes in 7 columns.
+  - **Aroma:** 13 rows, each with its swatch dot, the English name and the Indonesian name in italic.
+  - **Grade**, **Jenis** (Parfum / Mobil & souvenir), and **Ketersediaan** ("Hanya yang tersedia").
+
+  Each group is a `<fieldset>` with a `<legend>` in label style, under a thin rule. Price and size are not filters: every perfume comes in 20/30/50 ml, and every Regular perfume starts at the same price.
+
+- **Choices:**
+  - Each choice is a sharp square checkbox: a thin line on the card surface, filled with Night Ink in Gading and gold in Noir when checked, with a check mark.
+  - The count sits on the right in tabular numerals. It shows how many products that choice would show, with the other groups applied.
+  - A choice with 0 is faded and disabled, unless it is checked.
+  - Rows are 36px on desktop and 44px on phones.
+  - Letter boxes show their count as a tooltip and to screen readers.
+- **Applying:**
+  - A change applies at once, without an "apply" button. Every filter lives in the URL (`?letter=b&note=floral…`), so a result can be shared and Back undoes it.
+  - Inside a group any choice may match; every group must match.
+- **A–Z:** a name is filed under its first letter, skipping digits and symbols, so "1000 Bunga" goes under B.
+- **Search:** the box searches while typing, 300ms after the last key, without adding a history entry for every letter. Enter also works. The search keeps the other filters.
+- **Phone panel:**
+  - Below 980px a "Filter" button (with the number of active filters) opens the same panel from the right; the site menu opens from the left.
+  - The choices scroll under a fixed header ("Filter", ×) and a fixed footer: "Hapus semua" (keeps the search) and the primary "Lihat N produk", which closes the panel.
+  - The panel stays open while filters change.
+- **Empty result:** "Belum ada wangi yang _cocok_." The way out depends on the cause:
+  - search plus filters: "Cari “…” tanpa filter"
+  - filters only: "Hapus semua filter"
+  - search only: "Lihat semua koleksi"
+
+  "Tanya peracik" (WhatsApp) is always there too.
 
 ### Cards / Containers
 
-- **Product card:** the owner's poster in a cream mat (white with a thin line on light sections). Below it: the atelier number in label style, the name in title style, the aroma family, and "Mulai Rp…". On hover the photo switches to a close-up of the bottles, and an "add to bag" button appears.
+- **Product card** (`src/features/catalog/components/product-card.tsx`):
+  - **Mat:** the square photo sits in a mat, white with a thin line in Gading and cream in Noir. The mat is light in both modes, so text on it uses fixed dark colors (Aged Gold, Night Ink).
+  - **Atelier number:** "No. 158" in Aged Gold sits on the mat's wider bottom margin, not above the name (a label above a heading is an eyebrow, which is banned).
+  - **Below the mat:**
+    - the name in title style (19px on phones, 27px from 980px)
+    - for Exclusive products, the scent list in italic, because all four share the name "Exclusive"
+    - the aroma families and "· N varian" when the photo holds more than one scent
+    - "Mulai" with the lowest price, or just the price when there is one
+    - "Stok habis" in label style when nothing can be bought
+  - **No photo yet:** the photo is replaced by a cream tile with the category name in italic over a measuring-tick ruler.
+  - **Hover and keyboard focus:** the photo cross-fades to the close-up of the bottles, the mat lifts, and the name turns gold. Keyboard focus also draws a ring around the whole card.
+  - **No add-to-bag button:** a perfume needs its scent, size, and blend chosen first, so the whole card links to the product page.
 - **Shadow strategy:** see Elevation & Depth.
 - **Border:** thin lines only. Never a thick colored border on one side.
 
@@ -310,7 +359,7 @@ A square bottle with a gold ball cap and a square bottle with a black cap (the o
 
 - **Do** keep the black frame (utility bar, header, footer, hero) in both modes, build everything else with the mode tokens so it works in Gading and Noir, and let gold be the only accent.
 - **Do** use gold-dark for gold text on light surfaces (`text-gold-accent` does this in Gading).
-- **Do** display the owner's product photos in a cream mat, with the "STATION PERFUME" text and the name banner intact.
+- **Do** display the owner's product photos matted, as the square crops in `public/products` (made by `scripts/product-photos/make.py`). They keep the "STATION PERFUME" title and the bottles and stop above the name banner, which can carry another brand's text; the product name is set in the site's own type below the photo.
 - **Do** keep all corners at 0px, except the functional circles listed in Shapes.
 - **Do** use slow, calm motion: reveals take about 1.1s with an ease-out curve, and every animation stops under `prefers-reduced-motion`.
 
