@@ -1,12 +1,6 @@
 import { AROMAS, type AromaNote } from "./aroma";
 import type { Grade, ProductKind } from "./types";
 
-// The /koleksi filters, read from and written to the URL:
-// ?letter=b&note=floral&note=woody&grade=exclusive&kind=perfume&stock=1&q=…
-// A group can hold several choices (a checkbox form repeats the name), and
-// every value is checked, so whatever someone types in the URL is safe.
-
-// The A–Z filter: a product's first letter (firstLetter in facets.ts).
 export const LETTERS = [
   "a",
   "b",

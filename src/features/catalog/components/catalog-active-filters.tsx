@@ -12,7 +12,6 @@ import {
 
 type Chip = { key: string; label: string; href: string; quoted?: boolean };
 
-
 export default function CatalogActiveFilters({
   filters,
 }: {
