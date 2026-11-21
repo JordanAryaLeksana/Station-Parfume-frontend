@@ -20,16 +20,6 @@ import {
   type Letter,
 } from "@/features/catalog/filters";
 
-// The /koleksi filters as checkbox groups, like the sidebar of most shops.
-//
-// It is a plain GET form: the checked boxes become the URL
-// (?note=floral&note=woody&grade=exclusive…), so it works without
-// JavaScript too (a "Terapkan" button shows then). With JavaScript, every
-// change submits at once; next/form turns that into a client-side navigation
-// and the page sends back the new list and counts.
-//
-// The number after each choice is how many products it would show
-// (facetCounts in facets.ts). A choice with 0 that isn't checked is disabled.
 export default function CatalogFilterPanel({
   filters,
   counts,
