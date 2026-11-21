@@ -1,0 +1,191 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+
+import { aromasOf } from "@/features/catalog/aroma";
+import { KIND_LABELS } from "@/features/catalog/filters";
+import { getProductPhotos } from "@/features/catalog/product-photos";
+import { findProduct } from "@/features/catalog/server";
+import type { ProductDetail } from "@/features/catalog/types";
+import { formatRupiah } from "@/lib/format";
+
+// The photo column: 7 of 12 inside the 1320px container (DESIGN.md, Layout).
+const PHOTO_SIZES = "(min-width: 1320px) 660px, (min-width: 980px) 55vw, 100vw";
+
+const CRUMB_LINK =
+  "underline-offset-4 transition-colors hover:text-foreground hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+
+// The product at this address, or the 404 page. A product only lives at its
+// own slug: the backend also finds it by its numeric id (/produk/162), which
+// would give one product two addresses.
+async function loadProduct(
+  params: PageProps<"/produk/[slug]">["params"],
+): Promise<ProductDetail> {
+  const { slug } = await params;
+  const product = await findProduct(slug);
+  if (!product || product.slug !== slug) notFound();
+  return product;
+}
+
+// Bacarat and Bacarat Exclusive share a name; the tab title tells them apart.
+function fullName(product: ProductDetail): string {
+  return product.grade === "exclusive"
+    ? `${product.name} Exclusive`
+    : product.name;
+}
+
+// [20, 30, 50] → "20, 30, atau 50"
+function orList(items: readonly (string | number)[]): string {
+  if (items.length <= 2) return items.join(" atau ");
+  return `${items.slice(0, -1).join(", ")}, atau ${items.at(-1)}`;
+}
+
+export async function generateMetadata({
+  params,
+}: PageProps<"/produk/[slug]">): Promise<Metadata> {
+  const product = await loadProduct(params);
+  const price = `${product.price_min !== product.price_max ? "mulai " : ""}${formatRupiah(product.price_min)}`;
+
+  if (product.kind === "general") {
+    return { title: product.name, description: `${product.name}, ${price}.` };
+  }
+
+  const aromas = aromasOf(product).map((aroma) => aroma.label);
+  const sizes = product.size_options.map((size) => size.volume_ml);
+  return {
+    title: fullName(product),
+    description: [
+      `${fullName(product)}: `,
+      aromas.length > 0 ? `wangi ${aromas.join(" dan ")}, ` : "",
+      "diracik per ml setelah kamu memesan. ",
+      sizes.length > 0 ? `Ukuran ${orList(sizes)} ml, ` : "",
+      `${price}.`,
+    ].join(""),
+  };
+}
+
+// The product page (step C1): where the buyer will choose the size and the
+// blend. For now it has the breadcrumb, the photo, the name and the starting
+// price; the gallery, the choices and the nota racik come in the next steps.
+export default async function ProductPage({
+  params,
+}: PageProps<"/produk/[slug]">) {
+  const product = await loadProduct(params);
+  const aromas = aromasOf(product);
+  const mainAroma = aromas.at(0);
+  const photos = getProductPhotos(product.slug);
+  const isExclusive = product.grade === "exclusive";
+
+  return (
+    <div className="mx-auto w-full max-w-330 px-5 pt-8 pb-24 min-[980px]:px-10 min-[980px]:pt-12 min-[980px]:pb-32">
+      <nav aria-label="Breadcrumb">
+        <ol className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13px] text-muted-foreground">
+          <li>
+            <Link href="/koleksi" className={CRUMB_LINK}>
+              Koleksi
+            </Link>
+          </li>
+          {/* The aroma family for a perfume, the kind for the rest. */}
+          <li className="flex items-center gap-x-2.5">
+            <span aria-hidden>/</span>
+            {mainAroma ? (
+              <Link
+                href={`/koleksi?note=${mainAroma.note}`}
+                className={CRUMB_LINK}
+              >
+                {mainAroma.label}
+              </Link>
+            ) : (
+              <Link href="/koleksi?kind=general" className={CRUMB_LINK}>
+                {KIND_LABELS.general}
+              </Link>
+            )}
+          </li>
+          <li className="flex min-w-0 items-center gap-x-2.5">
+            <span aria-hidden>/</span>
+            <span aria-current="page" className="truncate text-foreground">
+              {product.name}
+            </span>
+          </li>
+        </ol>
+      </nav>
+
+      {/* Two columns from 980px, 7 to 5: the photo (sticky) and the buy
+          panel. Keep these classes in step with loading.tsx. */}
+      <div className="mt-8 min-[980px]:mt-10 min-[980px]:grid min-[980px]:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] min-[980px]:items-start min-[980px]:gap-12 min-[1180px]:gap-16">
+        {/* The full gallery comes in step C2; for now the card photo, matted
+            like on the card. */}
+        <div className="min-[980px]:sticky min-[980px]:top-28">
+          <div className="bg-white p-3 pb-8 ring-1 ring-border min-[980px]:p-4 min-[980px]:pb-10 dark:bg-cream dark:ring-0">
+            <div className="relative aspect-square overflow-hidden bg-cream-2">
+              {photos ? (
+                <Image
+                  src={photos.card}
+                  alt={`Foto ${product.name}`}
+                  fill
+                  sizes={PHOTO_SIZES}
+                  loading="eager"
+                  className="object-cover"
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center px-6 pb-8 text-center">
+                  <p className="font-primary text-2xl leading-snug font-light text-balance text-ink italic min-[980px]:text-4xl">
+                    {product.category?.name ?? product.name}
+                  </p>
+                  <span
+                    aria-hidden
+                    className="absolute inset-x-4 bottom-4 takar h-2"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-10 min-[980px]:mt-0">
+          <h1 className="font-primary text-[clamp(2.375rem,4.3vw,4rem)] leading-[1.02] text-balance wrap-break-word">
+            {product.name}
+          </h1>
+
+          {/* Under the name, never above it: a label above a heading is an
+              eyebrow, which DESIGN.md bans. */}
+          <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
+            {isExclusive && (
+              <span className="inline-flex items-center gap-2 font-primary text-[15px] italic">
+                <span
+                  aria-hidden
+                  className="size-1.5 rotate-45 bg-gold-accent"
+                />
+                Exclusive
+              </span>
+            )}
+            <span className="text-[11px] font-semibold tracking-[0.22em] text-gold-accent tabular-nums">
+              No. {product.id}
+            </span>
+            {aromas.length > 0 && (
+              <span className="text-[11px] font-semibold tracking-[0.22em] text-muted-foreground uppercase">
+                {aromas.map((aroma) => aroma.label).join(" · ")}
+              </span>
+            )}
+          </div>
+
+          {/* Until the choices arrive (step C3): the lowest price. */}
+          <p className="mt-8 flex flex-wrap items-baseline gap-x-2.5 gap-y-1 tabular-nums">
+            {product.price_min !== product.price_max && (
+              <span className="text-[15px] text-muted-foreground">Mulai</span>
+            )}
+            <span className="text-[1.75rem] font-semibold text-gold-accent">
+              {formatRupiah(product.price_min)}
+            </span>
+            {!product.in_stock && (
+              <span className="text-[11px] font-semibold tracking-[0.18em] uppercase">
+                Stok habis
+              </span>
+            )}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
