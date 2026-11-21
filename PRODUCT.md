@@ -55,9 +55,9 @@ Success means:
 
 **Catalog**
 
-- 53 active perfume products and 84 scents (variants).
+- 84 active perfumes, one product each (since 20 Nov 2026; before, a product was one photo with 2–4 scents).
 - 13 aroma families (`note`): amber, aromatic, balsamic, citrus, creamy, floral, fresh, fruity, musk, oud, powdery, sweet, woody.
-- Two grades: regular and exclusive.
+- Two grades, set per perfume: 73 regular and 11 exclusive. Bacarat and Avril Lavigne exist in both grades, as two different perfumes.
 - General (non-perfume) products: car perfume, souvenirs, spray bottles.
 
 **Variants and pricing**

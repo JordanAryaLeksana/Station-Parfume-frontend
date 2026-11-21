@@ -1,8 +1,4 @@
 import { ProductGridSkeleton } from "@/features/catalog/components/product-grid";
-
-// Stands in for page.tsx while the products load, in the same layout: the
-// sidebar from 980px, the search row, then the grid. Keep the grid classes
-// in step with page.tsx, so nothing jumps when the products arrive.
 export default function KoleksiLoading() {
   return (
     <div className="mt-12 min-[980px]:grid min-[980px]:grid-cols-[14rem_minmax(0,1fr)] min-[980px]:gap-10 min-[1180px]:grid-cols-[15.5rem_minmax(0,1fr)] min-[1180px]:gap-14">

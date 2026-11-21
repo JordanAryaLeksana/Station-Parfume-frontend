@@ -46,11 +46,11 @@ export default function ProductCard({
       (note): note is AromaNote => note !== undefined && isAromaNote(note),
     )
     .map((note) => getAroma(note).label);
-  // The four Exclusive products are told apart by their scent list, so they
-  // show the list instead of a count.
+  // Since 20 Nov 2026 each perfume is its own product, so the count only
+  // shows if a product is ever given more than one scent again.
   const details = [
     ...aromas,
-    !isExclusive && scents.length > 1 ? `${scents.length} varian` : null,
+    scents.length > 1 ? `${scents.length} varian` : null,
   ]
     .filter(Boolean)
     .join(" · ");
@@ -61,8 +61,7 @@ export default function ProductCard({
     <article className="group relative has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-8 has-[a:focus-visible]:outline-ring">
       {/* The mat, like a framed print: white with a thin line in Gading,
           cream in Noir. It is light in both modes, so the text on it uses
-          fixed dark colors. The wider bottom margin carries the atelier
-          number, like the edition number under a print. */}
+          fixed dark colors. */}
       <div
         className={cn(
           "bg-white p-3 pb-0 ring-1 ring-border dark:bg-cream dark:ring-0",
@@ -105,9 +104,26 @@ export default function ProductCard({
             </div>
           )}
         </div>
-        <p className="flex h-8 items-center justify-end text-[10.5px] font-semibold tracking-[0.2em] text-gold-dark tabular-nums">
-          No. {product.id}
-        </p>
+        {/* The wider bottom margin, like the edition line under a print:
+            "Exclusive" written in italic on the left for that line, the
+            atelier number on the right. Screen readers get "Exclusive" from
+            the name link instead, so it is hidden here. The gold diamond only
+            shows when the row has room for it (a container query): on a
+            360px phone the label and the number alone just fit. */}
+        <div className="@container flex min-h-8 flex-wrap items-center justify-between gap-x-2">
+          {isExclusive && (
+            <span
+              aria-hidden
+              className="inline-flex items-center gap-1.5 font-primary text-[13px] leading-none text-ink italic"
+            >
+              <span className="hidden size-1.25 rotate-45 bg-gold-dark @min-[136px]:block" />
+              Exclusive
+            </span>
+          )}
+          <span className="ml-auto text-[10.5px] font-semibold tracking-[0.2em] text-gold-dark tabular-nums">
+            No. {product.id}
+          </span>
+        </div>
       </div>
 
       <div className="mt-4">
@@ -119,14 +135,11 @@ export default function ProductCard({
             className="outline-none after:absolute after:inset-0"
           >
             {product.name}
+            {/* Bacarat and Bacarat Exclusive share a name: the link tells
+                them apart for screen readers. */}
+            {isExclusive && <span className="sr-only">, Exclusive</span>}
           </Link>
         </Heading>
-
-        {isExclusive && scents.length > 0 && (
-          <p className="mt-1 font-primary text-[0.9375rem] leading-snug font-light text-muted-foreground italic">
-            {scents.join(", ")}
-          </p>
-        )}
 
         {details && (
           <p className="mt-1.5 text-[13px] leading-snug text-muted-foreground">

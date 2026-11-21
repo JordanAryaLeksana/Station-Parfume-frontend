@@ -55,9 +55,6 @@ export default async function KoleksiPage({
 
       <section aria-label="Daftar produk">
         <div className="mb-8 flex flex-col gap-4">
-          {/* Toolbar: the search box, then the phone's "Filter" button and
-              the number of results. Stacked on phones, one row from 980px
-              (where the button hides: the sidebar is there). */}
           <div className="flex flex-col gap-4 min-[980px]:flex-row min-[980px]:items-center min-[980px]:justify-between">
             <CatalogSearch filters={filters} />
             <div className="flex items-center justify-between gap-4">

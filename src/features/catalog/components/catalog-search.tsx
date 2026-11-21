@@ -70,6 +70,9 @@ export default function CatalogSearch({
         />
       </div>
 
+      {filters.letters.map((letter) => (
+        <input key={letter} type="hidden" name="letter" value={letter} />
+      ))}
       {filters.notes.map((note) => (
         <input key={note} type="hidden" name="note" value={note} />
       ))}

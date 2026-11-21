@@ -1,4 +1,6 @@
-const WITH_PHOTO = new Set([
+// The poster crops in public/products: <poster>-card.jpg and
+// <poster>-detail.jpg, named after the poster's old group slug.
+const POSTERS = new Set([
   "1000-bunga",
   "2000-bunga",
   "aigner",
@@ -54,6 +56,67 @@ const WITH_PHOTO = new Set([
   "zara",
 ]);
 
+// Since 20 Nov 2026 every perfume is its own product, but until the owner's
+// photo per perfume arrives (from the CDN, as image_url) it shows the poster
+// it used to share with its group: Kasturi Kijang and Kasturi Putih both use
+// "kasturi". Slugs that kept their poster's name (e.g. "sulthan") are not
+// listed. Made from the group_code each row had in seed/wangian.csv.
+const POSTER_OF: Partial<Record<string, string>> = {
+  "aigner-black": "aigner",
+  "aigner-blue-in-motion": "aigner",
+  "annasui-dolly-girl": "annasui",
+  "annasui-sweet-dream": "annasui",
+  aquakiss: "exclusive-1",
+  "avril-lavigne-exclusive": "exclusive-4",
+  "bacarat-exclusive": "exclusive-2",
+  "burberies-london-women": "burberies",
+  "burberies-sport": "burberies",
+  "bvlgari-aqua": "bvlgari",
+  "bvlgari-extream": "bvlgari",
+  "bvlgari-omnia-crystal": "bvlgari",
+  "c2-premiere-man": "exclusive-4",
+  "d-g-light-blue": "d-g",
+  "d-g-paris": "d-g",
+  "davidoff-cool-water-man": "davidoff",
+  "davidoff-cool-water-women": "davidoff",
+  dorsava: "exclusive-1",
+  "dunhil-blue": "exclusive-2",
+  "escada-candy": "escada",
+  "escada-cherry": "escada",
+  "escada-moonlight": "escada",
+  "escada-sexy-grafity": "escada",
+  "giorgio-armani-my-way": "giorgio",
+  "giorgio-armani-si": "giorgio",
+  greekgodnes: "exclusive-3",
+  "incanto-charming": "incanto",
+  "incanto-shine-salvador": "incanto",
+  "j-lo-c": "j-lo",
+  "j-lo-still": "j-lo",
+  "jaguar-blue": "jaguar",
+  "jaguar-vision": "jaguar",
+  "jessica-love-sarah": "jessica",
+  "jessica-parker": "jessica",
+  "kasturi-kijang": "kasturi",
+  "kasturi-putih": "kasturi",
+  "kenzo-bali": "kenzo",
+  "kenzo-power": "kenzo",
+  moonlight: "exclusive-3",
+  "mykonos-monaco-royal": "exclusive-2",
+  "opus-black": "exclusive-3",
+  "paris-hilton-heiris": "paris-hilton",
+  "paris-hilton-shireen": "paris-hilton",
+  "paris-hilton-women": "paris-hilton",
+  "scandal-secret": "exclusive-1",
+  "vanilla-coconut": "vanilla",
+  "vanilla-ice": "vanilla",
+  "vanilla-popcorn": "vanilla",
+  "victoria-romanwish": "victoria",
+  "victoria-scandalouse": "victoria",
+  "victoria-screetwish": "victoria",
+  "zara-gardenia": "zara",
+  "zara-wonde-rose": "zara",
+};
+
 export type ProductPhotos = {
   card: string;
 
@@ -61,9 +124,10 @@ export type ProductPhotos = {
 };
 
 export function getProductPhotos(slug: string): ProductPhotos | null {
-  if (!WITH_PHOTO.has(slug)) return null;
+  const poster = POSTER_OF[slug] ?? slug;
+  if (!POSTERS.has(poster)) return null;
   return {
-    card: `/products/${slug}-card.jpg`,
-    detail: `/products/${slug}-detail.jpg`,
+    card: `/products/${poster}-card.jpg`,
+    detail: `/products/${poster}-detail.jpg`,
   };
 }
