@@ -1,13 +1,16 @@
 import type { Category, ProductCard } from "@/features/catalog/types";
 
+// Real data from GET /products, taken after the catalog became one product
+// per perfume (21 Nov 2026).
+
 const perfumeCategory: Category = {
-  id: 15,
+  id: 8,
   name: "Parfum & Wewangian",
   slug: "parfum-wewangian",
   sort_order: 0,
   is_active: true,
-  created_at: "2026-11-11T17:41:56.56177+07:00",
-  updated_at: "2026-11-18T14:07:31.374598+07:00",
+  created_at: "2026-11-21T19:16:15.552335+07:00",
+  updated_at: "2026-11-21T19:16:15.552335+07:00",
 };
 
 function perfume(
@@ -28,43 +31,45 @@ function perfume(
   };
 }
 
-// Two scents in one photo.
-export const kasturi = perfume({
-  id: 158,
-  name: "Kasturi",
-  slug: "kasturi",
+// A Regular perfume. Until its own photo arrives it shows the Kasturi
+// poster, which it shares with Kasturi Putih.
+export const kasturiKijang = perfume({
+  id: 162,
+  name: "Kasturi Kijang",
+  slug: "kasturi-kijang",
   note_primary: "oud",
   note_secondary: "woody",
-  scents: ["Kasturi Kijang", "Kasturi Putih"],
+  scents: ["Kasturi Kijang"],
 });
 
-// The four Exclusive products share one name; only their scents differ.
-export const exclusive = perfume({
-  id: 186,
-  name: "Exclusive",
-  slug: "exclusive-3",
+// An Exclusive perfume. A Regular perfume has the same name (slug "bacarat"),
+// so the card's Exclusive label and link text tell them apart.
+export const bacaratExclusive = perfume({
+  id: 120,
+  name: "Bacarat",
+  slug: "bacarat-exclusive",
   grade: "exclusive",
   note_primary: "sweet",
   note_secondary: "fresh",
-  scents: ["Moonlight", "Opus Black", "Greekgodnes"],
-  price_min: 45000,
+  scents: ["Bacarat"],
+  price_min: 65000,
   price_max: 255000,
 });
 
 // A general product: no photo yet, one price, out of stock.
 export const botolSpray: ProductCard = {
-  id: 188,
+  id: 201,
   kind: "general",
   name: "Botol spray",
   slug: "botol-spray",
   category: {
-    id: 19,
+    id: 12,
     name: "Perlengkapan Rumah Lainnya",
     slug: "perlengkapan-rumah-lainnya",
     sort_order: 4,
     is_active: true,
-    created_at: "2026-11-11T17:41:56.564349+07:00",
-    updated_at: "2026-11-18T14:07:31.377542+07:00",
+    created_at: "2026-11-21T19:16:15.554052+07:00",
+    updated_at: "2026-11-21T19:16:15.554052+07:00",
   },
   price_min: 5000,
   price_max: 5000,
@@ -73,7 +78,7 @@ export const botolSpray: ProductCard = {
 
 // The longest product name in the catalog.
 export const alRehab: ProductCard = {
-  id: 199,
+  id: 212,
   kind: "general",
   name: "AL REHAB / AL TAJH / NON ALKOHOL / PARFUM ARAB",
   slug: "al-rehab-al-tajh-non-alkohol-parfum-arab",
@@ -83,11 +88,13 @@ export const alRehab: ProductCard = {
   in_stock: false,
 };
 
-// The eight "wangi untuk memulai" from the home page plan, in that order.
+// Eight perfumes for the home page's "wangi untuk memulai", from the plan.
+// Kasturi and Vanilla became Kasturi Kijang and Vanilla Ice when the groups
+// were split; the final eight are chosen with the home page.
 export const starterPerfumes: ProductCard[] = [
-  kasturi,
+  kasturiKijang,
   perfume({
-    id: 166,
+    id: 172,
     name: "Melati Keraton",
     slug: "melati-keraton",
     note_primary: "floral",
@@ -95,7 +102,7 @@ export const starterPerfumes: ProductCard[] = [
     scents: ["Melati Keraton"],
   }),
   perfume({
-    id: 179,
+    id: 191,
     name: "Sulthan",
     slug: "sulthan",
     note_primary: "oud",
@@ -103,7 +110,7 @@ export const starterPerfumes: ProductCard[] = [
     scents: ["Sulthan"],
   }),
   perfume({
-    id: 163,
+    id: 169,
     name: "Malaikat Subuh",
     slug: "malaikat-subuh",
     note_primary: "musk",
@@ -111,7 +118,7 @@ export const starterPerfumes: ProductCard[] = [
     scents: ["Malaikat Subuh"],
   }),
   perfume({
-    id: 165,
+    id: 171,
     name: "Mawar Keraton",
     slug: "mawar-keraton",
     note_primary: "floral",
@@ -119,7 +126,7 @@ export const starterPerfumes: ProductCard[] = [
     scents: ["Mawar Keraton"],
   }),
   perfume({
-    id: 173,
+    id: 184,
     name: "Sabaya",
     slug: "sabaya",
     note_primary: "sweet",
@@ -127,16 +134,16 @@ export const starterPerfumes: ProductCard[] = [
     scents: ["Sabaya"],
   }),
   perfume({
-    id: 181,
-    name: "Vanilla",
-    slug: "vanilla",
+    id: 194,
+    name: "Vanilla Ice",
+    slug: "vanilla-ice",
     note_primary: "creamy",
     note_secondary: "sweet",
-    scents: ["Coconut", "Vanilla Ice", "Popcorn"],
+    scents: ["Vanilla Ice"],
     price_max: 155000,
   }),
   perfume({
-    id: 160,
+    id: 166,
     name: "Lavender",
     slug: "lavender",
     note_primary: "floral",

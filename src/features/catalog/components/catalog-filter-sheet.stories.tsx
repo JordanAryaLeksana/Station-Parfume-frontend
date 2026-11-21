@@ -9,13 +9,13 @@ import {
 import CatalogFilterSheet from "./catalog-filter-sheet";
 import {
   alRehab,
+  bacaratExclusive,
   botolSpray,
-  exclusive,
   starterPerfumes,
 } from "./product-fixtures";
 
 // Counts from the real facetCounts over the sample products.
-const products = [...starterPerfumes, exclusive, botolSpray, alRehab];
+const products = [...starterPerfumes, bacaratExclusive, botolSpray, alRehab];
 const sheetArgs = (filters: CatalogFilters) => ({
   filters,
   counts: facetCounts(products, filters),

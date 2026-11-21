@@ -3,10 +3,9 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import ProductCard from "./product-card";
 import {
   alRehab,
+  bacaratExclusive,
   botolSpray,
-  exclusive,
-  kasturi,
-  starterPerfumes,
+  kasturiKijang,
 } from "./product-fixtures";
 
 const meta = {
@@ -42,16 +41,15 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/** Two scents in one photo. Hover the card: the photo switches to the bottle
+/** A Regular perfume. Hover the card: the photo switches to the bottle
  * close-up and the mat lifts. Tab to it for the same effect plus a focus
  * ring. */
-export const TwoScents: Story = { args: { product: kasturi } };
+export const Regular: Story = { args: { product: kasturiKijang } };
 
-/** One scent. */
-export const OneScent: Story = { args: { product: starterPerfumes[1] } };
-
-/** The four Exclusive products share one name, so the card lists the scents. */
-export const Exclusive: Story = { args: { product: exclusive } };
+/** An Exclusive perfume: "Exclusive" on the mat, across from the atelier
+ * number. A Regular perfume has the same name, so the link also says
+ * "Exclusive" to screen readers. */
+export const Exclusive: Story = { args: { product: bacaratExclusive } };
 
 /** A general product: no photo yet, one price, out of stock. */
 export const GeneralOutOfStock: Story = { args: { product: botolSpray } };
@@ -59,12 +57,13 @@ export const GeneralOutOfStock: Story = { args: { product: botolSpray } };
 /** The longest name in the catalog. */
 export const LongName: Story = { args: { product: alRehab } };
 
-/** One column of the two-column phone grid. */
+/** One column of the two-column grid on a 360px phone. "Exclusive" and the
+ * number still share one line; the gold diamond hides for lack of room. */
 export const Phone: Story = {
-  args: { product: kasturi },
+  args: { product: bacaratExclusive },
   decorators: [
     (Story) => (
-      <div className="w-41">
+      <div className="w-38">
         <Story />
       </div>
     ),

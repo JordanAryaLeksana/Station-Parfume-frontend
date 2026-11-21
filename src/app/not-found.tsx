@@ -2,8 +2,6 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
-// Shown for any address that has no page (including links to pages that come
-// in later stages). It renders inside the layout, so the header stays.
 export default function NotFound() {
   return (
     <div className="mx-auto flex w-full max-w-330 flex-1 flex-col justify-center px-5 py-24 min-[980px]:px-10">

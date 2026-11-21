@@ -250,7 +250,7 @@ All corners are sharp (0px) on buttons, inputs, chips, cards, photos, and panels
 Recurring motifs:
 
 - **Measuring ticks** (garis takar): a ruler of thin gold ticks, a short tick every 12px (45% of the height) and a long tick every 60px (full height). Always full gold, never transparent: transparent gold over black turns olive brown. It sits under the header and at the bottom edge of the hero.
-- **Matted photos:** a 12px mat around each product photo, 32px at the bottom, where the atelier number sits like the edition number under a print.
+- **Matted photos:** a 12px mat around each product photo, 32px at the bottom, where the atelier number (and the Exclusive label) sits like the edition line under a print.
 - **Torn receipt edge:** a scalloped edge at the top and bottom of the nota racik.
 
 ## Components
@@ -305,11 +305,13 @@ The filters on /koleksi (`src/features/catalog/components/`), shaped after the s
 
 - **Product card** (`src/features/catalog/components/product-card.tsx`):
   - **Mat:** the square photo sits in a mat, white with a thin line in Gading and cream in Noir. The mat is light in both modes, so text on it uses fixed dark colors (Aged Gold, Night Ink).
-  - **Atelier number:** "No. 158" in Aged Gold sits on the mat's wider bottom margin, not above the name (a label above a heading is an eyebrow, which is banned).
+  - **Mat's bottom margin** (the edition line under a print; never above the name, because a label above a heading is an eyebrow, which is banned):
+    - right: the atelier number "No. 158" in Aged Gold
+    - left, Exclusive perfumes only: "Exclusive" in italic Fraunces (13px, Night Ink), like a pencil inscription under a print. A small Aged Gold diamond sits before it when the row has room (container query, at least 136px wide), so it is hidden on a 360px phone. At 320px the number drops to a second line inside the margin.
+    - The label is `aria-hidden`. The name link carries a visually hidden ", Exclusive" instead, so twins like Bacarat and Bacarat Exclusive have different link names for screen readers.
   - **Below the mat:**
     - the name in title style (19px on phones, 27px from 980px)
-    - for Exclusive products, the scent list in italic, because all four share the name "Exclusive"
-    - the aroma families and "· N varian" when the photo holds more than one scent
+    - the aroma families, plus "· N varian" if a product ever holds more than one scent (since 20 Nov 2026 every perfume is its own product)
     - "Mulai" with the lowest price, or just the price when there is one
     - "Stok habis" in label style when nothing can be bought
   - **No photo yet:** the photo is replaced by a cream tile with the category name in italic over a measuring-tick ruler.
