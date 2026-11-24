@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { aromasOf } from "@/features/catalog/aroma";
 import ProductGallery from "@/features/catalog/components/product-gallery";
+import ProductInfo from "@/features/catalog/components/product-info";
 import ProductPurchase from "@/features/catalog/components/product-purchase";
 import { KIND_LABELS } from "@/features/catalog/filters";
 import { galleryPhotos } from "@/features/catalog/gallery";
@@ -157,6 +158,8 @@ export default async function ProductPage({
               )}
             </p>
           )}
+
+          <ProductInfo product={product} />
         </div>
       </div>
     </div>
