@@ -117,6 +117,20 @@ export function isAromaNote(value: string): value is AromaNote {
 export function getAroma(note: AromaNote) {
   return AROMAS.find((aroma) => aroma.note === note)!;
 }
+
+// The aroma families of a product, main one first. General products have
+// none (the API sends null), and an unknown note is skipped.
+export function aromasOf(product: {
+  note_primary?: string | null;
+  note_secondary?: string | null;
+}) {
+  return [product.note_primary, product.note_secondary]
+    .filter(
+      (note): note is AromaNote =>
+        typeof note === "string" && isAromaNote(note),
+    )
+    .map(getAroma);
+}
 export function aromaSwatch(aroma: Aroma): string {
   const { light, glow, deep } = aroma.colors;
   return `radial-gradient(circle at 34% 30%, ${light} 0 18%, ${glow} 52%, ${deep})`;

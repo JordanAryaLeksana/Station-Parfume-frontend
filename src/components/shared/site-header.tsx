@@ -8,6 +8,7 @@ import Logo from "@/components/shared/logo";
 import MobileMenu from "@/components/shared/mobile-menu";
 import { NAV, navLinkClass } from "@/components/shared/nav-items";
 import ThemeToggle from "@/components/shared/theme-toggle";
+import { typographyStyles } from "@/components/shared/typography";
 
 export default function SiteHeader({ className }: { className?: string }) {
   // Koleksi first, then Aroma (which has its own panel), then the rest.
@@ -122,7 +123,9 @@ function HeaderAction({
       href={href}
       aria-label={ariaLabel}
       className={cn(
-        "inline-flex h-11 min-w-11 items-center justify-center gap-2 text-[11px] font-light tracking-[0.16em] uppercase transition-colors hover:text-gold-light focus-visible:text-gold-light min-[1180px]:text-[11.5px] min-[1180px]:tracking-[0.22em]",
+        // The Navigation type role, like the menu links (navLinkClass).
+        typographyStyles.variants.nav,
+        "inline-flex h-11 min-w-11 items-center justify-center gap-2 transition-colors hover:text-gold-light focus-visible:text-gold-light",
         className,
       )}
     >

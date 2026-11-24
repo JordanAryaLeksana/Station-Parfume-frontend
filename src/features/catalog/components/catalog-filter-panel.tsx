@@ -8,6 +8,7 @@ import Form from "next/form";
 import { CheckIcon } from "lucide-react";
 import { cn } from "cn";
 
+import Typography from "@/components/shared/typography";
 import { AROMAS, aromaSwatch } from "@/features/catalog/aroma";
 import type { FacetCounts } from "@/features/catalog/facets";
 import {
@@ -20,16 +21,6 @@ import {
   type Letter,
 } from "@/features/catalog/filters";
 
-// The /koleksi filters as checkbox groups, like the sidebar of most shops.
-//
-// It is a plain GET form: the checked boxes become the URL
-// (?note=floral&note=woody&grade=exclusive…), so it works without
-// JavaScript too (a "Terapkan" button shows then). With JavaScript, every
-// change submits at once; next/form turns that into a client-side navigation
-// and the page sends back the new list and counts.
-//
-// The number after each choice is how many products it would show
-// (facetCounts in facets.ts). A choice with 0 that isn't checked is disabled.
 export default function CatalogFilterPanel({
   filters,
   counts,
@@ -69,9 +60,13 @@ export default function CatalogFilterPanel({
               style={{ background: aromaSwatch(aroma) }}
             />
             {aroma.label}
-            <span className="font-primary font-light text-muted-foreground italic">
+            <Typography
+              as="span"
+              variant="accent"
+              className="text-muted-foreground"
+            >
               {aroma.indonesian}
-            </span>
+            </Typography>
           </FilterOption>
         ))}
       </FilterGroup>
@@ -143,9 +138,13 @@ function FilterGroup({
   return (
     <fieldset className="border-t border-border pt-5">
       {/* float + full width makes the legend behave like a normal block. */}
-      <legend className="float-left mb-2 w-full text-[11px] font-semibold tracking-[0.22em] text-muted-foreground uppercase">
+      <Typography
+        as="legend"
+        variant="label"
+        className="float-left mb-2 w-full text-muted-foreground"
+      >
         {legend}
-      </legend>
+      </Typography>
       <div className={cn("clear-both flex flex-col", className)}>
         {children}
       </div>

@@ -5,6 +5,7 @@ import { cn } from "cn";
 import Logo from "@/components/shared/logo";
 import { NAV, NAV_EXTRA } from "@/components/shared/nav-items";
 import ThemeToggle from "@/components/shared/theme-toggle";
+import Typography from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -92,10 +93,20 @@ export default function MobileMenu({ className }: { className?: string }) {
           </ul>
 
           <div className="mt-7 mb-1 flex items-baseline justify-between">
-            <h2 className="font-primary text-xl font-light text-gold-accent-soft italic">
+            <Typography
+              as="h2"
+              variant="subtitle"
+              className="font-light text-gold-accent-soft italic"
+            >
               Aroma
-            </h2>
-            <span className="text-xs text-muted-foreground">13 keluarga</span>
+            </Typography>
+            <Typography
+              as="span"
+              variant="caption"
+              className="text-muted-foreground"
+            >
+              13 keluarga
+            </Typography>
           </div>
           <ul className="grid grid-cols-2 gap-x-4">
             {AROMAS.map((aroma) => (
@@ -134,7 +145,11 @@ export default function MobileMenu({ className }: { className?: string }) {
             </Button>
           )}
           <div className="mt-2 flex items-center justify-between gap-4">
-            <ul className="flex flex-wrap gap-x-5 text-[11px] font-light tracking-[0.2em] uppercase">
+            <Typography
+              as="ul"
+              variant="nav"
+              className="flex flex-wrap gap-x-5"
+            >
               {NAV_EXTRA.map((item) => (
                 <li key={item.href}>
                   <SheetClose asChild>
@@ -147,7 +162,7 @@ export default function MobileMenu({ className }: { className?: string }) {
                   </SheetClose>
                 </li>
               ))}
-            </ul>
+            </Typography>
             <ThemeToggle className="-mr-3 hover:text-gold-accent-soft" />
           </div>
         </div>

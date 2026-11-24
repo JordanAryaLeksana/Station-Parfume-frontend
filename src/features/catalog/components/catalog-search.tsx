@@ -60,8 +60,7 @@ export default function CatalogSearch({
         <Input
           id="koleksi-q"
           type="search"
-
-          name={query.trim() ? "q" : undefined}
+          name="q"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           maxLength={60}

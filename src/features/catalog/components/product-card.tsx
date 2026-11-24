@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "cn";
 
+import Typography from "@/components/shared/typography";
 import {
   getAroma,
   isAromaNote,
@@ -94,9 +95,12 @@ export default function ProductCard({
             // No photo yet (general products): the category name on cream,
             // over a measuring-tick ruler.
             <div className="absolute inset-0 flex items-center justify-center px-4 pb-6 text-center">
-              <p className="font-primary text-lg leading-snug font-light text-balance text-ink italic min-[980px]:text-2xl">
+              <Typography
+                variant="subtitle"
+                className="font-light text-balance text-ink italic"
+              >
                 {product.category?.name ?? product.name}
-              </p>
+              </Typography>
               <span
                 aria-hidden
                 className="absolute inset-x-3 bottom-3 takar h-2"
@@ -109,27 +113,40 @@ export default function ProductCard({
             atelier number on the right. Screen readers get "Exclusive" from
             the name link instead, so it is hidden here. The gold diamond only
             shows when the row has room for it (a container query): on a
-            360px phone the label and the number alone just fit. */}
+            360px phone the label and the number alone just fit. "Exclusive"
+            keeps 13px and regular weight (an exception to the accent role):
+            that is what fits next to the number on a phone, and light italic
+            this small is hard to read. */}
         <div className="@container flex min-h-8 flex-wrap items-center justify-between gap-x-2">
           {isExclusive && (
-            <span
+            <Typography
+              as="span"
+              variant="accent"
               aria-hidden
-              className="inline-flex items-center gap-1.5 font-primary text-[13px] leading-none text-ink italic"
+              className="inline-flex items-center gap-1.5 text-[13px] leading-none font-normal text-ink"
             >
               <span className="hidden size-1.25 rotate-45 bg-gold-dark @min-[136px]:block" />
               Exclusive
-            </span>
+            </Typography>
           )}
-          <span className="ml-auto text-[10.5px] font-semibold tracking-[0.2em] text-gold-dark tabular-nums">
+          <Typography
+            as="span"
+            variant="label"
+            className="ml-auto text-gold-dark tabular-nums"
+          >
             No. {product.id}
-          </span>
+          </Typography>
         </div>
       </div>
 
       <div className="mt-4">
         {/* wrap-break-word: names like "BACARAT/ALTAJH/Parfum" have no
             spaces and would otherwise run past the card. */}
-        <Heading className="font-primary text-[1.1875rem] leading-[1.15] text-balance wrap-break-word transition-colors duration-300 group-hover:text-gold-accent-soft group-has-[a:focus-visible]:text-gold-accent-soft min-[980px]:text-[1.6875rem] min-[980px]:leading-[1.1]">
+        <Typography
+          as={Heading}
+          variant="title"
+          className="text-balance wrap-break-word transition-colors duration-300 group-hover:text-gold-accent-soft group-has-[a:focus-visible]:text-gold-accent-soft"
+        >
           <Link
             href={`/produk/${product.slug}`}
             className="outline-none after:absolute after:inset-0"
@@ -139,32 +156,39 @@ export default function ProductCard({
                 them apart for screen readers. */}
             {isExclusive && <span className="sr-only">, Exclusive</span>}
           </Link>
-        </Heading>
+        </Typography>
 
         {details && (
-          <p className="mt-1.5 text-[13px] leading-snug text-muted-foreground">
+          <Typography
+            variant="caption"
+            className="mt-1.5 text-muted-foreground"
+          >
             {details}
-          </p>
+          </Typography>
         )}
 
-        <p className="mt-2 flex flex-wrap items-baseline gap-x-2 text-[13px] tabular-nums">
+        <Typography
+          variant="caption"
+          className="mt-2 flex flex-wrap items-baseline gap-x-2 tabular-nums"
+        >
           {product.price_min !== product.price_max && (
             <span className="text-muted-foreground">Mulai</span>
           )}
-          <span
-            className={cn(
-              "text-[15px] font-semibold",
-              product.in_stock ? "text-gold-accent" : "text-muted-foreground",
-            )}
+          <Typography
+            as="span"
+            variant="price"
+            className={
+              product.in_stock ? "text-gold-accent" : "text-muted-foreground"
+            }
           >
             {formatRupiah(product.price_min)}
-          </span>
+          </Typography>
           {!product.in_stock && (
-            <span className="text-[10.5px] font-semibold tracking-[0.18em] text-foreground uppercase">
+            <Typography as="span" variant="label" className="text-foreground">
               Stok habis
-            </span>
+            </Typography>
           )}
-        </p>
+        </Typography>
       </div>
     </article>
   );

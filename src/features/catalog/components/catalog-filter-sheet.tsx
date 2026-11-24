@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SlidersHorizontalIcon, XIcon } from "lucide-react";
 
+import { typographyStyles } from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -70,7 +71,9 @@ export default function CatalogFilterSheet({
         className="gap-0 p-0 data-[side=right]:w-[88%]"
       >
         <SheetHeader className="flex-row items-center justify-between border-b border-border py-2.5 pr-2 pl-5">
-          <SheetTitle className="font-primary text-2xl font-normal">
+          {/* SheetTitle (shadcn) renders the heading itself, so it takes the
+              Title role's classes instead of wrapping a Typography. */}
+          <SheetTitle className={typographyStyles.variants.title}>
             Filter
           </SheetTitle>
           <SheetDescription className="sr-only">
