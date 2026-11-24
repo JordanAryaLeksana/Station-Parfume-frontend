@@ -3,6 +3,9 @@
 import Link from "next/link";
 import React from "react";
 import { cn } from "cn";
+
+import Typography from "@/components/shared/typography";
+
 const DEFAULT_MESSAGES = [
   "Diracik setelah kamu memesan",
   "Ukuran 20, 30, atau 50 ml · mulai Rp35.000",
@@ -39,9 +42,14 @@ export default function UtilityBar({
 
   const message = messages[index % messages.length] ?? "";
   return (
-    <div
+    // The Navigation type role for the whole bar. Below 980px it stays at
+    // 10px and 0.12em (an exception): the rotating line has to fit a 360px
+    // phone in one line.
+    <Typography
+      as="div"
+      variant="nav"
       className={cn(
-        "bg-ink-2 text-[10px] font-light tracking-[0.12em] text-cream/85 uppercase min-[980px]:text-[11px] min-[980px]:tracking-[0.22em]",
+        "bg-ink-2 text-cream/85 max-[979px]:text-[10px] max-[979px]:tracking-[0.12em]",
         className,
       )}
       onMouseEnter={() => setPaused(true)}
@@ -87,6 +95,6 @@ export default function UtilityBar({
           </Link>
         </nav>
       </div>
-    </div>
+    </Typography>
   );
 }

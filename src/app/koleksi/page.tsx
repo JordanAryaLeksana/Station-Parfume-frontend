@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import Typography from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
 import CatalogActiveFilters from "@/features/catalog/components/catalog-active-filters";
 import CatalogFilterPanel from "@/features/catalog/components/catalog-filter-panel";
@@ -65,13 +66,17 @@ export default async function KoleksiPage({
               />
               {/* aria-live: screen readers announce the new count after a
                   filter change. */}
-              <p aria-live="polite" className="text-sm text-muted-foreground">
+              <Typography
+                variant="caption"
+                aria-live="polite"
+                className="text-muted-foreground"
+              >
                 <span className="font-semibold text-foreground tabular-nums">
                   {products.length}
                 </span>{" "}
                 produk
                 {filters.q && <> untuk “{filters.q}”</>}
-              </p>
+              </Typography>
             </div>
           </div>
           <CatalogActiveFilters filters={filters} />
@@ -87,15 +92,18 @@ export default async function KoleksiPage({
           />
         ) : (
           <div className="border-t border-border pt-12">
-            <p className="font-primary text-3xl leading-tight">
+            <Typography variant="title">
               Belum ada wangi yang{" "}
               <em className="font-light text-gold-accent-soft">cocok</em>.
-            </p>
-            <p className="mt-3 max-w-[46ch] text-muted-foreground">
+            </Typography>
+            <Typography
+              variant="body"
+              className="mt-3 max-w-[46ch] text-muted-foreground"
+            >
               {filterCount > 0
                 ? "Coba lepas beberapa filter di atas, atau mulai lagi dari semua koleksi."
                 : "Coba kata lain, atau lihat semua wangi di koleksi."}
-            </p>
+            </Typography>
             <div className="mt-8 flex flex-wrap gap-3">
               {searchWithoutFilters && (
                 <Button asChild size="lg" className="h-12 px-6">

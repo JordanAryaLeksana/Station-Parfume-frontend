@@ -5,6 +5,7 @@ import Link from "next/link";
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { cn } from "cn";
 
+import Typography from "@/components/shared/typography";
 import { BLEND_ORDER, BLENDS } from "@/features/catalog/blends";
 import NotaRacik from "@/features/catalog/components/nota-racik";
 import {
@@ -71,18 +72,22 @@ export default function ProductPurchase({
 
   return (
     <div className="mt-8">
-      <p
+      <Typography
+        variant="price-lg"
         aria-live="polite"
         aria-atomic
-        className="text-[2.25rem] leading-none font-semibold text-gold-accent tabular-nums"
+        className="text-gold-accent"
       >
         {variant ? formatRupiah(variant.price) : "—"}
-      </p>
+      </Typography>
       {breakdown && (
-        <p className="mt-2.5 text-[13px] text-muted-foreground tabular-nums">
+        <Typography
+          variant="caption"
+          className="mt-2.5 text-muted-foreground tabular-nums"
+        >
           {formatRupiah(breakdown.ratePerMl)} per ml × {breakdown.volumeMl} ml +
           botol {formatRupiah(breakdown.bottlePrice)}
-        </p>
+        </Typography>
       )}
 
       <fieldset className="mt-9">
@@ -106,9 +111,13 @@ export default function ProductPurchase({
                 )}
               >
                 <BottleIcon step={index} />
-                <span className="text-[13px] font-semibold tabular-nums">
+                <Typography
+                  as="span"
+                  variant="caption"
+                  className="font-semibold tabular-nums"
+                >
                   {size.label}
-                </span>
+                </Typography>
               </span>
             </label>
           ))}
@@ -139,16 +148,24 @@ export default function ProductPurchase({
                   className="peer sr-only"
                 />
                 <span className={cn(CHOICE, "flex h-full flex-col gap-1 p-4")}>
-                  <span className="font-primary text-xl leading-tight">
+                  <Typography as="span" variant="subtitle">
                     {blend.name} <em className="font-light">{blend.alias}</em>
-                  </span>
-                  <span className="text-[13px] leading-snug opacity-75">
+                  </Typography>
+                  <Typography
+                    as="span"
+                    variant="caption"
+                    className="opacity-75"
+                  >
                     {blend.description}
-                  </span>
+                  </Typography>
                   {rate != null && (
-                    <span className="mt-auto pt-2 text-[13px] font-semibold tabular-nums">
+                    <Typography
+                      as="span"
+                      variant="caption"
+                      className="mt-auto pt-2 font-semibold tabular-nums"
+                    >
                       {formatRupiah(rate)} / ml
-                    </span>
+                    </Typography>
                   )}
                 </span>
               </label>
@@ -228,9 +245,11 @@ export default function ProductPurchase({
         </a>
       )}
 
-      <ul
+      <Typography
+        as="ul"
+        variant="caption"
         role="list"
-        className="mt-8 grid gap-3 border-t border-border pt-6 text-[13px] text-muted-foreground"
+        className="mt-8 grid gap-3 border-t border-border pt-6 text-muted-foreground"
       >
         {ASSURANCES.map((item) => (
           <li key={item.text} className="flex items-center gap-3">
@@ -240,7 +259,7 @@ export default function ProductPurchase({
             {item.text}
           </li>
         ))}
-      </ul>
+      </Typography>
     </div>
   );
 }
@@ -325,13 +344,17 @@ const CHOICE =
 function OptionHeader({ label, value }: { label: string; value?: string }) {
   return (
     <div aria-hidden className="flex items-baseline justify-between gap-4">
-      <span className="text-[11px] font-semibold tracking-[0.22em] uppercase">
+      <Typography as="span" variant="label">
         {label}
-      </span>
+      </Typography>
       {value && (
-        <span className="font-primary text-lg text-gold-accent italic">
+        <Typography
+          as="span"
+          variant="subtitle"
+          className="text-gold-accent italic"
+        >
           {value}
-        </span>
+        </Typography>
       )}
     </div>
   );

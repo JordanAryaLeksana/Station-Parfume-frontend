@@ -3,6 +3,7 @@
 import React from "react";
 import { cn } from "cn";
 
+import Typography from "@/components/shared/typography";
 import { BLENDS } from "@/features/catalog/blends";
 import type { PriceBreakdown } from "@/features/catalog/pricing";
 import type { Concentration } from "@/features/catalog/types";
@@ -85,19 +86,29 @@ export default function NotaRacik({
     "flex flex-1 items-baseline gap-2 after:flex-1 after:-translate-y-1 after:border-b after:border-dotted after:border-ink/30 after:content-['']";
 
   return (
-    <section
+    <Typography
+      as="section"
+      variant="body"
       aria-label="Nota racik"
       className={cn(
-        "bg-white px-6.5 py-6 text-[13.5px] text-ink tabular-nums scalloped",
+        "bg-white px-6.5 py-6 text-ink tabular-nums scalloped",
         className,
       )}
     >
-      <h2 className="flex items-baseline justify-between gap-4 border-b border-dashed border-ink/25 pb-2.5 font-primary text-[1.375rem] font-light italic">
+      <Typography
+        as="h2"
+        variant="title"
+        className="flex items-baseline justify-between gap-4 border-b border-dashed border-ink/25 pb-2.5 font-light italic"
+      >
         Nota racik
-        <span className="font-sans text-[10px] font-semibold tracking-[0.2em] text-gold-dark not-italic">
+        <Typography
+          as="span"
+          variant="label"
+          className="text-gold-dark not-italic"
+        >
           No. {number}
-        </span>
-      </h2>
+        </Typography>
+      </Typography>
       <dl className="mt-2.5">
         {rows.map((row) => (
           <div
@@ -111,7 +122,7 @@ export default function NotaRacik({
         <div
           key={rowKey(totalRow)}
           className={cn(
-            "mt-2 flex items-baseline gap-2 border-t border-dashed border-ink/25 pt-3 text-[15px] font-bold",
+            "mt-2 flex items-baseline gap-2 border-t border-dashed border-ink/25 pt-3 font-bold",
             flash(totalRow),
           )}
         >
@@ -119,6 +130,6 @@ export default function NotaRacik({
           <dd className="text-right">{totalRow.value}</dd>
         </div>
       </dl>
-    </section>
+    </Typography>
   );
 }

@@ -202,12 +202,20 @@ The site has a light mode, **Gading**, and a dark mode, **Noir**. On the first v
 
 ### Hierarchy
 
-- **Display** (330, clamp 48–98px, 1.02): the home hero headline only.
-- **Headline** (330, clamp 38–64px, 1.02): section headings and the product name on the product page.
-- **Title** (400, 27px, 1.1): product names on cards, the aroma family name in its list, and the nota title.
-- **Body** (400, 15px, 1.65): descriptions, forms, and nota text. Keep paragraphs to at most 70ch.
-- **Label** (600, 11px, letter spacing 0.22em, uppercase): small labels, button text, chips, and atelier numbers.
-- **Navigation** (300, 11.5px, letter spacing 0.22em, uppercase; 11px and 0.16em below 1180px so it fits): the header menu, Cari/Akun/Tas, the utility bar, and the small links in the phone menu. Light and widely spaced, so the black frame feels calm and premium rather than heavy. The owner found the first 600 weight too thick and 12.5px too large.
+Each role is a `variant` of the `Typography` component (`src/components/shared/typography.tsx`), which sets the font, size, weight, line height and tracking together, for example `<Typography as="h1" variant="headline">`. Colors are passed through `className`.
+
+- **Display** (`display`; 330, clamp 48–98px, 1.02): the home hero headline only.
+- **Headline** (`headline`; 330, clamp 38–64px, 1.02): page and section headings, and the product name on the product page.
+- **Title** (`title`; 400, 27px, 1.1; 19px and 1.15 below 980px): product names on cards, smaller headings, and the nota title (in italic).
+- **Subtitle** (`subtitle`; 400, 20px, 1.25): blend names, aroma names in the menus, and small serif headings.
+- **Body** (`body`; 400, 15px, 1.65, at most 70ch): descriptions, forms, and nota text.
+- **Caption** (`caption`; 400, 13px, 1.45): breadcrumbs, product details, price breakdowns, photo captions, and other small supporting text.
+- **Label** (`label`; 600, 11px, letter spacing 0.22em, uppercase): small labels, column titles, group legends, atelier numbers, and "Stok habis". Button and chip text uses the same look through its component.
+- **Navigation** (`nav`; 300, 11.5px, letter spacing 0.22em, uppercase; 11px and 0.16em below 1180px so it fits): the header menu (`navLinkClass` builds on it), Cari/Akun/Tas, the utility bar, and the small links in the phone menu. Light and widely spaced, so the black frame feels calm and premium rather than heavy. The owner found the first 600 weight too thick and 12.5px too large.
+- **Price** (`price`; 600, 15px, tabular) and **Large price** (`price-lg`; 600, 36px, 1, tabular): prices on cards and lists, and the price on the product page.
+- **Accent** (`accent`; Fraunces 300 italic, the size of the text around it): one soft italic word inside other text, such as the Indonesian aroma name or "Exclusive".
+
+**The One Source Rule.** Every block of text in the shop (headings, paragraphs, labels, prices, captions) goes through `Typography` with one of these roles. Don't write font sizes, weights or tracking by hand. A role's size may be overridden with `className` only where a space is too tight for it, and the override is noted in a comment. Text inside buttons, chips, inputs and menu links is styled by those components.
 
 ### Named Rules
 

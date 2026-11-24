@@ -2,6 +2,7 @@ import Link from "next/link";
 import { cn } from "cn";
 
 import Logo from "@/components/shared/logo";
+import Typography from "@/components/shared/typography";
 import { Button } from "@/components/ui/button";
 import { whatsappUrl } from "@/lib/whatsapp";
 
@@ -54,10 +55,13 @@ export default function SiteFooter({ className }: { className?: string }) {
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 border-b border-border pt-16 pb-12 min-[980px]:grid-cols-[1.5fr_repeat(3,1fr)] min-[980px]:gap-10 min-[980px]:pt-22">
           <div className="col-span-2 min-[980px]:col-span-1">
             <Logo variant="badge" tone="dark" className="w-40" />
-            <p className="mt-5 max-w-75 text-sm leading-relaxed text-muted-foreground">
+            <Typography
+              variant="body"
+              className="mt-5 max-w-75 text-muted-foreground"
+            >
               Atelier racik parfum dari Karawang. Setiap botol diracik setelah
               kamu memesan.
-            </p>
+            </Typography>
             {waHref && (
               <Button asChild variant="outline" size="lg" className="mt-6">
                 <a href={waHref} target="_blank" rel="noopener noreferrer">
@@ -70,9 +74,9 @@ export default function SiteFooter({ className }: { className?: string }) {
 
           {FOOTER_LINKS.map((column) => (
             <div key={column.title}>
-              <h2 className="mb-4 text-[11px] font-semibold tracking-[0.2em] text-gold uppercase">
+              <Typography as="h2" variant="label" className="mb-4 text-gold">
                 {column.title}
-              </h2>
+              </Typography>
               <ul className="space-y-1 text-sm">
                 {column.links.map((link) => (
                   <li key={link.href}>
@@ -90,7 +94,13 @@ export default function SiteFooter({ className }: { className?: string }) {
         </div>
 
         <div className="flex flex-wrap items-center gap-3 border-b border-border py-6">
-          <span className="mr-1 text-xs text-muted-foreground">Pembayaran</span>
+          <Typography
+            as="span"
+            variant="caption"
+            className="mr-1 text-muted-foreground"
+          >
+            Pembayaran
+          </Typography>
           {PAYMENTS.map((method) => (
             <span
               key={method}
@@ -102,10 +112,14 @@ export default function SiteFooter({ className }: { className?: string }) {
         </div>
 
         {/* pb-24 on phones leaves room for the floating WhatsApp button. */}
-        <div className="flex flex-col gap-2 pt-6 pb-24 text-xs text-muted-foreground min-[980px]:flex-row min-[980px]:justify-between min-[980px]:pb-6">
+        <Typography
+          as="div"
+          variant="caption"
+          className="flex flex-col gap-2 pt-6 pb-24 text-muted-foreground min-[980px]:flex-row min-[980px]:justify-between min-[980px]:pb-6"
+        >
           <p>© Station Parfume · Karawang, Jawa Barat</p>
           <p>Pure Nature · Meracik sejak 2010</p>
-        </div>
+        </Typography>
       </div>
     </footer>
   );

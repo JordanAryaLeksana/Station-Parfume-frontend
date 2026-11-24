@@ -1,3 +1,5 @@
+import { typographyStyles } from "@/components/shared/typography";
+
 // Main menu links, shared by the desktop header (site-header.tsx) and the
 // phone menu (mobile-menu.tsx), so the two menus always match.
 // "Aroma" is not in this list: it opens the aroma panel (aroma-menu.tsx).
@@ -8,14 +10,14 @@ export const NAV = [
   { label: "Cerita", href: "/tentang" },
 ] as const;
 
-// Look of a top-level desktop menu item: light (300), widely spaced uppercase
-// text (a little tighter below 1180px so it fits) and a gold underline that
-// grows from the middle on hover, keyboard focus, or while its panel is open
-// (aria-expanded). Used by the links in site-header.tsx and the
-// Aroma button in aroma-menu.tsx. `h-full` makes the item as tall as the
-// header, so the whole strip responds to the mouse.
-export const navLinkClass =
-  "relative flex h-full items-center gap-1.5 text-[11px] font-light tracking-[0.16em] min-[1180px]:text-[11.5px] min-[1180px]:tracking-[0.22em] whitespace-nowrap uppercase outline-none transition-colors hover:text-gold-light focus-visible:text-gold-light aria-expanded:text-gold-light after:absolute after:inset-x-1/2 after:bottom-6 after:h-px after:bg-gold after:transition-[left,right] after:duration-400 after:ease-atelier hover:after:inset-x-0 focus-visible:after:inset-x-0 focus-visible:after:h-0.5 aria-expanded:after:inset-x-0 motion-reduce:after:transition-none";
+// Look of a top-level desktop menu item: the Navigation type role from
+// typography.tsx (light, widely spaced uppercase, a little tighter below
+// 1180px so it fits) and a gold underline that grows from the middle on
+// hover, keyboard focus, or while its panel is open (aria-expanded). Used by
+// the links in site-header.tsx and the Aroma button in aroma-menu.tsx.
+// `h-full` makes the item as tall as the header, so the whole strip responds
+// to the mouse.
+export const navLinkClass = `${typographyStyles.variants.nav} relative flex h-full items-center gap-1.5 whitespace-nowrap outline-none transition-colors hover:text-gold-light focus-visible:text-gold-light aria-expanded:text-gold-light after:absolute after:inset-x-1/2 after:bottom-6 after:h-px after:bg-gold after:transition-[left,right] after:duration-400 after:ease-atelier hover:after:inset-x-0 focus-visible:after:inset-x-0 focus-visible:after:h-0.5 aria-expanded:after:inset-x-0 motion-reduce:after:transition-none`;
 
 // Extra links for the bottom of the phone menu. On desktop they are in the
 // header icons and the utility bar.

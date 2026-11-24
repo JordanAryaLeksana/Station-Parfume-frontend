@@ -4,10 +4,9 @@ import React from "react";
 import Image from "next/image";
 import { cn } from "cn";
 
+import Typography from "@/components/shared/typography";
 import type { GalleryPhoto } from "@/features/catalog/gallery";
 
-// The main photo's width: the gallery column (7 of 12) minus the thumbnail
-// column, inside the 1320px container.
 const MAIN_SIZES = "(min-width: 1320px) 560px, (min-width: 980px) 44vw, 100vw";
 
 type ProductGalleryProps = {
@@ -16,9 +15,6 @@ type ProductGalleryProps = {
   fallback: string;
 };
 
-// The product page gallery: one big matted photo and a thumbnail button for
-// each photo (a column on the left from 980px, a row under it on phones).
-// With a mouse, the photo zooms in where the pointer is.
 export default function ProductGallery({
   photos,
   fallback,
@@ -27,8 +23,6 @@ export default function ProductGallery({
   const [zoomed, setZoomed] = React.useState(false);
   const photo = photos.at(current);
 
-  // The pointer's place in the frame becomes the point the photo grows
-  // from. Mouse only: on touch screens the buyer pinches to zoom instead.
   function followPointer(event: React.PointerEvent<HTMLDivElement>) {
     if (event.pointerType !== "mouse") return;
     const frame = event.currentTarget;
@@ -74,9 +68,12 @@ export default function ProductGallery({
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center px-6 pb-8 text-center">
-              <p className="font-primary text-2xl leading-snug font-light text-balance text-ink italic min-[980px]:text-4xl">
+              <Typography
+                variant="title"
+                className="font-light text-balance text-ink italic"
+              >
                 {fallback}
-              </p>
+              </Typography>
               <span
                 aria-hidden
                 className="absolute inset-x-4 bottom-4 takar h-2"

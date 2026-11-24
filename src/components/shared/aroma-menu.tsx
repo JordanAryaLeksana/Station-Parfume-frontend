@@ -9,6 +9,7 @@ import { ArrowRightIcon, ChevronDownIcon } from "lucide-react";
 import { cn } from "cn";
 
 import { navLinkClass } from "@/components/shared/nav-items";
+import Typography from "@/components/shared/typography";
 import { AROMAS, type AromaNote } from "@/features/catalog/aroma";
 import { ATELIER_PHOTO, getAromaPhoto } from "@/features/catalog/aroma-photos";
 
@@ -100,14 +101,16 @@ export default function AromaMenu() {
       >
         <div className="mx-auto grid max-w-330 grid-cols-[13rem_1fr] gap-12 px-10 pt-11 pb-12 min-[1180px]:grid-cols-[15rem_1fr_12.5rem] min-[1180px]:gap-13">
           <div>
-            <p className="font-primary text-4xl leading-[1.06]">
+            {/* Headline at 36px (an exception): the full headline size does
+                not fit this 13–15rem column. */}
+            <Typography variant="headline" className="text-4xl leading-[1.06]">
               Temukan wangi dari{" "}
               <em className="font-light text-gold-accent-soft">aromanya</em>.
-            </p>
-            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+            </Typography>
+            <Typography variant="body" className="mt-4 text-muted-foreground">
               Tiga belas keluarga aroma, dari manis sampai gaharu. Setiap wangi
               diracik setelah kamu memesan.
-            </p>
+            </Typography>
             <Link
               href="/koleksi"
               onClick={close}
@@ -157,15 +160,23 @@ export default function AromaMenu() {
                 className="animate-in object-cover duration-500 fade-in motion-reduce:animate-none"
               />
             </div>
-            <figcaption className="mt-3 text-[13px] text-muted-foreground">
-              <span className="mr-1.5 font-primary text-lg text-foreground">
+            <Typography
+              as="figcaption"
+              variant="caption"
+              className="mt-3 text-muted-foreground"
+            >
+              <Typography
+                as="span"
+                variant="subtitle"
+                className="mr-1.5 text-foreground"
+              >
                 {activeAroma?.label ?? "Meja racik"}
-              </span>
+              </Typography>
               {activeAroma
                 ? (getAromaPhoto(activeAroma.note)?.caption ??
                   activeAroma.indonesian)
                 : photo.caption}
-            </figcaption>
+            </Typography>
           </figure>
         </div>
       </div>
