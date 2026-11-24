@@ -62,6 +62,16 @@ export const Murni: Story = {
   },
 };
 
+/** Two bottles of 30 ml campur: the breakdown is per bottle, then "Jumlah ×
+ * 2", and the total covers both (2 × 50.000). */
+export const TwoBottles: Story = {
+  args: {
+    ...Campur.args,
+    quantity: 2,
+    total: 100000,
+  },
+};
+
 /** The price doesn't match rate × ml + bottle (a special price set by the
  * admin): only the total, never a breakdown that disagrees with it. */
 export const TotalOnly: Story = {

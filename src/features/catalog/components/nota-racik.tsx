@@ -14,6 +14,9 @@ type NotaRacikProps = {
   scentName: string;
   concentration: Concentration;
   breakdown: PriceBreakdown | null;
+  // How many bottles; a "Jumlah × n" row shows from 2.
+  quantity?: number;
+  // What all the bottles cost together; null when it can't be bought.
   total: number | null;
   className?: string;
 };
@@ -22,12 +25,12 @@ type Row = { id: string; label: string; value: string };
 
 const rowKey = (row: Row) => `${row.id}:${row.label}=${row.value}`;
 
-
 export default function NotaRacik({
   number,
   scentName,
   concentration,
   breakdown,
+  quantity = 1,
   total,
   className,
 }: NotaRacikProps) {
@@ -53,6 +56,9 @@ export default function NotaRacik({
         value: formatRupiah(breakdown.bottlePrice),
       },
     );
+  }
+  if (quantity > 1) {
+    rows.push({ id: "jumlah", label: "Jumlah", value: `× ${quantity}` });
   }
   const totalRow: Row = {
     id: "total",
