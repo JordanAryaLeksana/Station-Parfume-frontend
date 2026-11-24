@@ -234,7 +234,7 @@ Each role is a `variant` of the `Typography` component (`src/components/shared/t
   - From 980px, the filter sidebar (14–15.5rem) sits on the left of the products. It is sticky 112px from the top, just under the sticky header (87px), and scrolls on its own when taller than the screen.
   - Above the products is one row with the search box and the result count. The active-filter chips sit under it.
   - Below 980px the sidebar is hidden, and a "Filter" button opens the same panel instead (see Catalog Filters).
-- **Product page:** two columns, 7 to 5 (gallery and buy panel). The gallery is sticky on desktop and stacks on mobile.
+- **Product page:** two columns, 7 to 5 (gallery and buy panel), with the related products full width below. The gallery is sticky on desktop when the screen is at least 768px tall, and stacks above the panel on mobile. See Product Page.
 - **Section headers:** the heading on the left and a short description or filters on the right, aligned to the bottom edge.
 - **Breakpoints:** 980px (mobile layout) and 1180px (compact navigation).
 
@@ -273,7 +273,8 @@ Recurring motifs:
 ### Chips
 
 - **Style:** a thin outline, 40px tall, uppercase label text.
-- **State:** selected chips use a solid fill (Night Ink on light, gold on dark). Used for variant choices on the product page.
+- **State:** selected chips use a solid fill (Night Ink on light, gold on dark).
+- **Choice boxes** (product page): the same idea for the variant choices, as a hidden radio and a box (`CHOICE` in `purchase-parts.tsx`): a thin line on the card surface, solid in the mode's primary color when picked, a focus ring when reached by keyboard. Their text is caption or subtitle in normal case, not label text. See Product Page.
 - **Active-filter chip** (/koleksi): 36px tall, a thin outline on the card surface, the label in uppercase label text and an × icon. A search chip keeps the buyer's own words in normal case: “bunga” ×.
 
 ### Catalog Filters
@@ -328,6 +329,36 @@ The filters on /koleksi (`src/features/catalog/components/`), shaped after the s
 - **Shadow strategy:** see Elevation & Depth.
 - **Border:** thin lines only. Never a thick colored border on one side.
 
+### Product Page
+
+The page of one product (`src/app/produk/[slug]/page.tsx`, parts in `src/features/catalog/components/`). Top to bottom on a phone; on desktop the gallery is the left column and everything from the name to the info is the right.
+
+- **Breadcrumb** (caption): Koleksi / the main aroma family (or "Mobil & souvenir") / the product name, which truncates.
+- **Gallery** (`product-gallery.tsx`):
+  - The photo matted like on the card (white in Gading, cream in Noir, a deeper bottom margin).
+  - Up to three photos: the bottles, the close-up of the bottles, and the ingredient photo of the main aroma (or the second when the main has none). The atelier photo is left out, because it repeats the posters.
+  - Thumbnails sit in a column on the left from 980px and in a row of four below the photo on phones. They are buttons with `aria-pressed` and a name such as "Foto 2 dari 3: Close-up botol".
+  - With a mouse, hovering the photo zooms it about 1.9× and follows the pointer. There is no zoom on touch.
+  - No photo yet: the cream tile with the name in italic over a measuring-tick ruler, like the card.
+- **Name** (headline, `h1`), then one row: "Exclusive" (accent, 15px, with the Aged Gold diamond), "No. 162" (label, gold) and the aroma families (label, muted).
+- **Buy panel, perfume** (`product-purchase.tsx`):
+  - **Price** (`price-lg`, gold, announced politely when it changes) and under it the formula in caption: "Rp2.000,00 per ml × 30 ml + botol Rp5.000,00".
+  - **Ukuran:** three choice boxes in a row, each with a small bottle drawing that grows with the size and the size in caption.
+  - **Racikan:** two cards, each with the blend name and its alias in subtitle (Campur _parfum_, Murni _bibit_), a one-line description, and the rate per ml at the bottom.
+  - Each group starts with its label on the left and the chosen value in gold italic subtitle on the right ("UKURAN ··· 30 ml"). The visible line is `aria-hidden`; a hidden legend names the group.
+  - **Nota racik**, then the action row.
+- **Buy panel, general product** (`general-purchase.tsx`): no size, blend or nota.
+  - **Price** (`price-lg`, gold; in the text color with "Stok habis" in label text beside it when sold out, as on the card).
+  - **Pilihan** (only when there is more than one variant and each has a label, e.g. the twelve car perfume scents): wrapping choice boxes, 40px tall, with the label in semibold caption. A box shows its own price only when the prices differ, and "habis" in italic only when some labels are in stock and others are not; when everything is sold out a hidden "(stok habis)" is read out instead.
+  - The panel opens on the first label in stock. One order line takes at most 20 and never more than the stock left (`available`); switching to a label with less stock brings the quantity down.
+- **Action row** (`purchase-parts.tsx`, shared by both panels):
+  - **Quantity stepper:** − n +, 54px tall, 44px-wide buttons that switch off at 1 and at the maximum (and both when sold out).
+  - **Bag button:** the primary button filling the rest of the row, "Masukkan ke tas · Rp…" with the total for the quantity. Until the bag exists (stage 3) it leads a guest to log in, carrying the chosen variant and quantity (`/login?next=…&add=…&qty=…`). Sold out or not available, it is a switched-off button that says so ("Stok habis").
+  - **WhatsApp link** under the row, with the message already typed: "Tanya peracik soal wangi ini di WhatsApp" for a perfume, "Tanya soal produk ini" for a general product, or "Tanya stok" when sold out ("apakah … tersedia lagi?"). Hidden when the shop number isn't set.
+  - **Assurances:** three small promises with line icons above a thin rule: "Diracik" (perfume) or "Dikemas" (general product) "setelah pembayaran diterima", "Dikirim dari Karawang", "Pembayaran aman lewat DOKU".
+- **Info** (`product-info.tsx`): native `<details>` rows under thin rules, the summary in label text with a + that turns into ×. "Tentang wangi ini" is open on load; "Murni atau campur?" (perfume only) and "Pengiriman & pembayaran" are closed. The shipping text stays neutral until the ongkir scheme is decided (PRODUCT.md).
+- **Related products** (`related-product.tsx`): "Kamu mungkin juga _suka_." (headline) above a thin rule, a body line that names the aromas used, and four cards in the product grid. Perfumes come from the main aroma, topped up from the second aroma when it has fewer than four; general products show other general products. Never the product itself, never a product twice, and the section is left out when nothing is found.
+
 ### Inputs / Fields
 
 - **Style:** a white background with a thin border (input token), sharp, 48px tall for comfortable tapping.
@@ -353,7 +384,7 @@ The owner's official logo (`src/assets/brand/logo-original.webp`): a sprig, the 
 
 ### Nota Racik (signature)
 
-The price breakdown on the product page looks like a white receipt with scalloped edges. It shows the italic title "Nota racik" and the atelier number, then dotted rows: scent, blend, rate × ml, bottle, quantity, total. Changed rows flash gold briefly.
+The price breakdown on the product page looks like a white receipt with scalloped edges (`nota-racik.tsx`). It shows the italic title "Nota racik" and the atelier number, then dotted rows in body text: scent, blend, rate × ml, bottle, "Jumlah × n" (from two bottles), and the total in bold. Rows whose value changed flash gold briefly (not under reduced motion). Perfumes only: a general product has nothing blended, so no nota.
 
 ### Aroma Panel (signature)
 

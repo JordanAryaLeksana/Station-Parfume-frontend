@@ -47,7 +47,7 @@ Success means:
 - **Online only.** There is no physical store for buyers to visit. Perfumes are blended in Karawang.
 - **Backend.** A separate Go API (the `Station-parfume-backend` repo). Its contract is in `api/openapi.yaml` in that repo, and at `http://localhost:8080/docs` while the backend is running.
 - **Payment.** DOKU Checkout (QRIS, virtual account, e-wallet). The buyer returns to the website, and the payment result comes from polling the order status.
-- **Shipping.** The backend always sends a shipping fee of Rp0. The admin confirms the shipping cost over WhatsApp after the order is created.
+- **Shipping.** Today the backend sends a shipping fee of Rp0 ("ditanggung toko"), and the admin confirms the delivery over WhatsApp after the order is created. The plan is for the buyer to pay the shipping fee, but the scheme is **on hold** for the owner (since 19 Nov 2026) and must be decided before stage 4 (checkout). DOKU charges the order total that is fixed when the payment is created, so the fee has to be known before the buyer pays. The leading option is a per-province rate table that the owner fills in once.
 - **WhatsApp** is the main channel for questions to the blender.
 - **Admin panel** comes later. It is not part of this website yet.
 
@@ -58,12 +58,13 @@ Success means:
 - 84 active perfumes, one product each (since 20 Nov 2026; before, a product was one photo with 2–4 scents).
 - 13 aroma families (`note`): amber, aromatic, balsamic, citrus, creamy, floral, fresh, fruity, musk, oud, powdery, sweet, woody.
 - Two grades, set per perfume: 73 regular and 11 exclusive. Bacarat and Avril Lavigne exist in both grades, as two different perfumes.
-- General (non-perfume) products: car perfume, souvenirs, spray bottles.
+- General (non-perfume) products: car perfume, souvenirs, spray bottles, Arabian oils. Some come in several labels (e.g. the twelve car perfume scents, or "1pcs" / "12-60pcs"), the rest in one.
 
 **Variants and pricing**
 
-- One product photo can contain 2–4 variants (22 products are like this). On the website, each of these is one product with variant options.
-- Variant = scent × size × blend. The price per variant comes from the API.
+- A perfume variant = size × blend (one scent per product since 20 Nov 2026), so a perfume with three sizes and two blends has six variants. The buyer picks the size and the blend, and the page shows the per-ml formula and the nota racik.
+- A general product variant = a label (or none). The buyer picks the label when there are several, with its own price when the prices differ.
+- The price and the stock of every variant come from the API. `available` is the stock left, or null when stock isn't counted. One order line takes at most 20, and never more than the stock.
 
 **Accounts**
 
