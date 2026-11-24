@@ -1,13 +1,21 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { MinusIcon, PlusIcon } from "lucide-react";
 import { cn } from "cn";
 
 import Typography from "@/components/shared/typography";
 import { BLEND_ORDER, BLENDS } from "@/features/catalog/blends";
 import NotaRacik from "@/features/catalog/components/nota-racik";
+import {
+  Assurances,
+  BagButton,
+  CHOICE,
+  MAX_QUANTITY,
+  MIN_QUANTITY,
+  OptionHeader,
+  QuantityStepper,
+  WhatsAppLink,
+} from "@/features/catalog/components/purchase-parts";
 import {
   findVariant,
   priceBreakdown,
@@ -16,9 +24,6 @@ import {
 import type { Concentration, ProductDetail } from "@/features/catalog/types";
 import { formatRupiah } from "@/lib/format";
 import { whatsappUrl } from "@/lib/whatsapp";
-
-const MIN_QUANTITY = 1;
-const MAX_QUANTITY = 20;
 
 type ProductPurchaseProps = {
   product: ProductDetail;
@@ -186,180 +191,26 @@ export default function ProductPurchase({
 
       {/* The quantity and the bag button share one row. */}
       <div className="mt-6 flex gap-2.5">
-        <div className="flex h-13.5 shrink-0 items-center border border-input bg-card">
-          <button
-            type="button"
-            onClick={decrease}
-            disabled={quantity <= MIN_QUANTITY}
-            aria-label="Kurangi jumlah"
-            className={STEPPER_BUTTON}
-          >
-            <MinusIcon aria-hidden className="size-4" strokeWidth={1.5} />
-          </button>
-          <output
-            aria-live="polite"
-            aria-label="Jumlah"
-            className="w-8 text-center text-[15px] font-semibold tabular-nums"
-          >
-            {quantity}
-          </output>
-          <button
-            type="button"
-            onClick={increase}
-            disabled={quantity >= MAX_QUANTITY}
-            aria-label="Tambah jumlah"
-            className={STEPPER_BUTTON}
-          >
-            <PlusIcon aria-hidden className="size-4" strokeWidth={1.5} />
-          </button>
-        </div>
-        {bagHref && total !== null ? (
-          <Link href={bagHref} className={BAG_BUTTON}>
-            Masukkan ke tas
-            <span aria-hidden>·</span>
-            <span className="normal-case">{formatRupiah(total)}</span>
-          </Link>
-        ) : (
-          <button
-            type="button"
-            disabled
-            className={cn(BAG_BUTTON, "cursor-not-allowed opacity-50")}
-          >
-            Tidak tersedia
-          </button>
-        )}
+        <QuantityStepper
+          quantity={quantity}
+          max={MAX_QUANTITY}
+          onDecrease={decrease}
+          onIncrease={increase}
+        />
+        <BagButton href={bagHref} total={total} />
       </div>
 
-      {/* Hidden when the shop's number isn't set (NEXT_PUBLIC_WHATSAPP_NUMBER). */}
-      {waUrl && (
-        <a
-          href={waUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-5 inline-flex items-center gap-2 text-[13px] font-semibold underline-offset-4 transition-colors hover:text-gold-accent hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-        >
-          <ChatIcon />
-          Tanya peracik soal wangi ini di WhatsApp
-          <span aria-hidden>→</span>
-          <span className="sr-only"> (membuka WhatsApp)</span>
-        </a>
-      )}
+      <WhatsAppLink href={waUrl}>
+        Tanya peracik soal wangi ini di WhatsApp
+      </WhatsAppLink>
 
-      <Typography
-        as="ul"
-        variant="caption"
-        role="list"
-        className="mt-8 grid gap-3 border-t border-border pt-6 text-muted-foreground"
-      >
-        {ASSURANCES.map((item) => (
-          <li key={item.text} className="flex items-center gap-3">
-            <span aria-hidden className="text-foreground">
-              {item.icon}
-            </span>
-            {item.text}
-          </li>
-        ))}
-      </Typography>
+      <Assurances prepared="Diracik" />
     </div>
   );
 }
 
-const STEPPER_BUTTON =
-  "flex h-full w-11 items-center justify-center transition-colors hover:text-gold-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-35";
-
-const BAG_BUTTON =
-  "flex min-h-13.5 flex-1 flex-wrap items-center justify-center gap-x-2 gap-y-0.5 bg-primary px-5 py-2 text-center text-[11px] font-semibold tracking-[0.18em] text-primary-foreground uppercase tabular-nums transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
-
-const ASSURANCES = [
-  {
-    text: "Diracik setelah pembayaran diterima",
-    icon: (
-      <svg
-        width="18"
-        height="22"
-        viewBox="0 0 28 36"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      >
-        <rect x="9.5" y="1" width="9" height="5.5" rx="1" />
-        <rect x="2.5" y="9" width="23" height="25.5" rx="4" />
-      </svg>
-    ),
-  },
-  {
-    text: "Dikirim dari Karawang",
-    icon: (
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z" />
-        <circle cx="7" cy="17.5" r="1.6" />
-        <circle cx="17" cy="17.5" r="1.6" />
-      </svg>
-    ),
-  },
-  {
-    text: "Pembayaran aman lewat DOKU",
-    icon: (
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <rect x="3" y="5" width="18" height="14" rx="2" />
-        <path d="M3 10h18" />
-      </svg>
-    ),
-  },
-];
-
-function ChatIcon() {
-  return (
-    <svg
-      aria-hidden
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.6"
-    >
-      <path d="M4 5h16v11H11l-5 4v-4H4z" />
-    </svg>
-  );
-}
-
-const CHOICE =
-  "border border-input bg-card transition-colors hover:border-foreground peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ring";
-
-function OptionHeader({ label, value }: { label: string; value?: string }) {
-  return (
-    <div aria-hidden className="flex items-baseline justify-between gap-4">
-      <Typography as="span" variant="label">
-        {label}
-      </Typography>
-      {value && (
-        <Typography
-          as="span"
-          variant="subtitle"
-          className="text-gold-accent italic"
-        >
-          {value}
-        </Typography>
-      )}
-    </div>
-  );
-}
-
+// The bottle drawings from prototype v5: each size a little taller and
+// fuller. Step 0 is the smallest size.
 const BOTTLES = [
   { width: 15, height: 23, liquidY: 15, liquidHeight: 11.5, stroke: 1.4 },
   { width: 19, height: 29, liquidY: 13, liquidHeight: 13.5, stroke: 1.3 },

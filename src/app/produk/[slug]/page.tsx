@@ -4,16 +4,17 @@ import { notFound } from "next/navigation";
 
 import Typography from "@/components/shared/typography";
 import { aromasOf } from "@/features/catalog/aroma";
+import GeneralPurchase from "@/features/catalog/components/general-purchase";
 import ProductGallery from "@/features/catalog/components/product-gallery";
 import ProductInfo from "@/features/catalog/components/product-info";
 import ProductPurchase from "@/features/catalog/components/product-purchase";
+import RelatedProduct from "@/features/catalog/components/related-product";
 import { KIND_LABELS } from "@/features/catalog/filters";
 import { galleryPhotos } from "@/features/catalog/gallery";
 import { defaultSelection } from "@/features/catalog/pricing";
 import { findProduct } from "@/features/catalog/server";
 import type { ProductDetail } from "@/features/catalog/types";
 import { formatRupiah } from "@/lib/format";
-import RelatedProduct from "@/features/catalog/components/related-product";
 
 const CRUMB_LINK =
   "underline-offset-4 transition-colors hover:text-foreground hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
@@ -72,8 +73,8 @@ export default async function ProductPage({
   const aromas = aromasOf(product);
   const mainAroma = aromas.at(0);
   const isExclusive = product.grade === "exclusive";
-  // What the buy panel opens on (30 ml campur). General products have no
-  // size or blend, so null: they keep the plain price until step C7.
+  // What the perfume buy panel opens on (30 ml campur). Null for general
+  // products (no size or blend) and for a perfume with nothing to sell.
   const selection =
     product.kind === "perfume" ? defaultSelection(product) : null;
 
@@ -166,7 +167,11 @@ export default async function ProductPage({
             )}
           </div>
 
-          {selection ? (
+          {/* Each kind has its own buy panel. The plain price is left only for
+              a perfume whose sizes or blends are missing. */}
+          {product.kind === "general" ? (
+            <GeneralPurchase product={product} />
+          ) : selection ? (
             <ProductPurchase product={product} initialSelection={selection} />
           ) : (
             <p className="mt-8 flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
