@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { aromasOf } from "@/features/catalog/aroma";
+import ProductGallery from "@/features/catalog/components/product-gallery";
 import { KIND_LABELS } from "@/features/catalog/filters";
-import { getProductPhotos } from "@/features/catalog/product-photos";
+import { galleryPhotos } from "@/features/catalog/gallery";
 import { findProduct } from "@/features/catalog/server";
 import type { ProductDetail } from "@/features/catalog/types";
 import { formatRupiah } from "@/lib/format";
-
-// The photo column: 7 of 12 inside the 1320px container (DESIGN.md, Layout).
-const PHOTO_SIZES = "(min-width: 1320px) 660px, (min-width: 980px) 55vw, 100vw";
 
 const CRUMB_LINK =
   "underline-offset-4 transition-colors hover:text-foreground hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
@@ -65,16 +62,15 @@ export async function generateMetadata({
   };
 }
 
-// The product page (step C1): where the buyer will choose the size and the
-// blend. For now it has the breadcrumb, the photo, the name and the starting
-// price; the gallery, the choices and the nota racik come in the next steps.
+// The product page: where the buyer chooses the size and the blend. So far
+// it has the breadcrumb, the gallery, the name and the starting price; the
+// choices and the nota racik come in step C3.
 export default async function ProductPage({
   params,
 }: PageProps<"/produk/[slug]">) {
   const product = await loadProduct(params);
   const aromas = aromasOf(product);
   const mainAroma = aromas.at(0);
-  const photos = getProductPhotos(product.slug);
   const isExclusive = product.grade === "exclusive";
 
   return (
@@ -114,33 +110,14 @@ export default async function ProductPage({
       {/* Two columns from 980px, 7 to 5: the photo (sticky) and the buy
           panel. Keep these classes in step with loading.tsx. */}
       <div className="mt-8 min-[980px]:mt-10 min-[980px]:grid min-[980px]:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] min-[980px]:items-start min-[980px]:gap-12 min-[1180px]:gap-16">
-        {/* The full gallery comes in step C2; for now the card photo, matted
-            like on the card. */}
-        <div className="min-[980px]:sticky min-[980px]:top-28">
-          <div className="bg-white p-3 pb-8 ring-1 ring-border min-[980px]:p-4 min-[980px]:pb-10 dark:bg-cream dark:ring-0">
-            <div className="relative aspect-square overflow-hidden bg-cream-2">
-              {photos ? (
-                <Image
-                  src={photos.card}
-                  alt={`Foto ${product.name}`}
-                  fill
-                  sizes={PHOTO_SIZES}
-                  loading="eager"
-                  className="object-cover"
-                />
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center px-6 pb-8 text-center">
-                  <p className="font-primary text-2xl leading-snug font-light text-balance text-ink italic min-[980px]:text-4xl">
-                    {product.category?.name ?? product.name}
-                  </p>
-                  <span
-                    aria-hidden
-                    className="absolute inset-x-4 bottom-4 takar h-2"
-                  />
-                </div>
-              )}
-            </div>
-          </div>
+        {/* Sticky only on screens tall enough to show the whole gallery
+            (about 720px with the header); on a short laptop it would be cut
+            off at the bottom. */}
+        <div className="min-[980px]:top-28 min-[980px]:[@media(min-height:48rem)]:sticky">
+          <ProductGallery
+            photos={galleryPhotos(product)}
+            fallback={product.category?.name ?? product.name}
+          />
         </div>
 
         <div className="mt-10 min-[980px]:mt-0">
