@@ -1,6 +1,7 @@
 import React from "react";
 import { PlusIcon } from "lucide-react";
 
+import Typography from "@/components/shared/typography";
 import { aromasOf } from "@/features/catalog/aroma";
 import type { ProductDetail } from "@/features/catalog/types";
 
@@ -41,40 +42,15 @@ function shippingSection(kind: ProductDetail["kind"]): Section {
   };
 }
 
-// The fold-out sections under the buy panel. Plain <details>: they open and
-// close without JavaScript, and screen readers know what they are.
 export default function ProductInfo({ product }: { product: ProductDetail }) {
   const aromas = aromasOf(product);
-
-  // ═══════════════ LOGIKA C5: bagian Anda ═══════════════
-  // Sama seperti C3 dan C4: ganti setiap baris "sementara".
-
-  // C5 STEP 1: teks "Tentang wangi ini".
-  //   Kalau admin sudah mengisi deskripsi produk (product.description),
-  //   pakai itu. Kalau masih kosong (sekarang semua masih kosong), susun dari
-  //   deskripsi setiap aromanya: `aromas` berisi 1–2 aroma, dan masing-masing
-  //   punya `description`, misalnya "Kayu yang hangat dan kering. ...".
-  //   Gabungkan dengan spasi.
-  //   Petunjuk:
-  //   - .trim() membuang spasi di awal dan akhir, jadi "  " menjadi "".
-  //   - `a || b` memberi a kalau a berisi; kalau a kosong (""), memberi b.
-  //   - .map(...) mengubah setiap isi daftar, .join(" ") menggabungkannya.
   const about =
     product.description.trim() ||
     aromas.map((aroma) => aroma.description).join(" ");
-
-  // C5 STEP 2: daftar nama aroma untuk baris "Aroma: ...", dengan nama
-  //   Indonesianya di dalam kurung dan disambung "dan":
-  //   "Oud (gaharu) dan Woody (kayu)"
-  //   Setiap aroma punya `label` ("Oud") dan `indonesian` ("gaharu").
-  //   Kalau hasilnya kosong, baris "Aroma: ..." tidak ditampilkan.
   const families = aromas
     .map((aroma) => `${aroma.label} (${aroma.indonesian})`)
     .join(" dan ");
 
-  // ═══════════════ DATA & TAMPILAN: sudah jadi ═══════════════
-  // "Tentang wangi ini" and "Murni atau campur?" are about perfumes; a
-  // general product only gets the shipping section.
   const sections: Section[] = [
     ...(product.kind === "perfume"
       ? [
@@ -105,8 +81,6 @@ export default function ProductInfo({ product }: { product: ProductDetail }) {
   );
 }
 
-// One fold-out: the title in label style with a + that turns into × when
-// open, then the text (Body style, at most 70 characters a line).
 function InfoSection({
   title,
   open,
@@ -118,17 +92,25 @@ function InfoSection({
 }) {
   return (
     <details open={open} className="group border-b border-border">
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-[11px] font-semibold tracking-[0.22em] uppercase transition-colors hover:text-gold-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&::-webkit-details-marker]:hidden">
+      <Typography
+        as="summary"
+        variant="label"
+        className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 transition-colors hover:text-gold-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&::-webkit-details-marker]:hidden"
+      >
         {title}
         <PlusIcon
           aria-hidden
           strokeWidth={1.5}
           className="size-4 shrink-0 transition-transform duration-300 ease-atelier group-open:rotate-45 motion-reduce:transition-none"
         />
-      </summary>
-      <div className="max-w-[70ch] pb-5 text-[15px] leading-relaxed text-muted-foreground">
+      </Typography>
+      <Typography
+        as="div"
+        variant="body"
+        className="pb-5 text-muted-foreground"
+      >
         {children}
-      </div>
+      </Typography>
     </details>
   );
 }

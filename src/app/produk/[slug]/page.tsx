@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import Typography from "@/components/shared/typography";
 import { aromasOf } from "@/features/catalog/aroma";
 import ProductGallery from "@/features/catalog/components/product-gallery";
 import ProductInfo from "@/features/catalog/components/product-info";
@@ -12,6 +13,7 @@ import { defaultSelection } from "@/features/catalog/pricing";
 import { findProduct } from "@/features/catalog/server";
 import type { ProductDetail } from "@/features/catalog/types";
 import { formatRupiah } from "@/lib/format";
+import RelatedProduct from "@/features/catalog/components/related-product";
 
 const CRUMB_LINK =
   "underline-offset-4 transition-colors hover:text-foreground hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
@@ -50,6 +52,7 @@ export async function generateMetadata({
 
   const aromas = aromasOf(product).map((aroma) => aroma.label);
   const sizes = product.size_options.map((size) => size.volume_ml);
+
   return {
     title: fullName(product),
     description: [
@@ -77,7 +80,11 @@ export default async function ProductPage({
   return (
     <div className="mx-auto w-full max-w-330 px-5 pt-8 pb-24 min-[980px]:px-10 min-[980px]:pt-12 min-[980px]:pb-32">
       <nav aria-label="Breadcrumb">
-        <ol className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13px] text-muted-foreground">
+        <Typography
+          as="ol"
+          variant="caption"
+          className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-muted-foreground"
+        >
           <li>
             <Link href="/koleksi" className={CRUMB_LINK}>
               Koleksi
@@ -105,7 +112,7 @@ export default async function ProductPage({
               {product.name}
             </span>
           </li>
-        </ol>
+        </Typography>
       </nav>
 
       <div className="mt-8 min-[980px]:mt-10 min-[980px]:grid min-[980px]:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] min-[980px]:items-start min-[980px]:gap-12 min-[1180px]:gap-16">
@@ -117,44 +124,72 @@ export default async function ProductPage({
         </div>
 
         <div className="mt-10 min-[980px]:mt-0">
-          <h1 className="font-primary text-[clamp(2.375rem,4.3vw,4rem)] leading-[1.02] text-balance wrap-break-word">
+          <Typography
+            as="h1"
+            variant="headline"
+            className="text-balance wrap-break-word"
+          >
             {product.name}
-          </h1>
+          </Typography>
 
           <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
+            {/* "Exclusive" stands alone next to the labels here, so it keeps
+                15px and regular weight (an exception to the accent role). */}
             {isExclusive && (
-              <span className="inline-flex items-center gap-2 font-primary text-[15px] italic">
+              <Typography
+                as="span"
+                variant="accent"
+                className="inline-flex items-center gap-2 text-[15px] font-normal"
+              >
                 <span
                   aria-hidden
                   className="size-1.5 rotate-45 bg-gold-accent"
                 />
                 Exclusive
-              </span>
+              </Typography>
             )}
-            <span className="text-[11px] font-semibold tracking-[0.22em] text-gold-accent tabular-nums">
+            <Typography
+              as="span"
+              variant="label"
+              className="text-gold-accent tabular-nums"
+            >
               No. {product.id}
-            </span>
+            </Typography>
             {aromas.length > 0 && (
-              <span className="text-[11px] font-semibold tracking-[0.22em] text-muted-foreground uppercase">
+              <Typography
+                as="span"
+                variant="label"
+                className="text-muted-foreground"
+              >
                 {aromas.map((aroma) => aroma.label).join(" · ")}
-              </span>
+              </Typography>
             )}
           </div>
 
           {selection ? (
             <ProductPurchase product={product} initialSelection={selection} />
           ) : (
-            <p className="mt-8 flex flex-wrap items-baseline gap-x-2.5 gap-y-1 tabular-nums">
+            <p className="mt-8 flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
               {product.price_min !== product.price_max && (
-                <span className="text-[15px] text-muted-foreground">Mulai</span>
+                <Typography
+                  as="span"
+                  variant="body"
+                  className="text-muted-foreground"
+                >
+                  Mulai
+                </Typography>
               )}
-              <span className="text-[1.75rem] font-semibold text-gold-accent">
+              <Typography
+                as="span"
+                variant="price-lg"
+                className="text-gold-accent"
+              >
                 {formatRupiah(product.price_min)}
-              </span>
+              </Typography>
               {!product.in_stock && (
-                <span className="text-[11px] font-semibold tracking-[0.18em] uppercase">
+                <Typography as="span" variant="label">
                   Stok habis
-                </span>
+                </Typography>
               )}
             </p>
           )}
@@ -162,6 +197,7 @@ export default async function ProductPage({
           <ProductInfo product={product} />
         </div>
       </div>
+      <RelatedProduct product={product} />
     </div>
   );
 }
