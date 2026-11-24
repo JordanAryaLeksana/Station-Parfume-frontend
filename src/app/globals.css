@@ -30,6 +30,19 @@
 
   /* The calm ease-out curve from DESIGN.md (Motion). Class: ease-atelier. */
   --ease-atelier: cubic-bezier(0.2, 0.7, 0.1, 1);
+
+  /* A nota racik row whose value just changed glows gold for a moment
+     (DESIGN.md, Nota racik). Class: animate-nota-flash, always behind
+     motion-safe:. */
+  --animate-nota-flash: nota-flash 0.9s ease-out;
+  @keyframes nota-flash {
+    from {
+      background-color: rgb(200 161 90 / 0.32);
+    }
+    to {
+      background-color: transparent;
+    }
+  }
 }
 
 @theme inline {
@@ -173,6 +186,20 @@
         transparent 1px 12px
       )
       left bottom / 100% 45% no-repeat;
+}
+
+/*
+ * The torn edge of the nota racik: half circles cut out along the top and
+ * the bottom, like a receipt torn from its pad. Two masks, each covering
+ * half the height; keep at least 12px of padding so no text is cut.
+ */
+@utility scalloped {
+  --scallop: 5px;
+  mask:
+    radial-gradient(var(--scallop) at top, #0000 calc(100% - 1px), #000) top /
+      calc(2 * var(--scallop)) 51% repeat-x,
+    radial-gradient(var(--scallop) at bottom, #0000 calc(100% - 1px), #000)
+      bottom / calc(2 * var(--scallop)) 51% repeat-x;
 }
 
 /* Faint kawung batik pattern, for the gold WhatsApp band. */

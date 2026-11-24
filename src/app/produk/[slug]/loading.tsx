@@ -1,10 +1,3 @@
-// Stands in for page.tsx while the product loads, in the same layout: the
-// photo on the left (on top on phones), then the name, details, price and
-// choices. Keep the grid classes in step with page.tsx, so nothing jumps
-// when the product arrives.
-//
-// It is also what makes the page work at all: the slug is only known when a
-// buyer asks for it, and Next 16 needs a loading boundary around such a page.
 export default function ProductLoading() {
   return (
     <div className="mx-auto w-full max-w-330 px-5 pt-8 pb-24 min-[980px]:px-10 min-[980px]:pt-12 min-[980px]:pb-32">

@@ -4,8 +4,10 @@ import { notFound } from "next/navigation";
 
 import { aromasOf } from "@/features/catalog/aroma";
 import ProductGallery from "@/features/catalog/components/product-gallery";
+import ProductPurchase from "@/features/catalog/components/product-purchase";
 import { KIND_LABELS } from "@/features/catalog/filters";
 import { galleryPhotos } from "@/features/catalog/gallery";
+import { defaultSelection } from "@/features/catalog/pricing";
 import { findProduct } from "@/features/catalog/server";
 import type { ProductDetail } from "@/features/catalog/types";
 import { formatRupiah } from "@/lib/format";
@@ -13,9 +15,6 @@ import { formatRupiah } from "@/lib/format";
 const CRUMB_LINK =
   "underline-offset-4 transition-colors hover:text-foreground hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
-// The product at this address, or the 404 page. A product only lives at its
-// own slug: the backend also finds it by its numeric id (/produk/162), which
-// would give one product two addresses.
 async function loadProduct(
   params: PageProps<"/produk/[slug]">["params"],
 ): Promise<ProductDetail> {
@@ -62,9 +61,6 @@ export async function generateMetadata({
   };
 }
 
-// The product page: where the buyer chooses the size and the blend. So far
-// it has the breadcrumb, the gallery, the name and the starting price; the
-// choices and the nota racik come in step C3.
 export default async function ProductPage({
   params,
 }: PageProps<"/produk/[slug]">) {
@@ -72,6 +68,10 @@ export default async function ProductPage({
   const aromas = aromasOf(product);
   const mainAroma = aromas.at(0);
   const isExclusive = product.grade === "exclusive";
+  // What the buy panel opens on (30 ml campur). General products have no
+  // size or blend, so null: they keep the plain price until step C7.
+  const selection =
+    product.kind === "perfume" ? defaultSelection(product) : null;
 
   return (
     <div className="mx-auto w-full max-w-330 px-5 pt-8 pb-24 min-[980px]:px-10 min-[980px]:pt-12 min-[980px]:pb-32">
@@ -107,12 +107,7 @@ export default async function ProductPage({
         </ol>
       </nav>
 
-      {/* Two columns from 980px, 7 to 5: the photo (sticky) and the buy
-          panel. Keep these classes in step with loading.tsx. */}
       <div className="mt-8 min-[980px]:mt-10 min-[980px]:grid min-[980px]:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] min-[980px]:items-start min-[980px]:gap-12 min-[1180px]:gap-16">
-        {/* Sticky only on screens tall enough to show the whole gallery
-            (about 720px with the header); on a short laptop it would be cut
-            off at the bottom. */}
         <div className="min-[980px]:top-28 min-[980px]:[@media(min-height:48rem)]:sticky">
           <ProductGallery
             photos={galleryPhotos(product)}
@@ -125,8 +120,6 @@ export default async function ProductPage({
             {product.name}
           </h1>
 
-          {/* Under the name, never above it: a label above a heading is an
-              eyebrow, which DESIGN.md bans. */}
           <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
             {isExclusive && (
               <span className="inline-flex items-center gap-2 font-primary text-[15px] italic">
@@ -147,20 +140,23 @@ export default async function ProductPage({
             )}
           </div>
 
-          {/* Until the choices arrive (step C3): the lowest price. */}
-          <p className="mt-8 flex flex-wrap items-baseline gap-x-2.5 gap-y-1 tabular-nums">
-            {product.price_min !== product.price_max && (
-              <span className="text-[15px] text-muted-foreground">Mulai</span>
-            )}
-            <span className="text-[1.75rem] font-semibold text-gold-accent">
-              {formatRupiah(product.price_min)}
-            </span>
-            {!product.in_stock && (
-              <span className="text-[11px] font-semibold tracking-[0.18em] uppercase">
-                Stok habis
+          {selection ? (
+            <ProductPurchase product={product} initialSelection={selection} />
+          ) : (
+            <p className="mt-8 flex flex-wrap items-baseline gap-x-2.5 gap-y-1 tabular-nums">
+              {product.price_min !== product.price_max && (
+                <span className="text-[15px] text-muted-foreground">Mulai</span>
+              )}
+              <span className="text-[1.75rem] font-semibold text-gold-accent">
+                {formatRupiah(product.price_min)}
               </span>
-            )}
-          </p>
+              {!product.in_stock && (
+                <span className="text-[11px] font-semibold tracking-[0.18em] uppercase">
+                  Stok habis
+                </span>
+              )}
+            </p>
+          )}
         </div>
       </div>
     </div>
