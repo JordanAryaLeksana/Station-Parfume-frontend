@@ -41,6 +41,7 @@ Success means:
 - **Transparent per-ml pricing.** Price = rate per ml × size + bottle Rp5.000,00. Prices start at Rp35.000,00.
 - **Free choice.** The buyer picks the size and the blend: murni (bibit) or campur (parfum).
 - **Internal fact:** many scents are inspired by famous perfumes (the `inspired_by` column in the backend). This is **never** written or shown on the website, not as text, comparisons, or brand names.
+- **"Mirip apa?" goes through WhatsApp.** A buyer looking for a scent like a famous perfume names it in their own WhatsApp message, and the blender answers with the atelier number and a link. The site explains this without naming any brand: on the home page ("Cari yang mirip parfum favoritmu?") and when a search finds nothing. `inspired_by` stays internal, as the blender's lookup.
 
 ## Operating Context
 
@@ -82,11 +83,14 @@ Success means:
 
 **Not decided yet (must be settled before launch)**
 
-- Product names that contain designer brands. The owner will rename them.
+- Product names that contain designer brands. The owner will rename them. An audit on 25 Nov 2026 found 64 of 97 names with another brand's, perfume's, or celebrity's name (misspellings like "Bvlgari Extream" included), and 6 more to check.
+- Scent descriptions. All 84 perfumes have an empty description, so the page falls back to the aroma family texts. Without brand names, buyers recognise a scent by its character, so each perfume needs a short description from the blender (what it smells like, the main ingredients, when to wear it). The seed CSV has no description column yet.
 - Removing `inspired_by` from the backend's public responses.
 - Product posters that still read "STATION PERFUME" need updating to the official spelling.
 - A new bottle label (proposal) or the current pink sticker.
 - Contact details: WhatsApp number, email, opening hours.
+- How long blending and shipping take after payment. The home FAQ says to ask on WhatsApp until then.
+- The minimum order and lead time for souvenir pernikahan (the "12-60pcs" label). The home page sends buyers to WhatsApp for now.
 
 ## Brand Commitments
 
@@ -107,6 +111,12 @@ Success means:
 - **Logo.** The original file is `src/assets/brand/logo-original.webp`, with light and dark versions in the same folder.
 - **Catalog data.** `seed/wangian.csv` in the backend repo.
 - **Not available yet:** testimonials, reviews, sales figures, certifications, or press coverage. Do not make any of them up.
+- **Photos requested from the owner (25 Nov 2026).** The home page has places waiting for real photos (`src/features/home/photos.ts`). Phone photos are fine, in good daylight:
+  - the blending table with bottles and bibit, landscape 3:2, at least 2000px wide (story)
+  - measuring or pouring bibit, portrait 4:5 (station 03)
+  - a labelled bottle and the packaging, 4:5 (station 04)
+  - souvenir pernikahan, parfum mobil, reed diffuser, one each, 4:5 (lane tiles)
+- **Bottle sizes to confirm with the owner (26 Nov 2026).** The size rack in step 02 of the home journey draws the 20, 30 and 50 ml bottles in proportion to what they hold (the same square bottle scaled), so it shows no centimetres. To make it exact: the height, width and depth of each bottle in cm, and whether all three sizes share the square shape with the gold ball cap.
 
 ## Product Principles
 

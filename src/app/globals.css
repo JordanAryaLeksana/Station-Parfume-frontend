@@ -43,6 +43,22 @@
       background-color: transparent;
     }
   }
+
+  --animate-hero-fade: hero-fade 1.2s var(--ease-atelier) both;
+  --animate-hero-progress: hero-progress 8s linear both;
+  @keyframes hero-fade {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes hero-progress {
+    from {
+      scale: 0 1;
+    }
+    to {
+      scale: 1 1;
+    }
+  }
 }
 
 @theme inline {

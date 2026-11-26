@@ -1,58 +1,156 @@
-import Link from "next/link";
+import { connection } from "next/server";
+import { Suspense } from "react";
 
-import Typography from "@/components/shared/typography";
-import { Button } from "@/components/ui/button";
+import { findProduct, listProducts } from "@/features/catalog/server";
+import type { ProductDetail } from "@/features/catalog/types";
+import HomeAromas from "@/features/home/components/home-aromas";
+import HomeFaq from "@/features/home/components/home-faq";
+import HomeLanes from "@/features/home/components/home-lanes";
+import HomePrices from "@/features/home/components/home-prices";
+import HomeStarters from "@/features/home/components/home-starters";
+import HomeStory from "@/features/home/components/home-story";
+import Journey from "@/features/home/components/journey";
+import JourneyLive from "@/features/home/components/journey-live";
+import { JourneyStagePlaceholder } from "@/features/home/components/journey-stage";
+import WhatsAppBand from "@/features/home/components/whatsapp-band";
+import { HERO_SLUGS } from "@/features/home/hero-scents";
+import {
+  aromaShowcase,
+  lanes,
+  priceBoard,
+  priceExample,
+  starterPerfumes,
+} from "@/features/home/showcase";
+import { whatsappUrl } from "@/lib/whatsapp";
 
-// Starter index. Replace it when the project starts (see the new-project skill).
+const askHref = whatsappUrl("Halo Station Parfume, saya mau tanya soal wangi.");
+const similarHref = whatsappUrl(
+  "Halo Station Parfume, saya cari wangi yang mirip dengan: ",
+);
+const souvenirHref = whatsappUrl(
+  "Halo Station Parfume, saya mau tanya souvenir pernikahan atau pesanan jumlah banyak.",
+);
+
 export default function HomePage() {
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center gap-10 px-6 py-16">
-      <section className="space-y-3">
-        <Typography as="h1" variant="heading" size="5xl">
-          Next.js Boilerplate
-        </Typography>
+    <>
+      <Journey whatsappHref={askHref}>
+        <Suspense fallback={<JourneyStagePlaceholder />}>
+          <Steps />
+        </Suspense>
+      </Journey>
+      <Suspense fallback={<HomePrices board={null} loading />}>
+        <Prices />
+      </Suspense>
+      <Suspense
+        fallback={<HomeLanes lanes={null} souvenirHref={souvenirHref} />}
+      >
+        <Lanes />
+      </Suspense>
+      <Suspense fallback={<HomeStarters products={null} total={null} />}>
+        <CatalogSections />
+      </Suspense>
+      <Suspense
+        fallback={
+          <HomeFaq
+            example={null}
+            souvenirFrom={null}
+            similarHref={similarHref}
+            souvenirHref={souvenirHref}
+          />
+        }
+      >
+        <Faq />
+      </Suspense>
+      <HomeStory />
+      {similarHref && <WhatsAppBand href={similarHref} />}
+    </>
+  );
+}
 
-        <Typography size="lg" className="max-w-xl text-muted-foreground">
-          A starting point with data fetching, forms, client state, and sign in
-          already wired up.
-        </Typography>
-      </section>
+async function loadProducts() {
+  await connection();
+  try {
+    return await listProducts();
+  } catch (error) {
+    console.error("Beranda: katalog tidak bisa dimuat", error);
+    return null;
+  }
+}
 
-      {/* Sign In */}
-      <section className="space-y-3">
-        <Typography as="h2" variant="heading" size="xl">
-          Sign in
-        </Typography>
+async function loadFeatured(): Promise<ProductDetail[]> {
+  await connection();
+  const results = await Promise.allSettled(
+    HERO_SLUGS.map((slug) => findProduct(slug)),
+  );
+  const failed = results.filter((result) => result.status === "rejected");
+  if (failed.length > 0) {
+    console.error("Beranda: wangi unggulan tidak bisa dimuat", failed);
+  }
+  return results.flatMap((result) =>
+    result.status === "fulfilled" && result.value ? [result.value] : [],
+  );
+}
 
-        <Typography size="sm" className="text-muted-foreground">
-          Needs a backend. Set NEXT_PUBLIC_API_BASE_URL first.
-        </Typography>
+async function Prices() {
+  const [products, featured] = await Promise.all([
+    loadProducts(),
+    loadFeatured(),
+  ]);
+  const perfumes = products?.filter((product) => product.kind === "perfume");
+  const sizes = featured.at(0)?.size_options;
+  const board = perfumes && sizes ? priceBoard(perfumes, sizes) : null;
 
-        <div className="flex flex-wrap gap-3">
-          <Button asChild>
-            <Link href="/login">Sign in</Link>
-          </Button>
+  return <HomePrices board={board} />;
+}
 
-          {/* Not prefetched: without a session this path redirects. */}
-          <Button asChild variant="outline">
-            <Link href="/dashboard" prefetch={false}>
-              Dashboard (needs a session)
-            </Link>
-          </Button>
-        </div>
-      </section>
+async function Lanes() {
+  const products = await loadProducts();
+  return (
+    <HomeLanes
+      lanes={products ? lanes(products) : []}
+      souvenirHref={souvenirHref}
+    />
+  );
+}
 
-      {/* Guide */}
-      <section className="space-y-3">
-        <Typography as="h2" variant="heading" size="xl">
-          Guide
-        </Typography>
+async function Steps() {
+  return (
+    <JourneyLive products={await loadFeatured()} similarHref={similarHref} />
+  );
+}
 
-        <Typography size="sm" className="text-muted-foreground">
-          How to use the components, build a form, fetch data, and share client
-          state is in Storybook. Start it with npm run storybook.
-        </Typography>
-      </section>
-    </div>
+async function CatalogSections() {
+  const products = await loadProducts();
+  const perfumes = products?.filter((product) => product.kind === "perfume");
+  if (!perfumes) return null;
+
+  return (
+    <>
+      <HomeStarters
+        products={starterPerfumes(perfumes)}
+        total={perfumes.length}
+      />
+      <HomeAromas aromas={aromaShowcase(perfumes)} />
+    </>
+  );
+}
+
+async function Faq() {
+  const [products, featured] = await Promise.all([
+    loadProducts(),
+    loadFeatured(),
+  ]);
+  const souvenir = products
+    ? lanes(products).find((lane) => lane.key === "souvenir")
+    : undefined;
+
+  return (
+    <HomeFaq
+      example={priceExample(featured)}
+      souvenirFrom={souvenir?.from ?? null}
+      similarHref={similarHref}
+      souvenirHref={souvenirHref}
+    />
   );
 }

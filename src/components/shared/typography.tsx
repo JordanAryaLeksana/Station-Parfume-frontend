@@ -9,7 +9,7 @@ import { cn } from "cn";
 const roles = {
   // The home hero headline only.
   display:
-    "font-primary text-[clamp(3rem,7.6vw,6.125rem)] leading-[1.02] font-[330]",
+    "font-primary text-[clamp(3rem,6.4vw,6.125rem)] leading-[1.02] font-[330]",
   // Page and section headings, and the product name on its page.
   headline:
     "font-primary text-[clamp(2.375rem,4.3vw,4rem)] leading-[1.02] font-[330]",
@@ -20,6 +20,8 @@ const roles = {
   subtitle: "font-primary text-xl leading-tight font-normal",
   // Descriptions, forms and nota text. Paragraphs stay under 70 characters.
   body: "max-w-[70ch] font-secondary text-[15px] leading-[1.65] font-normal",
+  statement:
+    "font-primary text-[clamp(1.5rem,2.7vw,2.5rem)] leading-[1.28] font-light",
   // Small supporting text: breadcrumbs, details, price breakdowns, captions.
   caption: "font-secondary text-[13px] leading-[1.45] font-normal",
   // Small labels, column titles, atelier numbers, "Stok habis".

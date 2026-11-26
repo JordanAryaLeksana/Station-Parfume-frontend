@@ -158,7 +158,7 @@ The site has a light mode, **Gading**, and a dark mode, **Noir**. On the first v
 
 - **Gading (light):** ivory surfaces (paper), black text, Paper Muted secondary text, and Aged Gold for numbers, italic accents, and active lines. The primary button is Night Ink.
 - **Noir (dark):** deep neutral black (Night #0f0e0d for pages, Deep Ink #0a0a09 for menus, Raised Ink #171513 for cards), bright Night Text, Night Muted secondary text, Prada Gold for numbers and lines, and Lamp Gold for italic accents. The primary button is Prada Gold.
-- **Black frame:** the utility bar, header, footer, and hero stay black in both modes (class `dark`). Menus and page content follow the mode. A panel that hangs from the black header (the aroma menu) uses `theme-page` to follow the mode again.
+- **Black frame:** the utility bar, header, and footer stay black in both modes (class `dark`). Menus and page content follow the mode. The home hero follows the mode too: its 3D station is a day atelier in Gading and a night atelier in Noir. A panel that hangs from the black header (the aroma menu) uses `theme-page` to follow the mode again.
 - **In code:** use the mode tokens instead of fixed colors, so a component works in both modes: `bg-background`, `bg-popover`, `bg-card`, `text-foreground`, `text-muted-foreground`, `border-border`, `text-gold-accent` (numbers, labels, lines), and `text-gold-accent-soft` (italic accents, hover).
 
 ### Primary
@@ -184,7 +184,7 @@ The site has a light mode, **Gading**, and a dark mode, **Noir**. On the first v
 
 **The Single Lamp Rule.** Gold is the only accent color. Gold must not fill a large area except the WhatsApp band. On any one screen it is used for at most one primary button and a few small details.
 
-**The Black Frame Rule.** The utility bar, header, footer, and hero are always black in both modes. Everything else follows the mode.
+**The Black Frame Rule.** The utility bar, header, and footer are always black in both modes. Everything else follows the mode, including the home hero, whose 3D station has a day and a night version.
 
 **The Clean Black Rule.** Dark surfaces are neutral black, never brown-tinted, and secondary text on black is a neutral warm grey (#aaa49a), never brown-grey. The first menu build used a brown raised surface (#1f1a16) and brown-grey text, and the owner found it muddy ("butek"). The same happened to the header: a reddish black (#141110, hue 15°) between neutral blacks, with gold ticks at 45% that turned olive brown (#655231). Keep every black in the frame the same neutral Deep Ink, and keep gold at full strength.
 
@@ -206,6 +206,7 @@ Each role is a `variant` of the `Typography` component (`src/components/shared/t
 
 - **Display** (`display`; 330, clamp 48–98px, 1.02): the home hero headline only.
 - **Headline** (`headline`; 330, clamp 38–64px, 1.02): page and section headings, and the product name on the product page.
+- **Statement** (`statement`; light, clamp 24–40px, 1.28): the editorial sentence of step 06 of the home journey only. Its key phrases are gold italics.
 - **Title** (`title`; 400, 27px, 1.1; 19px and 1.15 below 980px): product names on cards, smaller headings, and the nota title (in italic).
 - **Subtitle** (`subtitle`; 400, 20px, 1.25): blend names, aroma names in the menus, and small serif headings.
 - **Body** (`body`; 400, 15px, 1.65, at most 70ch): descriptions, forms, and nota text.
@@ -308,7 +309,7 @@ The filters on /koleksi (`src/features/catalog/components/`), shaped after the s
   - filters only: "Hapus semua filter"
   - search only: "Lihat semua koleksi"
 
-  "Tanya peracik" (WhatsApp) is always there too.
+  "Tanya peracik" (WhatsApp) is always there too. After a search, the line explains that every scent carries the shop's own name ("Kalau “…” parfum favoritmu, tanya peracik kami…"), and the WhatsApp button becomes "Tanya yang mirip", with the search words already in the message, because buyers often search for another brand's perfume.
 
 ### Cards / Containers
 
@@ -359,6 +360,62 @@ The page of one product (`src/app/produk/[slug]/page.tsx`, parts in `src/feature
 - **Info** (`product-info.tsx`): native `<details>` rows under thin rules, the summary in label text with a + that turns into ×. "Tentang wangi ini" is open on load; "Murni atau campur?" (perfume only) and "Pengiriman & pembayaran" are closed. The shipping text stays neutral until the ongkir scheme is decided (PRODUCT.md).
 - **Related products** (`related-product.tsx`): "Kamu mungkin juga _suka_." (headline) above a thin rule, a body line that names the aromas used, and four cards in the product grid. Perfumes come from the main aroma, topped up from the second aroma when it has fewer than four; general products show other general products. Never the product itself, never a product twice, and the section is left out when nothing is found.
 
+### Home Page
+
+The home page (`src/app/page.tsx`, parts in `src/features/home/components/`) follows its own concept, **"Stasiun isi ulang"**: Station Parfume is the station where your bottle is filled per ml. It is informative first, like a real shop: prices, categories, how to order and answers are on the page itself. It uses signage instead of decoration, and only the home page uses this vocabulary:
+
+- black boards with a thin full-gold frame and a gold title bar (label text)
+- dotted leader rows like the nota racik, tabular figures
+- numbered stations on a gold rail, with diamond markers
+- "Jalur 01…" lanes with a "→"
+
+No illustrations, glows, particles, marquees or scroll reveals. Motion is only functional: nota rows flash when a value changes, and the station that was changed last fills gold. The exception is the 3D station (see Stasiun Racik 3D): one world that tells the whole order as you scroll the journey, plus the aroma carousel.
+
+Every number comes from the API. If the catalog can't be loaded, a section falls back to its words (the board says prices are on each perfume's page; the stations explain themselves without the simulator) or is left out.
+
+Top to bottom:
+
+- **Journey** (follows the mode; `journey.tsx` is the static hero, `journey-live.tsx` the steps, `journey-stage.tsx` the sticky 3D layer). One section from the hero to delivery, so the owner's story reads as one piece: the same bottle is chosen, measured, filled, paid for, packed and driven away.
+  - **Hero:** "Parfum racik _per ml_." (display, "per ml" on one line), a lede, the primary "Lihat semua wangi" and the line button "Tanya di WhatsApp". The text column is at most min(36rem, 44vw) from 980px. The hero copy is static, so it is in the first HTML and is the page's largest paint.
+  - **Scent card** (`hero-scent-card.tsx`): a slim bar at the bottom right of the first screen from 980px, under the stage on phones. It moves to the next featured perfume every 8 seconds and stops while hovered or focused, while a step is being used, and once the hero is scrolled away. It shares its perfume with step 01.
+  - **Steps** (an `ol` on a gold rail, one panel about a screen tall each, `li[data-story]`):
+    - 01 Pilih wangi: the section heading "Begini cara pesan di _stasiun_ kami." (h2, `#stations-title`), then the picker (photo, number, name, aromas, ← →).
+    - 02 Takar ukuran: choice boxes with each size's price, and "Besar botol di stasiun sebanding dengan isinya."
+    - 03 Pilih racikan: campur/murni boxes with the rate per ml, then the `NotaRacik`, "Lihat {perfume} →" and the note that size and blend are chosen again there.
+    - 04 Bayar: QRIS, virtual account or e-wallet (DOKU), the 24-hour payment window.
+    - 05 Kami racik & kemas: blended after payment, closed, packed in a sealed box.
+    - 06 Dikirim: the statement "Dikemas, lalu dikirim dari _Karawang_ ke seluruh Indonesia." and "Cari yang mirip parfum favoritmu? Tanya di WhatsApp →" (left out without a shop number).
+  - **3D layer:** a sticky stage behind the steps, full height on the right from 980px (a background-colored gradient on the left keeps the text readable and fades out in step 06 so the van can cross the whole width) and the top 42svh on phones, under the header, with the steps scrolling up beneath it. See Stasiun Racik 3D.
+  - It replaced a separate hero, an icon strip, a size shelf in the price section, the stations simulator and a delivery strip: five scenes in five worlds that the owner found jerky and disconnected.
+- **Prices** ("Harga dihitung _terbuka_.", `home-prices.tsx`): the formula in words on the left (rate per ml × size + bottle; the exact price is on each perfume's page) and the **price board** (`price-board.tsx`) on the right, or below on phones:
+  - the per-ml rates per grade (Regular and Exclusive, campur and murni, as ranges) and the bottle price
+  - a table of the cheapest bottle per size and blend
+  - the formula line
+
+  The rates are worked out in `priceBoard()` (`src/features/home/showcase.ts`) from each perfume's lowest price (20 ml campur) and highest price (50 ml murni) minus the bottle. Results that are not whole numbers, or where campur would cost more than murni, are skipped.
+
+- **Lanes** ("Pilih _jalurmu_.", `home-lanes.tsx`):
+  - Six tiles: Parfum Regular, Exclusive, parfum mobil, souvenir pernikahan, reed diffuser, and botol, bibit & kantong. Each shows its count or detail and its lowest price (`lanes()`).
+  - Regular and souvenir span two columns. The whole tile links (stretched link); the souvenir tile also has a WhatsApp link for bulk orders.
+  - Tiles with a photo show it. A tile without one shows its price large on a cream band until the owner's photo arrives (`HOME_PHOTOS`, `src/features/home/photos.ts`).
+- **Pilihan _peracik_**: the eight starters in the product grid, noting that card prices are the smallest size (20 ml campur), and "Lihat semua N wangi".
+- **Aroma panel** (`#aroma`): see Aroma Panel.
+- **FAQ** ("Yang sering _ditanyakan_.", `home-faq.tsx`): the product page's `<details>` rows (`InfoSection`) for:
+  - murni vs campur
+  - how prices are worked out (with a live example)
+  - when it is blended and shipped
+  - finding a similar scent
+  - payment and the 24-hour window
+  - shipping costs (neutral until the scheme is decided)
+  - souvenirs and bulk orders (with the souvenir price)
+  - whether there is a shop to visit (online only)
+- **Story** ("Meracik sejak _2010_.", muted band): a matted photo (the owner's blending-table photo when it arrives), one paragraph, four facts as large gold figures (2010, 13 aroma families, 3 sizes, 2 blends) and the signature.
+- **WhatsApp band** ("Cari yang mirip parfum _favoritmu_?"):
+  - The gold band with the kawung pattern and ink text, saying every scent carries the shop's own name.
+  - Three numbered steps: name your favourite perfume, the blender matches its character, you get the number and link.
+  - An ink button "Tanya yang mirip" with gold-light text opens WhatsApp in a new tab with "…yang mirip dengan: " already typed. The site never names another brand; the buyer names it in their own message.
+  - Left out when the shop number isn't set.
+
 ### Inputs / Fields
 
 - **Style:** a white background with a thin border (input token), sharp, 48px tall for comfortable tapping.
@@ -388,17 +445,36 @@ The price breakdown on the product page looks like a white receipt with scallope
 
 ### Aroma Panel (signature)
 
-On the left, the list of 13 aroma families. On the right, a black panel framed by a thin gold line, with a slowly moving glow in the family's color, the large family name with its Indonesian name in italics, example scents, and an ingredient photo on a hanging tag.
+On the left, the list of 13 aroma families. On the right, a black panel framed by a thin gold line, with a still, soft glow in the family's color, the large family name with its Indonesian name in italics, example scents, and an ingredient photo on a hanging tag.
 
-### Hero 3D (signature)
+On the home page the panel opens with the **aroma carousel** (`aroma-carousel.tsx`, the page's second canvas): the 13 tubes of the station on a round lacquer base, numbered like the list. Choosing a family turns the carousel the short way until its tube is in front, lifts it a little and lights it, while the others dim. The canvas is transparent, so the glow shows through. From 980px the photo tag hangs at the top right beside the carousel; on phones it stays at the bottom. Without WebGL the panel is as before.
 
-A square bottle with a gold ball cap and a square bottle with a black cap (the owner's real bottle shapes), standing on a black plinth with gold rings, surrounded by gold flakes. Scents change by draining and refilling the liquid. A still image is used under reduced-motion settings or when WebGL is unavailable.
+### Stasiun Racik 3D (signature)
+
+**One world, one story** (`src/features/home/three/`, React Three Fiber). A curved perfume organ in black lacquer and brass: 13 glass tubes of bibit, one per aroma family and numbered 01–13, with liquids from straw to oud. A brass manifold and gooseneck spout stand over a square glass bottle with a gold ball cap (the owner's real shape) on a black turntable, with a meter that counts ml and rupiah. In the same room: a rack with the 20, 30 and 50 ml bottles, a packing spot, a brass rail, and the black van with the official sprig and wordmark. The bottle label carries the sprig, the number, the name, the size and the blend.
+
+- **The story** (`journey-scene.tsx`, a single value `s` from 0 to 6 taken from which step is in the middle of the screen; every motion is a continuous function of `s`, so scrolling back plays it backwards):
+  - 0 hero: the featured perfume fills on its own loop (cap lifts, the family's tube glows, the meter counts to its 30 ml campur price).
+  - 1: the camera moves to the tubes; the chosen family's tube rises and glows gold; the bottle drains for the new order.
+  - 2: the size rack slides in; changing the size sends the bottle back to its slot and brings the chosen one to the turntable.
+  - 3: scrolling pours: the stream, the level, and the meter's ml and rupiah rise together and stop on the variant's price, the nota total. Murni is a deeper liquid than campur.
+  - 4: the meter is stamped "LUNAS" and the cap goes back on.
+  - 5: a tray rides in on the rail, the bottle steps in, the cover lowers and a gold seal appears.
+  - 6: the van arrives, its side door slides open, the same box rides the rail into it, the door closes and the van drives off to the left.
+- **Smoothness:** scroll only sets a target; `s` follows it with a critically damped spring each frame, so a jerky scroll still moves smoothly. The camera rides one spline through seven shots (with holds while a step is read), at a constant lens, with the hero's off-centre framing on desktop. Wheels turn by the distance travelled and the van's nose dips with its acceleration.
+- **Day and night:** Gading is a seamless cream studio in soft daylight; Noir a dark studio with a warm lamp and the organ's back panel lit from within. Switching modes fades between them.
+- **Business rules:** text, prices and buttons stay HTML; the canvas is decorative (`aria-hidden`). The scene loads after the page has loaded, when the browser is idle; it is built in a React transition in small slices, its shaders are compiled off the main thread before it fades in, and it draws only while on screen with the tab visible. There are two canvases on the page: the journey and the aroma carousel.
+- **Measured** (production build, headless Chrome, whole page scrolled): no long task and no frame over 17 ms at normal CPU; no long task and two frames of 33 ms with the CPU slowed 4×.
+- **Quality:** one shared level steps down on slower devices (pixel ratio up to 1.5, glass, shadow resolution, bloom), first from the device, then from the measured frame rate. Moving objects use soft blob shadows; still ones a contact shadow drawn once.
+- **Fallbacks:** under reduced motion `s` snaps to each step's finished state, without transitions. Without WebGL2, or with Save-Data, the atelier photo is shown and no three.js is loaded; all steps still work.
+- **Assets:** labels, plates, the meter, the stamp and the van's livery are drawn on canvases in the site's fonts and from the official logo files. Nothing loads from a CDN.
+- **Not everything is 3D:** product cards, lanes and the story stay photographs, because the owner's real photos earn more trust than models.
 
 ## Do's and Don'ts
 
 ### Do:
 
-- **Do** keep the black frame (utility bar, header, footer, hero) in both modes, build everything else with the mode tokens so it works in Gading and Noir, and let gold be the only accent.
+- **Do** keep the black frame (utility bar, header, footer) in both modes, build everything else with the mode tokens so it works in Gading and Noir, and let gold be the only accent.
 - **Do** use gold-dark for gold text on light surfaces (`text-gold-accent` does this in Gading).
 - **Do** display the owner's product photos matted, as the square crops in `public/products` (made by `scripts/product-photos/make.py`). They keep the "STATION PERFUME" title and the bottles and stop above the name banner, which can carry another brand's text; the product name is set in the site's own type below the photo.
 - **Do** keep all corners at 0px, except the functional circles listed in Shapes.
