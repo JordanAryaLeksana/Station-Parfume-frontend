@@ -42,7 +42,7 @@ export default async function KoleksiPage({
       : null;
   const waHref = whatsappUrl(
     filters.q
-      ? `Halo Station Parfume, saya mencari wangi "${filters.q}" tapi belum ketemu di website.`
+      ? `Halo Station Parfume, saya cari wangi yang mirip dengan "${filters.q}".`
       : "Halo Station Parfume, saya mau tanya soal wangi.",
   );
 
@@ -100,9 +100,11 @@ export default async function KoleksiPage({
               variant="body"
               className="mt-3 max-w-[46ch] text-muted-foreground"
             >
-              {filterCount > 0
-                ? "Coba lepas beberapa filter di atas, atau mulai lagi dari semua koleksi."
-                : "Coba kata lain, atau lihat semua wangi di koleksi."}
+              {filters.q
+                ? `Setiap wangi di sini memakai nama racikan kami sendiri. Kalau “${filters.q}” parfum favoritmu, tanya peracik kami, kami carikan yang paling mirip.`
+                : filterCount > 0
+                  ? "Coba lepas beberapa filter di atas, atau mulai lagi dari semua koleksi."
+                  : "Coba kata lain, atau lihat semua wangi di koleksi."}
             </Typography>
             <div className="mt-8 flex flex-wrap gap-3">
               {searchWithoutFilters && (
@@ -132,7 +134,7 @@ export default async function KoleksiPage({
                   className="h-12 px-6"
                 >
                   <a href={waHref} target="_blank" rel="noopener noreferrer">
-                    Tanya peracik
+                    {filters.q ? "Tanya yang mirip" : "Tanya peracik"}
                     <span className="sr-only"> (WhatsApp, tab baru)</span>
                   </a>
                 </Button>

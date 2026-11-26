@@ -20,6 +20,7 @@ const meta = {
         "ghost",
         "destructive",
         "link",
+        "line",
       ],
     },
     size: {
@@ -33,6 +34,7 @@ const meta = {
         "icon-xs",
         "icon-sm",
         "icon-lg",
+        "atelier",
       ],
     },
   },
@@ -107,4 +109,40 @@ export const Pending: Story = {
     disabled: true,
     children: "Saving...",
   },
+};
+
+export const Atelier: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "The shop's own button (DESIGN.md, Buttons): size `atelier` is 54px tall with uppercase label text and a slow shimmer on hover. The default variant takes the mode's primary color (Night Ink in Gading, gold on black); `line` is the ghost with a thin line that turns gold. Shown on paper and on the black frame.",
+      },
+    },
+  },
+  render: () => (
+    <div className="grid gap-6">
+      {[false, true].map((dark) => (
+        <div
+          key={String(dark)}
+          className={`${dark ? "dark" : ""}flex flex-wrap items-center gap-3 p-8`}
+        >
+          <Button asChild size="atelier">
+            <Link href="/koleksi">
+              Mulai meracik
+              <span
+                aria-hidden
+                className="transition-transform duration-400 ease-atelier group-hover/button:translate-x-[5px] motion-reduce:transition-none"
+              >
+                →
+              </span>
+            </Link>
+          </Button>
+          <Button asChild size="atelier" variant="line">
+            <Link href="#aroma">Jelajah per aroma</Link>
+          </Button>
+        </div>
+      ))}
+    </div>
+  ),
 };

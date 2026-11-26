@@ -81,7 +81,7 @@ export default function ProductInfo({ product }: { product: ProductDetail }) {
   );
 }
 
-function InfoSection({
+export function InfoSection({
   title,
   open,
   children,
