@@ -318,7 +318,7 @@ The filters on /koleksi (`src/features/catalog/components/`), shaped after the s
   - **Mat's bottom margin** (the edition line under a print; never above the name, because a label above a heading is an eyebrow, which is banned):
     - right: the atelier number "No. 158" in Aged Gold
     - left, Exclusive perfumes only: "Exclusive" in italic Fraunces (13px, Night Ink), like a pencil inscription under a print. A small Aged Gold diamond sits before it when the row has room (container query, at least 136px wide), so it is hidden on a 360px phone. At 320px the number drops to a second line inside the margin.
-    - The label is `aria-hidden`. The name link carries a visually hidden ", Exclusive" instead, so twins like Bacarat and Bacarat Exclusive have different link names for screen readers.
+    - The label is `aria-hidden`. The name link carries a visually hidden ", Exclusive" instead, so a Regular and an Exclusive perfume with the same name have different link names for screen readers.
   - **Below the mat:**
     - the name in title style (19px on phones, 27px from 980px)
     - the aroma families, plus "· N varian" if a product ever holds more than one scent (since 20 Nov 2026 every perfume is its own product)

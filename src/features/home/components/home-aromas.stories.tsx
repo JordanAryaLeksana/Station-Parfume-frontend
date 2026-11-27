@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import {
-  bacaratExclusive,
+  emasAlmond,
   kasturiKijang,
   starterPerfumes,
 } from "@/features/catalog/components/product-fixtures";
@@ -14,11 +14,7 @@ const meta = {
   component: HomeAromas,
   parameters: { layout: "fullscreen" },
   args: {
-    aromas: aromaShowcase([
-      kasturiKijang,
-      ...starterPerfumes,
-      bacaratExclusive,
-    ]),
+    aromas: aromaShowcase([kasturiKijang, ...starterPerfumes, emasAlmond]),
   },
 } satisfies Meta<typeof HomeAromas>;
 

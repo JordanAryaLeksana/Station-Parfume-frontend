@@ -28,7 +28,8 @@ async function loadProduct(
   return product;
 }
 
-// Bacarat and Bacarat Exclusive share a name; the tab title tells them apart.
+// A Regular and an Exclusive perfume can share a name; the tab title tells
+// them apart.
 function fullName(product: ProductDetail): string {
   return product.grade === "exclusive"
     ? `${product.name} Exclusive`

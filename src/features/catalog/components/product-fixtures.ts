@@ -42,16 +42,15 @@ export const kasturiKijang = perfume({
   scents: ["Kasturi Kijang"],
 });
 
-// An Exclusive perfume. A Regular perfume has the same name (slug "bacarat"),
-// so the card's Exclusive label and link text tell them apart.
-export const bacaratExclusive = perfume({
+// An Exclusive perfume: the card shows the Exclusive label.
+export const emasAlmond = perfume({
   id: 120,
-  name: "Bacarat",
-  slug: "bacarat-exclusive",
+  name: "Emas Almond",
+  slug: "emas-almond",
   grade: "exclusive",
   note_primary: "sweet",
   note_secondary: "fresh",
-  scents: ["Bacarat"],
+  scents: ["Emas Almond"],
   price_min: 65000,
   price_max: 255000,
 });
@@ -76,15 +75,34 @@ export const botolSpray: ProductCard = {
   in_stock: false,
 };
 
-// The longest product name in the catalog.
-export const alRehab: ProductCard = {
+export const attarGaharu: ProductCard = {
   id: 212,
   kind: "general",
-  name: "AL REHAB / AL TAJH / NON ALKOHOL / PARFUM ARAB",
-  slug: "al-rehab-al-tajh-non-alkohol-parfum-arab",
+  name: "Attar Gaharu",
+  slug: "attar-gaharu",
   category: perfumeCategory,
   price_min: 20000,
   price_max: 20000,
+  in_stock: false,
+};
+
+// The longest product name in the catalog.
+export const reedDiffuser: ProductCard = {
+  id: 210,
+  kind: "general",
+  name: "Reed Diffuser pengharum ruangan",
+  slug: "reed-diffuser-pengharum-ruangan",
+  category: {
+    id: 13,
+    name: "Pengharum Ruangan & Aromaterapi",
+    slug: "pengharum-ruangan-aromaterapi",
+    sort_order: 5,
+    is_active: true,
+    created_at: "2026-11-21T19:16:15.554052+07:00",
+    updated_at: "2026-11-21T19:16:15.554052+07:00",
+  },
+  price_min: 55000,
+  price_max: 55000,
   in_stock: false,
 };
 

@@ -46,11 +46,11 @@ export const Campur: Story = {
   },
 };
 
-/** Bacarat Exclusive, 50 ml murni: 5.000 × 50 + botol 5.000 = 255.000. */
+/** Emas Almond (Exclusive), 50 ml murni: 5.000 × 50 + botol 5.000 = 255.000. */
 export const Murni: Story = {
   args: {
     number: 120,
-    scentName: "Bacarat",
+    scentName: "Emas Almond",
     concentration: "murni",
     breakdown: {
       ratePerMl: 5000,

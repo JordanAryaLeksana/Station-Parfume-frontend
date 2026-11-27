@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { parfumMobilDetail } from "@/features/catalog/components/product-detail-fixtures";
 import {
-  alRehab,
-  bacaratExclusive,
+  attarGaharu,
+  emasAlmond,
   botolSpray,
   kasturiKijang,
   starterPerfumes,
@@ -20,9 +20,9 @@ const meta = {
     lanes: lanes([
       kasturiKijang,
       ...starterPerfumes,
-      bacaratExclusive,
+      emasAlmond,
       botolSpray,
-      alRehab,
+      attarGaharu,
       parfumMobilDetail,
     ]),
     souvenirHref: "https://wa.me/",

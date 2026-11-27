@@ -8,15 +8,15 @@ import {
 
 import CatalogFilterPanel from "./catalog-filter-panel";
 import {
-  alRehab,
-  bacaratExclusive,
+  attarGaharu,
+  emasAlmond,
   botolSpray,
   starterPerfumes,
 } from "./product-fixtures";
 
 // The counts come from the real facetCounts over the sample products, so the
 // story shows what the page would show for those eleven products.
-const products = [...starterPerfumes, bacaratExclusive, botolSpray, alRehab];
+const products = [...starterPerfumes, emasAlmond, botolSpray, attarGaharu];
 const panelArgs = (filters: CatalogFilters) => ({
   filters,
   counts: facetCounts(products, filters),
