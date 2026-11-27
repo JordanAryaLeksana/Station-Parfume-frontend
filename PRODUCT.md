@@ -58,7 +58,7 @@ Success means:
 
 - 84 active perfumes, one product each (since 20 Nov 2026; before, a product was one photo with 2–4 scents).
 - 13 aroma families (`note`): amber, aromatic, balsamic, citrus, creamy, floral, fresh, fruity, musk, oud, powdery, sweet, woody.
-- Two grades, set per perfume: 73 regular and 11 exclusive. Bacarat and Avril Lavigne exist in both grades, as two different perfumes.
+- Two grades, set per perfume: 73 regular and 11 exclusive. A Regular and an Exclusive perfume may share a name; they are two different perfumes.
 - General (non-perfume) products: car perfume, souvenirs, spray bottles, Arabian oils. Some come in several labels (e.g. the twelve car perfume scents, or "1pcs" / "12-60pcs"), the rest in one.
 
 **Variants and pricing**
@@ -83,7 +83,7 @@ Success means:
 
 **Not decided yet (must be settled before launch)**
 
-- Product names that contain designer brands. The owner will rename them. An audit on 25 Nov 2026 found 64 of 97 names with another brand's, perfume's, or celebrity's name (misspellings like "Bvlgari Extream" included), and 6 more to check.
+- Product names that contain designer brands. The owner will rename them. An audit on 25 Nov 2026 found 64 of 97 names with another brand's, perfume's, or celebrity's name (misspellings included), and 6 more to check.
 - Scent descriptions. All 84 perfumes have an empty description, so the page falls back to the aroma family texts. Without brand names, buyers recognise a scent by its character, so each perfume needs a short description from the blender (what it smells like, the main ingredients, when to wear it). The seed CSV has no description column yet.
 - Removing `inspired_by` from the backend's public responses.
 - Product posters that still read "STATION PERFUME" need updating to the official spelling.
@@ -106,7 +106,7 @@ Success means:
 
 - **Owner's product posters.** Stored in `~/Documents/gambar-parfum`, outside this repo.
   - All posters use one bottle composition; only the background color and the product name change.
-  - Some posters contain another brand's text or bottle (for example Black Opium) and must not be used as they are.
+  - Some posters contain another brand's text or bottle and must not be used as they are.
   - The 4 new Exclusive photos are not in that folder yet.
 - **Logo.** The original file is `src/assets/brand/logo-original.webp`, with light and dark versions in the same folder.
 - **Catalog data.** `seed/wangian.csv` in the backend repo.

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import {
-  bacaratExclusiveDetail,
+  emasAlmondDetail,
   kasturiKijangDetail,
 } from "@/features/catalog/components/product-detail-fixtures";
 
@@ -25,7 +25,7 @@ const meta = {
     whatsappHref: "https://wa.me/",
     children: (
       <JourneyLive
-        products={[kasturiKijangDetail, bacaratExclusiveDetail]}
+        products={[kasturiKijangDetail, emasAlmondDetail]}
         similarHref="https://wa.me/"
       />
     ),

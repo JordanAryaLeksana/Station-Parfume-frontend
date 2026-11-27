@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import {
-  bacaratExclusiveDetail,
+  emasAlmondDetail,
   kasturiKijangDetail,
   parfumMobilDetail,
 } from "./product-detail-fixtures";
@@ -35,7 +35,7 @@ type Story = StoryObj<typeof meta>;
 export const Perfume: Story = { args: { product: kasturiKijangDetail } };
 
 /** Sweet and Fresh. */
-export const Exclusive: Story = { args: { product: bacaratExclusiveDetail } };
+export const Exclusive: Story = { args: { product: emasAlmondDetail } };
 
 /** A general product: shipping only, and "dikemas" instead of "diracik". */
 export const General: Story = { args: { product: parfumMobilDetail } };

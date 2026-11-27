@@ -4,7 +4,7 @@ import { galleryPhotos } from "@/features/catalog/gallery";
 
 import ProductGallery from "./product-gallery";
 import {
-  bacaratExclusiveDetail,
+  emasAlmondDetail,
   kasturiKijangDetail,
   parfumMobilDetail,
 } from "./product-detail-fixtures";
@@ -52,7 +52,7 @@ export const WithAromaPhoto: Story = {
 /** Sweet and Fresh have no ingredient photo yet, so two photos. */
 export const WithoutAromaPhoto: Story = {
   args: {
-    photos: galleryPhotos(bacaratExclusiveDetail),
+    photos: galleryPhotos(emasAlmondDetail),
     fallback: "Parfum & Wewangian",
   },
 };

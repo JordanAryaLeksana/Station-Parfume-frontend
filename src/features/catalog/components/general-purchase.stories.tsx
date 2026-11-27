@@ -33,12 +33,12 @@ const parfumMobilMixed = restocked(parfumMobilDetail, (_, index) =>
   [0, 4, 7].includes(index) ? 0 : 10,
 );
 
-// Two labels at two prices, like the Al Rehab oils (1 pcs and 12–60 pcs).
+// Two labels at two prices, like the attar oils (1 pcs and 12–60 pcs).
 const twoPrices: ProductDetail = {
   ...botolSprayDetail,
-  id: 214,
-  name: "AL REHAB GREENTEA PARFUM ARAB",
-  slug: "al-rehab-greentea-parfum-arab",
+  id: 213,
+  name: "Attar Teh Hijau",
+  slug: "attar-teh-hijau",
   price_min: 13000,
   price_max: 15000,
   in_stock: true,
@@ -47,7 +47,7 @@ const twoPrices: ProductDetail = {
       id: 1166,
       label: "1pcs",
       name: "1pcs",
-      code: "al-rehab-greentea-1pcs",
+      code: "attar-teh-hijau-1pcs",
       price: 15000,
       in_stock: true,
       available: null,
@@ -56,7 +56,7 @@ const twoPrices: ProductDetail = {
       id: 1167,
       label: "12-60pcs",
       name: "12-60pcs",
-      code: "al-rehab-greentea-12-60pcs",
+      code: "attar-teh-hijau-12-60pcs",
       price: 13000,
       in_stock: true,
       available: null,

@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import ProductGrid, { ProductGridSkeleton } from "./product-grid";
 import {
-  alRehab,
-  bacaratExclusive,
+  attarGaharu,
+  emasAlmond,
   botolSpray,
   starterPerfumes,
 } from "./product-fixtures";
@@ -13,7 +13,7 @@ const meta = {
   component: ProductGrid,
   parameters: { layout: "fullscreen" },
   args: {
-    products: [...starterPerfumes, bacaratExclusive, botolSpray, alRehab],
+    products: [...starterPerfumes, emasAlmond, botolSpray, attarGaharu],
     headingLevel: 2,
     eagerFirstRow: true,
   },

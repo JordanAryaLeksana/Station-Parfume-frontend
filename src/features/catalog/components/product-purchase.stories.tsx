@@ -4,7 +4,7 @@ import { defaultSelection, type Selection } from "@/features/catalog/pricing";
 import type { ProductDetail } from "@/features/catalog/types";
 
 import {
-  bacaratExclusiveDetail,
+  emasAlmondDetail,
   kasturiKijangDetail,
 } from "./product-detail-fixtures";
 import ProductPurchase from "./product-purchase";
@@ -55,8 +55,8 @@ export const Regular: Story = {
 /** An Exclusive perfume: higher rates per ml (5.000 murni, 3.000 campur). */
 export const Exclusive: Story = {
   args: {
-    product: bacaratExclusiveDetail,
-    initialSelection: opening(bacaratExclusiveDetail),
+    product: emasAlmondDetail,
+    initialSelection: opening(emasAlmondDetail),
   },
 };
 

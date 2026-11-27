@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 
 import { kasturiKijangDetail } from "@/features/catalog/components/product-detail-fixtures";
 import {
-  bacaratExclusive,
+  emasAlmond,
   kasturiKijang,
   starterPerfumes,
 } from "@/features/catalog/components/product-fixtures";
@@ -23,7 +23,7 @@ const meta = {
   ],
   args: {
     board: priceBoard(
-      [kasturiKijang, ...starterPerfumes, bacaratExclusive],
+      [kasturiKijang, ...starterPerfumes, emasAlmond],
       kasturiKijangDetail.size_options,
     ),
   },

@@ -140,8 +140,8 @@ export default function ProductCard({
       </div>
 
       <div className="mt-4">
-        {/* wrap-break-word: names like "BACARAT/ALTAJH/Parfum" have no
-            spaces and would otherwise run past the card. */}
+        {/* wrap-break-word: a long name without spaces would otherwise run
+            past the card. */}
         <Typography
           as={Heading}
           variant="title"
@@ -152,8 +152,8 @@ export default function ProductCard({
             className="outline-none after:absolute after:inset-0"
           >
             {product.name}
-            {/* Bacarat and Bacarat Exclusive share a name: the link tells
-                them apart for screen readers. */}
+            {/* A Regular and an Exclusive perfume can share a name: the link
+                tells them apart for screen readers. */}
             {isExclusive && <span className="sr-only">, Exclusive</span>}
           </Link>
         </Typography>
